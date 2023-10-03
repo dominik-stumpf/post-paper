@@ -1,5 +1,10 @@
-export default function Home() {
+import { PostList } from '@/components/post-list';
+
+export default function Page() {
   return (
-    null
-  )
+    <div>
+      <h1>post-paper</h1>
+      <PostList />
+    </div>
+  );
 }
