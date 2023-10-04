@@ -1,6 +1,8 @@
 'use client';
 
+import { api } from '@/server-data';
 import { getProviders, signIn, useSession } from 'next-auth/react';
+import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
@@ -21,7 +23,18 @@ export default function Page() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const { password, email } = Object.fromEntries(formData.entries());
-    // console.log(email, password);
+    const pb = new PocketBase(api);
+    const data = {
+      // username: 'test_username',
+      email: email,
+      // emailVisibility: false,
+      password: password,
+      passwordConfirm: password,
+      // name: 'test',
+    };
+    const resp = await pb.collection('users').create(data);
+    // .authWithPassword(email.toString(), password.toString());
+    console.log(resp);
   }
 
   return (
