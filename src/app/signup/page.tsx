@@ -1,19 +1,28 @@
 'use client';
 
-import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { getProviders, signIn, useSession } from 'next-auth/react';
+import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
   const { data: session, status } = useSession();
   console.log('session response', session, status);
 
+  async function signInGithub() {
+    await signIn('github');
+  }
+
   useEffect(() => {
     (async () => {
-      const data = await signIn();
-
-      console.log('signin response', data);
+      console.log(await getProviders());
     })();
   }, []);
+
+  async function signUp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const { password, email } = Object.fromEntries(formData.entries());
+    // console.log(email, password);
+  }
 
   return (
     <div>
@@ -30,37 +39,43 @@ export default function Page() {
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body">
+            <form className="card-body" onSubmit={signUp}>
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="email">
                   <span className="label-text">Email</span>
                 </label>
                 <input
                   type="email"
                   placeholder="email"
+                  name="email"
+                  id="email"
                   className="input input-bordered"
                   required
                 />
               </div>
               <div className="form-control">
-                <label className="label">
+                <label className="label" htmlFor="password">
                   <span className="label-text">Password</span>
                 </label>
                 <input
                   type="password"
                   placeholder="password"
+                  name="password"
+                  id="password"
                   className="input input-bordered"
                   required
                 />
-                {/* <label className="label">
-                  <a href="#1" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
-                </label> */}
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary" type="submit">
                   Sign up
+                </button>
+                <button
+                  className="btn btn-primary mt-4"
+                  type="button"
+                  onClick={signInGithub}
+                >
+                  github
                 </button>
               </div>
             </form>

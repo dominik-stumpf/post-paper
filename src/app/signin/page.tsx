@@ -1,4 +1,20 @@
+'use client';
+
+// import { signIn, useSession } from 'next-auth/react';
+// import { useEffect } from 'react';
+
 export default function Page() {
+  // const { data: session, status } = useSession();
+  // console.log('session response', session, status);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const data = await signIn();
+
+  //     console.log('signin response', data);
+  //   })();
+  // }, []);
+
   return (
     <div>
       <div className="hero min-h-screen bg-base-200">
