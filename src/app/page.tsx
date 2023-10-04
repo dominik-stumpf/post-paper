@@ -1,4 +1,5 @@
 import { PostList } from '@/components/post-list';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function Page() {
   return (

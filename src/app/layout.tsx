@@ -1,3 +1,4 @@
+import NextAuthProvider from '@/components/next-auth-provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
@@ -18,9 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="navbar bg-base-100 sticky top-0">
-          <div className="navbar-start">
-            {/* <div className="dropdown">
+        <NextAuthProvider>
+          <div className="navbar bg-base-100 sticky top-0">
+            <div className="navbar-start">
+              {/* <div className="dropdown">
               <label tabIndex={0} className="btn btn-ghost lg:hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,11 +63,11 @@ export default function RootLayout({
                 </li>
               </ul>
             </div> */}
-            <Link className="btn btn-ghost normal-case text-xl" href="/">
-              post-paper
-            </Link>
-          </div>
-          {/* <div className="navbar-center hidden lg:flex">
+              <Link className="btn btn-ghost normal-case text-xl" href="/">
+                post-paper
+              </Link>
+            </div>
+            {/* <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               <li>
                 <a>Item 1</a>
@@ -88,16 +90,17 @@ export default function RootLayout({
               </li>
             </ul>
           </div> */}
-          <div className="navbar-end flex gap-4">
-            <Link className="btn" href="/login">
-              login
-            </Link>
-            <Link className="btn btn-primary" href="/signup">
-              sign up
-            </Link>
+            <div className="navbar-end flex gap-4">
+              <Link className="btn" href="/login">
+                login
+              </Link>
+              <Link className="btn btn-primary" href="/signup">
+                sign up
+              </Link>
+            </div>
           </div>
-        </div>
-        {children}
+          {children}
+        </NextAuthProvider>
       </body>
     </html>
   );
