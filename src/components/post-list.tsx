@@ -1,5 +1,6 @@
 'use client';
 
+import { api } from '@/server-data';
 import PocketBase, { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 
@@ -8,14 +9,14 @@ export function usePosts() {
 
   useEffect(() => {
     async function fetchPosts() {
-      const pb = new PocketBase('http://127.0.0.1:8090');
+      const pb = new PocketBase(api);
       const posts = await pb.collection('posts').getFullList();
 
-      const data = {
-        body: `your new entry ${new Date().toISOString()}`,
-      };
+      // const data = {
+      //   body: `your new entry ${new Date().toISOString()}`,
+      // };
 
-      pb.collection('posts').create(data);
+      // pb.collection('posts').create(data);
 
       setPosts(posts);
     }
