@@ -3,6 +3,7 @@
 import { api } from '@/server-data';
 import { getProviders, signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
@@ -21,23 +22,14 @@ export default function Page() {
     await signIn('github');
   }
 
-  // useEffect(() => {
-  //   (async () => {
-  //     console.log(await getProviders());
-  //   })();
-  // }, []);
-
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const { password, email, name, emailVisibility } = Object.fromEntries(
-      formData.entries(),
-    );
+    const { password, email, name } = Object.fromEntries(formData.entries());
     const pb = new PocketBase(api);
     const data = {
-      // username: 'test_username',
-      emailVisibility: emailVisibility,
+      emailVisibility: false,
       email: email,
       name: name,
       password: password,
@@ -103,13 +95,13 @@ export default function Page() {
                   required
                 />
               </div>
-              <div className="form-control mt-6">
+              <div className="form-control mt-6 gap-3 text-center">
                 <button className="btn btn-primary" type="submit">
                   Sign up
                 </button>
                 <div>OR</div>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-outline group"
                   type="button"
                   onClick={signInGithub}
                 >
@@ -118,10 +110,16 @@ export default function Page() {
                     alt="github"
                     width={24}
                     height={24}
-                    className="invert"
+                    className="invert group-hover:invert-0"
                   />
                   github
                 </button>
+              </div>
+              <div>
+                Already have an account?{' '}
+                <Link href="/signin" className="link-info">
+                  Sign in
+                </Link>
               </div>
             </form>
           </div>

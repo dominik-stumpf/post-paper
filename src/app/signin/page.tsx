@@ -2,6 +2,7 @@
 
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect } from 'react';
 
@@ -34,7 +35,7 @@ export default function Page() {
             <form className="card-body" onSubmit={handleSubmit}>
               <div className="form-control">
                 <label className="label" htmlFor="email">
-                  <span className="label-text">Email</span>
+                  <span className="label-text text-primary-content">Email</span>
                 </label>
                 <input
                   type="email"
@@ -46,9 +47,16 @@ export default function Page() {
                 />
               </div>
               <div className="form-control">
-                <label className="label" htmlFor="password">
-                  <span className="label-text">Password</span>
-                </label>
+                <div className="flex justify-between items-center">
+                  <label className="label" htmlFor="password">
+                    <span className="label-text">Password</span>
+                  </label>
+                  <label className="label">
+                    <a href="#1" className="label-text link-info">
+                      Forgot password?
+                    </a>
+                  </label>
+                </div>
                 <input
                   type="password"
                   placeholder="password"
@@ -58,11 +66,6 @@ export default function Page() {
                   required
                 />
               </div>
-              <label className="label">
-                <a href="#1" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
               <div className="form-control mt-6">
                 <button className="btn btn-primary" type="submit">
                   Sign in
@@ -82,6 +85,13 @@ export default function Page() {
                   />
                   github
                 </button>
+              </div>
+
+              <div>
+                New to POSTPAPER?{' '}
+                <Link href="/signup" className="link-info">
+                  Sign up
+                </Link>
               </div>
             </form>
           </div>
