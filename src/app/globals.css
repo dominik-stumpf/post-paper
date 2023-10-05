@@ -5,3 +5,8 @@
 :root, body {
   height: 100%;
 }
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+}

@@ -35,7 +35,6 @@ export default function EmailForm() {
           </label>
           <input
             type="name"
-            placeholder="name"
             name="name"
             id="name"
             className="input input-bordered"
@@ -48,7 +47,6 @@ export default function EmailForm() {
           </label>
           <input
             type="email"
-            placeholder="email"
             name="email"
             id="email"
             className="input input-bordered"
@@ -61,14 +59,13 @@ export default function EmailForm() {
           </label>
           <input
             type="password"
-            placeholder="password"
             name="password"
             id="password"
             className="input input-bordered"
             required
           />
         </div>
-        <button className="btn btn-primary mt-4" type="submit">
+        <button className="btn btn-primary mt-4 mb-2" type="submit">
           Sign up
         </button>
         <div className="text-sm text-center">
