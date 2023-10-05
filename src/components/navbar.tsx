@@ -46,7 +46,10 @@ export function Navbar() {
                 </li>
               </ul>
             </div> */}
-        <Link className="btn btn-ghost normal-case text-xl" href="/">
+        <Link
+          className="btn btn-ghost text-xl uppercase text-primary-content"
+          href="/"
+        >
           post-paper
         </Link>
       </div>
