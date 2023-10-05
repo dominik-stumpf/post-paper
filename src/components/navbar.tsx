@@ -47,10 +47,13 @@ export function Navbar() {
               </ul>
             </div> */}
         <Link
-          className="btn btn-ghost text-xl uppercase text-primary-content"
+          className="btn btn-ghost text-lg uppercase text-primary-content leading-none text-left tracking-tighter"
           href="/"
         >
-          post-paper
+          <div>
+            <div className="font-light">post</div>
+            <div>paper</div>
+          </div>
         </Link>
       </div>
       {/* <div className="navbar-center hidden lg:flex">
