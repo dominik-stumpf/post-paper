@@ -2,6 +2,7 @@ import PocketBase from 'pocketbase';
 
 export const api = 'http://127.0.0.1:8090';
 export const pb = new PocketBase(api);
+if (process.env.NODE_ENV === 'development') pb.autoCancellation(false);
 
 export const seedUserData = {
   username: 'test_username',

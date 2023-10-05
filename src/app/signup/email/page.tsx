@@ -9,6 +9,13 @@ import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
 
 export default function EmailForm() {
+  useEffect(() => {
+    async () => {
+      const authMethods = await pb.collection('users').listAuthMethods();
+      console.log(authMethods);
+    };
+  }, []);
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -48,6 +55,7 @@ export default function EmailForm() {
             name="name"
             id="name"
             className="input input-bordered"
+            autoComplete="name"
             required
           />
         </div>
@@ -59,6 +67,7 @@ export default function EmailForm() {
             type="email"
             name="email"
             id="email"
+            autoComplete="email"
             className="input input-bordered"
             required
           />
