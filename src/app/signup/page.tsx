@@ -6,8 +6,8 @@ import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
-  const { data: session, status } = useSession();
-  console.log('session response', session, status);
+  // const { data: session, status } = useSession();
+  // console.log('session response', session, status);
 
   async function signInGithub() {
     await signIn('github');
@@ -22,15 +22,15 @@ export default function Page() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const { password, email } = Object.fromEntries(formData.entries());
+    const { password, email, name } = Object.fromEntries(formData.entries());
     const pb = new PocketBase(api);
     const data = {
       // username: 'test_username',
-      email: email,
       // emailVisibility: false,
+      email: email,
+      name: name,
       password: password,
       passwordConfirm: password,
-      // name: 'test',
     };
     const resp = await pb.collection('users').create(data);
     // .authWithPassword(email.toString(), password.toString());
@@ -53,6 +53,19 @@ export default function Page() {
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleSubmit}>
+              <div className="form-control">
+                <label className="label" htmlFor="name">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  type="name"
+                  placeholder="name"
+                  name="name"
+                  id="name"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
               <div className="form-control">
                 <label className="label" htmlFor="email">
                   <span className="label-text">Email</span>
