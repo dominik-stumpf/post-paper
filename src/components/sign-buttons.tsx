@@ -12,8 +12,6 @@ type States = Record<
 export async function SignButtons() {
   const session = await auth();
 
-  console.log(session);
-
   const states: States = {
     loading: null,
     unauthenticated: (
@@ -37,5 +35,8 @@ export async function SignButtons() {
     ),
   };
 
-  return session === null ? states.unauthenticated : states.authenticated;
+  // reason for unnecessary fragment: https://github.com/vercel/next.js/issues/49280
+  return (
+    <>{session === null ? states.unauthenticated : states.authenticated}</>
+  );
 }
