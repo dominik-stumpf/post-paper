@@ -1,16 +1,18 @@
-'use client';
-import { signOut, useSession } from 'next-auth/react';
+import { auth } from '@/app/lib/auth';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { Avatar } from './avatar';
+import { SignOut } from './sign-out';
 
 type States = Record<
   'authenticated' | 'loading' | 'unauthenticated',
   ReactNode
 >;
 
-export function SignButtons() {
-  const { data: session, status } = useSession();
+export async function SignButtons() {
+  const session = await auth();
+
+  console.log(session);
 
   const states: States = {
     loading: null,
@@ -30,12 +32,10 @@ export function SignButtons() {
           signed in as {session.user.name}
           <Avatar seed={session.user.name} />
         </div>
-        <button className="btn" type="button" onClick={() => signOut()}>
-          sign out
-        </button>
+        <SignOut />
       </>
     ),
   };
 
-  return states[status];
+  return session === null ? states.unauthenticated : states.authenticated;
 }

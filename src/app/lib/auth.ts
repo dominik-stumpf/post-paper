@@ -1,5 +1,10 @@
 import { api } from '@/server-data';
-import { NextAuthOptions } from 'next-auth';
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from 'next';
+import { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import PocketBase from 'pocketbase';
@@ -74,6 +79,15 @@ export const authOptions = {
     newUser: '/signup',
   },
 } satisfies NextAuthOptions;
+
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, authOptions);
+}
 
 declare global {
   namespace NodeJS {
