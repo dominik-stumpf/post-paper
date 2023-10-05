@@ -1,4 +1,5 @@
 import { api } from '@/server-data';
+import { pb } from '@/server-data';
 import {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -7,7 +8,6 @@ import {
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
-import PocketBase from 'pocketbase';
 
 export const authOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
@@ -53,7 +53,6 @@ export const authOptions = {
           return null;
         }
 
-        const pb = new PocketBase(api);
         const res = await pb
           .collection('users')
           .authWithPassword(credentials.username, credentials.password);

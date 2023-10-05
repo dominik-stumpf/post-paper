@@ -1,6 +1,6 @@
 'use client';
 
-import { api } from '@/server-data';
+import { pb } from '@/server-data';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +14,6 @@ export default function EmailForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const { password, email, name } = Object.fromEntries(formData.entries());
-    const pb = new PocketBase(api);
     const data = {
       emailVisibility: false,
       email: email,

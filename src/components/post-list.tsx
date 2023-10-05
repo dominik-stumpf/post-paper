@@ -1,6 +1,6 @@
 'use client';
 
-import { api } from '@/server-data';
+import { pb } from '@/server-data';
 import PocketBase, { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,6 @@ export function usePosts() {
 
   useEffect(() => {
     async function fetchPosts() {
-      const pb = new PocketBase(api);
       const posts = await pb.collection('posts').getFullList();
 
       // const data = {
