@@ -1,43 +1,27 @@
 'use client';
-import { api, seedUserData } from '@/server-data';
-import { signIn } from 'next-auth/react';
-import PocketBase from 'pocketbase';
 
-import { FormEvent } from 'react';
-
-// import { signIn, useSession } from 'next-auth/react';
-// import { useEffect } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
-  // const { data: session, status } = useSession();
-  // console.log('session response', session, status);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await signIn();
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace('/');
+    }
+  }, [status, router]);
 
-  //     console.log('signin response', data);
-  //   })();
-  // }, []);
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const { password, email } = Object.fromEntries(formData.entries());
-    // const pb = new PocketBase(api);
-    // const data = {
-    //   // username: 'test_username',
-    //   email: email,
-    //   // emailVisibility: false,
-    //   password: password,
-    //   passwordConfirm: password,
-    //   // name: 'test',
-    // };
-    // const resp = await pb
-    //   .collection('users')
-    //   .authWithPassword(seedUserData.email, seedUserData.password);
-    // console.log(resp);
     signIn('credentials', { username: email, password });
   }
+
   async function signInGithub() {
     await signIn('github');
   }
@@ -83,11 +67,19 @@ export default function Page() {
                 <button className="btn btn-primary" type="submit">
                   Sign in
                 </button>
+                OR
                 <button
-                  className="btn btn-primary mt-4"
+                  className="btn btn-primary"
                   type="button"
                   onClick={signInGithub}
                 >
+                  <Image
+                    src="/assets/github.svg"
+                    alt="github"
+                    width={24}
+                    height={24}
+                    className="invert"
+                  />
                   github
                 </button>
               </div>
