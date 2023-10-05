@@ -44,7 +44,7 @@ export default function Page() {
     <div>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
-          <div className="text-center lg:text-left">
+          {/* <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold uppercase whitespace-nowrap">
               post-paper
             </h1>
@@ -53,75 +53,88 @@ export default function Page() {
               tempor irure fugiat et aliquip magna eiusmod elit eu consequat
               commodo cupidatat exercitation.
             </p>
-          </div>
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body" onSubmit={handleSubmit}>
-              <div className="form-control">
-                <label className="label" htmlFor="name">
-                  <span className="label-text">Name</span>
-                </label>
-                <input
-                  type="name"
-                  placeholder="name"
-                  name="name"
-                  id="name"
-                  className="input input-bordered"
-                  required
+          </div> */}
+          <div className="flex flex-col gap-6">
+            <div className="card">
+              <button
+                className="btn btn-outline group"
+                type="button"
+                onClick={signInGithub}
+              >
+                <Image
+                  src="/assets/github.svg"
+                  alt="github"
+                  width={24}
+                  height={24}
+                  className="invert group-hover:invert-0"
                 />
-              </div>
-              <div className="form-control">
-                <label className="label" htmlFor="email">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  placeholder="email"
-                  name="email"
-                  id="email"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-              <div className="form-control">
-                <label className="label" htmlFor="password">
-                  <span className="label-text">Password</span>
-                </label>
-                <input
-                  type="password"
-                  placeholder="password"
-                  name="password"
-                  id="password"
-                  className="input input-bordered"
-                  required
-                />
-              </div>
-              <div className="form-control mt-6 gap-3 text-center">
-                <button className="btn btn-primary" type="submit">
-                  Sign up
-                </button>
-                <div>OR</div>
-                <button
-                  className="btn btn-outline group"
-                  type="button"
-                  onClick={signInGithub}
-                >
+                sign up with github
+              </button>
+            </div>
+            <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+              <form className="card-body" onSubmit={handleSubmit}>
+                <div className="uppercase text-sm font-bold flex items-center justify-center gap-2">
                   <Image
-                    src="/assets/github.svg"
-                    alt="github"
+                    src="/assets/email.svg"
+                    alt="email"
                     width={24}
                     height={24}
                     className="invert group-hover:invert-0"
                   />
-                  github
-                </button>
-              </div>
-              <div>
-                Already have an account?{' '}
-                <Link href="/signin" className="link-info">
-                  Sign in
-                </Link>
-              </div>
-            </form>
+                  Sign up with email
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="name">
+                    <span className="label-text">Name</span>
+                  </label>
+                  <input
+                    type="name"
+                    placeholder="name"
+                    name="name"
+                    id="name"
+                    className="input input-bordered"
+                    required
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="email">
+                    <span className="label-text">Email</span>
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="email"
+                    name="email"
+                    id="email"
+                    className="input input-bordered"
+                    required
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="label" htmlFor="password">
+                    <span className="label-text">Password</span>
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                    id="password"
+                    className="input input-bordered"
+                    required
+                  />
+                </div>
+                <div className="form-control mt-6">
+                  <button className="btn btn-primary" type="submit">
+                    Sign up
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="text-center">
+              Already have an account?{' '}
+              <Link href="/signin" className="link-info">
+                Sign in
+              </Link>
+            </div>
           </div>
         </div>
       </div>
