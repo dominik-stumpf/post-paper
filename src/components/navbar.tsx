@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SignButtons } from './sign-buttons';
 
 export function Navbar() {
   return (
@@ -73,12 +74,7 @@ export function Navbar() {
             </ul>
           </div> */}
       <div className="navbar-end flex gap-4">
-        <Link className="btn" href="/signin">
-          sign in
-        </Link>
-        <Link className="btn btn-primary" href="/signup">
-          sign up
-        </Link>
+        <SignButtons />
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ export default function Page() {
     })();
   }, []);
 
-  async function signUp(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const { password, email } = Object.fromEntries(formData.entries());
@@ -52,7 +52,7 @@ export default function Page() {
             </p>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body" onSubmit={signUp}>
+            <form className="card-body" onSubmit={handleSubmit}>
               <div className="form-control">
                 <label className="label" htmlFor="email">
                   <span className="label-text">Email</span>

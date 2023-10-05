@@ -19,11 +19,11 @@ export default function Page() {
   //     console.log('signin response', data);
   //   })();
   // }, []);
-  async function signUp(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const { password, email } = Object.fromEntries(formData.entries());
-    const pb = new PocketBase(api);
+    // const pb = new PocketBase(api);
     // const data = {
     //   // username: 'test_username',
     //   email: email,
@@ -32,10 +32,11 @@ export default function Page() {
     //   passwordConfirm: password,
     //   // name: 'test',
     // };
-    const resp = await pb
-      .collection('users')
-      .authWithPassword(seedUserData.email, seedUserData.password);
-    console.log(resp);
+    // const resp = await pb
+    //   .collection('users')
+    //   .authWithPassword(seedUserData.email, seedUserData.password);
+    // console.log(resp);
+    signIn('credentials', { username: email, password });
   }
   async function signInGithub() {
     await signIn('github');
@@ -46,7 +47,7 @@ export default function Page() {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col lg:flex-row-reverse lg:gap-16">
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form className="card-body" onSubmit={signUp}>
+            <form className="card-body" onSubmit={handleSubmit}>
               <div className="form-control">
                 <label className="label" htmlFor="email">
                   <span className="label-text">Email</span>
@@ -80,7 +81,7 @@ export default function Page() {
               </label>
               <div className="form-control mt-6">
                 <button className="btn btn-primary" type="submit">
-                  Sign up
+                  Sign in
                 </button>
                 <button
                   className="btn btn-primary mt-4"
