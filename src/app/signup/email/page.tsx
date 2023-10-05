@@ -1,10 +1,11 @@
 'use client';
 
 import { api } from '@/server-data';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import PocketBase from 'pocketbase';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 
 export default function EmailForm() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -24,6 +25,15 @@ export default function EmailForm() {
     form.reset();
     signIn('credentials', { username: email, password });
   }
+
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace('/');
+    }
+  }, [status, router]);
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col gap-8 bg-base-200 px-4">
