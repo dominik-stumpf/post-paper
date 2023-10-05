@@ -1,7 +1,7 @@
 'use client';
 
 import { pb } from '@/server-data';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -10,10 +10,27 @@ import { FormEvent, useEffect } from 'react';
 
 export default function EmailForm() {
   useEffect(() => {
-    async () => {
+    (async () => {
       const authMethods = await pb.collection('users').listAuthMethods();
-      console.log(authMethods);
-    };
+      const provider = authMethods.authProviders[0];
+
+      const redirectUrl = `${location.origin}/signup/email`;
+      const url = provider.authUrl + redirectUrl;
+      const params = new URL(location.href).searchParams;
+      const code = params.get('code');
+
+      // router.push(url);
+      // pb.collection
+      // if (!code) return;
+
+      // const authData = await pb.collection('users');
+      // console.log(authData, redirectUrl, url);
+
+      const authData = await pb
+        .collection('users')
+        .authWithOAuth2({ provider: 'github' });
+      console.log(authData);
+    })();
   }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
