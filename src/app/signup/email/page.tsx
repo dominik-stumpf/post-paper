@@ -80,7 +80,7 @@ export default function EmailForm() {
           Sign up
         </button>
         <div className="text-sm text-center">
-          By signing up, I agree to POSTPAPER's{' '}
+          By signing up, you agree to POSTPAPER's{' '}
           <Link href="/privacy-policy" className="link-info">
             Terms of Use
           </Link>{' '}
