@@ -25,7 +25,7 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center flex-col gap-8 h-full bg-base-200">
       <h2 className="card-title">Sign up to POSTPAPER</h2>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <button
           className="btn btn-outline group"
           type="button"
@@ -54,8 +54,7 @@ export default function Page() {
           />
           Sign up with email
         </Link>
-        {/* <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"></div> */}
-        <div className="text-center">
+        <div className="text-center mt-2">
           Already have an account?{' '}
           <Link href="/signin" className="link-info">
             Sign in
