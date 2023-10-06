@@ -1,26 +1,18 @@
+import { api, pbCookieKey } from '@/server-data';
 import { cookies } from 'next/headers';
+import PocketBase, { cookieSerialize } from 'pocketbase';
 
 async function getData() {
-  // const { data, error, isLoading } = useSWR('/api/session', (url) =>
-  //   fetch(url).then((res) => res.json()),
-  // );
-  const endPoint = 'http://localhost:3000/api/session';
-  const getCookie = async (name: string) => {
-    return cookies().get(name)?.value ?? '';
-  };
-  const cookieKey = 'pb_auth';
-
-  const cookie = await getCookie(cookieKey);
-  const options = {
-    headers: {
-      cookie: `${cookieKey}=${cookie};`,
-    },
-  };
-
-  const res = await fetch(endPoint, options);
-
-  return await res.json();
+  const pb = new PocketBase(api);
+  const cookie = cookies().get(pbCookieKey);
+  if (!cookie) {
+    return null;
+  }
+  const cookieString = cookieSerialize(cookie.name, cookie.value);
+  pb.authStore.loadFromCookie(cookieString);
+  return pb.authStore.model;
 }
+
 export default async function Page() {
   console.log(await getData());
   return (
