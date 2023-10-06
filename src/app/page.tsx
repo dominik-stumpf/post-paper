@@ -1,7 +1,28 @@
-import { PostList } from '@/components/post-list';
-import { signIn, useSession } from 'next-auth/react';
+import { cookies } from 'next/headers';
 
-export default function Page() {
+async function getData() {
+  // const { data, error, isLoading } = useSWR('/api/session', (url) =>
+  //   fetch(url).then((res) => res.json()),
+  // );
+  const endPoint = 'http://localhost:3000/api/session';
+  const getCookie = async (name: string) => {
+    return cookies().get(name)?.value ?? '';
+  };
+  const cookieKey = 'pb_auth';
+
+  const cookie = await getCookie(cookieKey);
+  const options = {
+    headers: {
+      cookie: `${cookieKey}=${cookie};`,
+    },
+  };
+
+  const res = await fetch(endPoint, options);
+
+  return await res.json();
+}
+export default async function Page() {
+  console.log(await getData());
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

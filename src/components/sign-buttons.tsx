@@ -10,7 +10,7 @@ type States = Record<
 >;
 
 export async function SignButtons() {
-  const session = await auth();
+  // const session = await auth();
 
   const states: States = {
     loading: null,
@@ -24,19 +24,21 @@ export async function SignButtons() {
         </Link>
       </>
     ),
-    authenticated: session?.user?.name && (
-      <>
-        <div className="flex items-center gap-2">
-          signed in as {session.user.name}
-          <Avatar seed={session.user.name} />
-        </div>
-        <SignOut />
-      </>
-    ),
+    authenticated: null,
+    // session?.user?.name && (
+    //   <>
+    //     <div className="flex items-center gap-2">
+    //       signed in as {session.user.name}
+    //       <Avatar seed={session.user.name} />
+    //     </div>
+    //     <SignOut />
+    //   </>
+    // ),
   };
 
   // reason for unnecessary fragment: https://github.com/vercel/next.js/issues/49280
   return (
-    <>{session === null ? states.unauthenticated : states.authenticated}</>
+    // <>{session === null ? states.unauthenticated : states.authenticated}</>
+    <>{states.unauthenticated}</>
   );
 }

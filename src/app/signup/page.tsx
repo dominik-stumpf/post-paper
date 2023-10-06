@@ -9,14 +9,14 @@ import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === 'authenticated') {
-      router.replace('/');
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === 'authenticated') {
+  //     router.replace('/');
+  //   }
+  // }, [status, router]);
 
   async function signInGithub() {
     await signIn('github');

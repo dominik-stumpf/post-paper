@@ -23,6 +23,8 @@ export function middleware(request: NextRequest) {
       .trim(),
   );
 
+  // console.log('middleware', request);
+
   return NextResponse.next({
     headers: requestHeaders,
     request: {
