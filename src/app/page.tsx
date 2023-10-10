@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { auth } from '../auth';
+import { getSession } from '../auth';
 import { useSession } from 'next-auth/react';
 import { cookies } from 'next/headers';
 import { getServerSession } from 'next-auth/next';
@@ -25,7 +25,7 @@ export default async function Page() {
   // }
 
   // const session = await auth();
-  const session = await auth();
+  const session = await getSession();
   console.log('loaded root', session);
 
   return (
