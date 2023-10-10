@@ -2,27 +2,26 @@ import { createClient } from '@supabase/supabase-js';
 import { getSession } from '../auth';
 
 export default async function Page() {
-  // const { data: session } = useSession();
-  // if (session) {
-  //   const { supabaseAccessToken } = session;
-  //   const supabase = createClient(
-  //     process.env.NEXT_PUBLIC_SUPABASE_URL,
-  //     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  //     {
-  //       global: {
-  //         headers: {
-  //           Authorization: `Bearer ${supabaseAccessToken}`,
-  //         },
-  //       },
-  //     },
-  //   );
-  //   // Now you can query with RLS enabled.
-  //   const { data, error } = await supabase.from('users').select('*');
-  //   console.log(data);
-  // }
-
   const session = await getSession();
-  console.log('loaded root', Boolean(session?.user));
+  console.log('loaded root, is user logged in:', Boolean(session?.user));
+
+  if (session) {
+    const { supabaseAccessToken } = session;
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        global: {
+          headers: {
+            Authorization: `Bearer ${supabaseAccessToken}`,
+          },
+        },
+      },
+    );
+    // Now you can query with RLS enabled.
+    const { data, error } = await supabase.from('users').select('*');
+    console.log('can query from database:', Boolean(data));
+  }
 
   return (
     <div className="hero min-h-screen bg-base-200">
