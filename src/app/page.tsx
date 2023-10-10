@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 export default async function Page() {
   const session = await auth();
-  console.log('loaded root', session);
+  console.log('loaded root', session?.user);
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

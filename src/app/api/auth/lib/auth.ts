@@ -69,12 +69,12 @@ import Zoho from 'next-auth/providers/zoho';
 import Zoom from 'next-auth/providers/zoom';
 
 // Read more at: https://next-auth.js.org/getting-started/typescript#module-augmentation
-declare module 'next-auth/jwt' {
-  interface JWT {
-    /** The user's role. */
-    userRole?: 'admin';
-  }
-}
+// declare module 'next-auth/jwt' {
+//   interface JWT {
+//     /** The user's role. */
+//     userRole?: 'admin';
+//   }
+// }
 
 export const config = {
   providers: [
@@ -330,12 +330,12 @@ export const config = {
     //   clientSecret: process.env.AUTH_ZOOM_SECRET,
     // }),
   ],
-  callbacks: {
-    async jwt({ token }) {
-      token.userRole = 'admin';
-      return token;
-    },
-  },
+  // callbacks: {
+  //   async jwt({ token }) {
+  //     token.userRole = 'admin';
+  //     return token;
+  //   },
+  // },
 } satisfies NextAuthConfig;
 
 // Helper function to get session without passing config every time
