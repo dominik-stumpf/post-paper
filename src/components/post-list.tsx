@@ -1,7 +1,5 @@
 'use client';
 
-import { pb } from '@/server-data';
-import PocketBase, { RecordModel } from 'pocketbase';
 import { useEffect, useState } from 'react';
 
 export function usePosts() {
