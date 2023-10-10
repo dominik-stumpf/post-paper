@@ -31,7 +31,7 @@ export default function Page() {
           onClick={signInGithub}
         >
           <Image
-            src="/assets/github.svg"
+            src="/assets/svg/github.svg"
             alt="github"
             width={24}
             height={24}
@@ -45,7 +45,7 @@ export default function Page() {
           href="/signup/email"
         >
           <Image
-            src="/assets/email.svg"
+            src="/assets/svg/email.svg"
             alt="email"
             width={24}
             height={24}

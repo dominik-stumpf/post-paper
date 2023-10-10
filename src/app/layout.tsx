@@ -7,8 +7,16 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'post-paper',
+  title: 'POSTPAPER',
   description: 'Public posting webpage.',
+  applicationName: 'POSTPAPER',
+  manifest: '/manifest.webmanifest',
+  robots: {
+    follow: true,
+    index: true,
+  },
+  themeColor: '#ffffff',
+  icons: '/favicon.svg',
 };
 
 export default function RootLayout({
