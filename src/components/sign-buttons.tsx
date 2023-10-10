@@ -1,4 +1,4 @@
-import { auth } from '@/app/lib/auth';
+import { auth } from '@/app/api/auth/lib/auth';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { Avatar } from './avatar';

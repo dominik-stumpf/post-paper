@@ -6,16 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "apply-ci": "biome check --apply-unsafe src && biome format --write src"
   },
   "dependencies": {
+    "@auth/supabase-adapter": "^0.1.4",
+    "@biomejs/biome": "^1.2.2",
     "@iconify/react": "^4.1.1",
+    "@supabase/supabase-js": "^2.38.0",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "20.8.2",
     "@types/react": "18.2.24",
     "@types/react-dom": "18.2.8",
     "autoprefixer": "10.4.16",
     "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
     "next": "13.5.4",
     "next-auth": "^4.23.2",
     "pocketbase": "^0.18.0",
