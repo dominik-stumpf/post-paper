@@ -1,20 +1,10 @@
-import { api, pbCookieKey } from '@/server-data';
+import { auth } from '@/app/api/auth/lib/auth';
+import { useSession } from 'next-auth/react';
 import { cookies } from 'next/headers';
-import PocketBase, { cookieSerialize } from 'pocketbase';
-
-async function getData() {
-  const pb = new PocketBase(api);
-  const cookie = cookies().get(pbCookieKey);
-  if (!cookie) {
-    return null;
-  }
-  const cookieString = cookieSerialize(cookie.name, cookie.value);
-  pb.authStore.loadFromCookie(cookieString);
-  return pb.authStore.model;
-}
 
 export default async function Page() {
-  console.log(await getData());
+  const session = await auth();
+  console.log('loaded root', session);
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

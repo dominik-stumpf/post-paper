@@ -1,7 +1,7 @@
 import { config } from '@/app/api/auth/lib/auth';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
-import NextAuth from 'next-auth/next';
 import jwt from 'jsonwebtoken';
+import NextAuth from 'next-auth/next';
 
 const envKeys = [
   'NEXT_PUBLIC_SUPABASE_URL',
