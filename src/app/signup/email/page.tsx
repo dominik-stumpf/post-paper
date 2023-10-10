@@ -50,14 +50,14 @@ export default function EmailForm() {
     signIn('credentials', { username: email, password });
   }
 
-  // const { data: session, status } = useSession();
-  // const router = useRouter();
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (status === 'authenticated') {
-  //     router.replace('/');
-  //   }
-  // }, [status, router]);
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.replace('/');
+    }
+  }, [status, router]);
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col gap-8 bg-base-200 px-4">
