@@ -1,10 +1,10 @@
 'use client';
 
-import { getProviders, signIn, useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function Page() {
   const { data: session, status } = useSession();
@@ -12,10 +12,10 @@ export default function Page() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      // router.replace('/');
-      console.log(session);
+      router.replace('/');
+      // console.log(session);
     }
-  }, [status, session]);
+  }, [status, router]);
 
   async function signInGithub() {
     await signIn('github');

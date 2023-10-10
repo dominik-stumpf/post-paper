@@ -11,7 +11,7 @@
     "rules": {
       "all": true,
       "correctness": {
-        "noUnusedVariables": "off"
+        "noUnusedVariables": "warn"
       },
       "nursery": {
         "all": true
