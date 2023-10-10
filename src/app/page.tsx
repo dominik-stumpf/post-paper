@@ -21,9 +21,8 @@ export default async function Page() {
   //   console.log(data);
   // }
 
-  // const session = await auth();
   const session = await getSession();
-  console.log('loaded root', session);
+  console.log('loaded root', Boolean(session?.user));
 
   return (
     <div className="hero min-h-screen bg-base-200">
