@@ -7,31 +7,31 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect } from 'react';
 
 export default function EmailForm() {
-  useEffect(() => {
-    (async () => {
-      const authMethods = await pb.collection('users').listAuthMethods();
-      const provider = authMethods.authProviders[0];
+  // useEffect(() => {
+  //   (async () => {
+  //     const authMethods = await pb.collection('users').listAuthMethods();
+  //     const provider = authMethods.authProviders[0];
 
-      const redirectUrl = `${location.origin}/signup/email`;
-      const url = provider.authUrl + redirectUrl;
-      const params = new URL(location.href).searchParams;
-      const code = params.get('code');
+  //     const redirectUrl = `${location.origin}/signup/email`;
+  //     const url = provider.authUrl + redirectUrl;
+  //     const params = new URL(location.href).searchParams;
+  //     const code = params.get('code');
 
-      // router.push(url);
-      // pb.collection
-      // if (!code) return;
+  //     // router.push(url);
+  //     // pb.collection
+  //     // if (!code) return;
 
-      // const authData = await pb.collection('users');
-      // console.log(authData, redirectUrl, url);
+  //     // const authData = await pb.collection('users');
+  //     // console.log(authData, redirectUrl, url);
 
-      const authData = await pb
-        .collection('users')
-        .authWithOAuth2({ provider: 'github' });
-      console.log(authData);
-      const cookie = pb.authStore.exportToCookie({ httpOnly: false });
-      document.cookie = cookie;
-    })();
-  }, []);
+  //     const authData = await pb
+  //       .collection('users')
+  //       .authWithOAuth2({ provider: 'github' });
+  //     console.log(authData);
+  //     const cookie = pb.authStore.exportToCookie({ httpOnly: false });
+  //     document.cookie = cookie;
+  //   })();
+  // }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,7 +45,7 @@ export default function EmailForm() {
       password: password,
       passwordConfirm: password,
     };
-    const resp = await pb.collection('users').create(data);
+    // const resp = await pb.collection('users').create(data);
     form.reset();
     signIn('credentials', { username: email, password });
   }
