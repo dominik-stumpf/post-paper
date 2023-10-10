@@ -1,4 +1,4 @@
-import { auth } from '@/app/api/auth/lib/auth';
+import { auth } from '@/app/api/auth/auth';
 import { useSession } from 'next-auth/react';
 import { cookies } from 'next/headers';
 
