@@ -50,10 +50,7 @@ export function Navbar() {
           className="btn btn-ghost text-lg uppercase text-primary-content leading-none text-left tracking-tighter"
           href="/"
         >
-          <div>
-            <div className="font-light">post</div>
-            <div>paper</div>
-          </div>
+          postpaper
         </Link>
       </div>
       {/* <div className="navbar-center hidden lg:flex">
