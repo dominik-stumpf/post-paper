@@ -1,11 +1,9 @@
 'use client';
 
-import { api } from '@/server-data';
 import { getProviders, signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import PocketBase from 'pocketbase';
 import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
