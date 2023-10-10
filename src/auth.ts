@@ -1,3 +1,4 @@
+import { SupabaseAdapter } from '@auth/supabase-adapter';
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -68,6 +69,8 @@ import Zitadel from 'next-auth/providers/zitadel';
 import Zoho from 'next-auth/providers/zoho';
 import Zoom from 'next-auth/providers/zoom';
 
+import jwt from 'jsonwebtoken';
+
 export const envKeys = [
   'NEXT_PUBLIC_SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -76,6 +79,7 @@ export const envKeys = [
   'AUTH_GITHUB_SECRET',
   'NEXTAUTH_SECRET',
   'NEXTAUTH_URL',
+  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
 ] as const;
 
 for (const envKey of envKeys) {
@@ -102,6 +106,27 @@ declare global {
 // }
 
 export const config = {
+  adapter: SupabaseAdapter({
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    secret: process.env.SUPABASE_SERVICE_ROLE_KEY,
+  }),
+  callbacks: {
+    async session({ session, user }) {
+      const signingSecret = process.env.SUPABASE_JWT_SECRET;
+      if (signingSecret) {
+        const payload = {
+          aud: 'authenticated',
+          exp: Math.floor(new Date(session.expires).getTime() / 1000),
+          sub: user.id,
+          email: user.email,
+          role: 'authenticated',
+        };
+        session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+      }
+      return session;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     // Apple({
     //   clientId: process.env.AUTH_APPLE_ID,

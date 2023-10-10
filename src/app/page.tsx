@@ -1,10 +1,33 @@
-import { auth } from '@/app/api/auth/auth';
+import { createClient } from '@supabase/supabase-js';
+import { auth } from '../auth';
 import { useSession } from 'next-auth/react';
 import { cookies } from 'next/headers';
+import { getServerSession } from 'next-auth/next';
 
 export default async function Page() {
+  // const { data: session } = useSession();
+  // if (session) {
+  //   const { supabaseAccessToken } = session;
+  //   const supabase = createClient(
+  //     process.env.NEXT_PUBLIC_SUPABASE_URL,
+  //     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  //     {
+  //       global: {
+  //         headers: {
+  //           Authorization: `Bearer ${supabaseAccessToken}`,
+  //         },
+  //       },
+  //     },
+  //   );
+  //   // Now you can query with RLS enabled.
+  //   const { data, error } = await supabase.from('users').select('*');
+  //   console.log(data);
+  // }
+
+  // const session = await auth();
   const session = await auth();
-  console.log('loaded root', session?.user);
+  console.log('loaded root', session);
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">
