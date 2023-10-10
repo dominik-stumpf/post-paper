@@ -38,7 +38,7 @@ export default function EmailForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const { password, email, name } = Object.fromEntries(formData.entries());
-    const data = {
+    const _data = {
       emailVisibility: false,
       email: email,
       name: name,

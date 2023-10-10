@@ -1,6 +1,6 @@
-import { getSession } from '../auth';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { getSession } from '../auth';
 import { Avatar } from './avatar';
 import { SignOut } from './sign-out';
 

@@ -8,7 +8,7 @@ import { FormEvent, useEffect } from 'react';
 
 export default function Page() {
   // const { data: session, status } = useSession();
-  const router = useRouter();
+  const _router = useRouter();
 
   // useEffect(() => {
   //   if (status === 'authenticated') {
