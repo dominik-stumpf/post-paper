@@ -1,8 +1,8 @@
+import { Session } from 'next-auth';
 import Link from 'next/link';
 import { getSession } from '../auth';
 import { Avatar } from './avatar';
 import { SignOut } from './sign-out';
-import { Session } from 'next-auth';
 
 function UnauthorizedActions() {
   return (

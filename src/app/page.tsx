@@ -19,7 +19,7 @@ export default async function Page() {
       },
     );
     // Now you can query with RLS enabled.
-    const { data, error } = await supabase.from('users').select('*');
+    const { data } = await supabase.from('users').select('*');
     console.log('can query from database:', Boolean(data));
   }
 

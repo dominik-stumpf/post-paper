@@ -1,7 +1,6 @@
 'use client';
 
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect } from 'react';
@@ -50,7 +49,7 @@ export default function EmailForm() {
     signIn('credentials', { username: email, password });
   }
 
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
