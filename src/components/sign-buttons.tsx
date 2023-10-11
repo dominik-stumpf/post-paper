@@ -18,7 +18,7 @@ function UnauthorizedActions() {
 }
 
 function AuthorizedActions({ session }: { session: Session }) {
-  if (!(session.user.name && session.user.image)) return null;
+  if (!session.user.name) return null;
   return (
     <>
       <div className="flex items-center gap-2">
@@ -32,7 +32,6 @@ function AuthorizedActions({ session }: { session: Session }) {
 
 export async function SignButtons() {
   const session = await getSession();
-  console.log('buttons', session);
 
   return session === null ? (
     <UnauthorizedActions />
