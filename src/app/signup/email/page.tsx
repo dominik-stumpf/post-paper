@@ -4,6 +4,7 @@ import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function EmailForm() {
   // useEffect(() => {
@@ -37,16 +38,28 @@ export default function EmailForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const { password, email, name } = Object.fromEntries(formData.entries());
-    const _data = {
-      emailVisibility: false,
-      email: email,
-      name: name,
-      password: password,
-      passwordConfirm: password,
-    };
-    // const resp = await pb.collection('users').create(data);
+    // const _data = {
+    //   emailVisibility: false,
+    //   email: email,
+    //   name: name,
+    //   password: password,
+    //   passwordConfirm: password,
+    // };
+    if (typeof password !== 'string' || typeof email !== 'string') return;
+    const supabase = createClientComponentClient();
+    const { error, data } = await supabase.auth.signUp({
+      email,
+      password,
+      // options: {
+      //   emailRedirectTo: `${requestUrl.origin}/auth/callback`,
+      // },
+    });
+    if (error) {
+      console.error(error);
+    }
+    console.log(data);
     form.reset();
-    signIn('credentials', { username: email, password });
+    signIn('credentials', { email, password });
   }
 
   const { status } = useSession();

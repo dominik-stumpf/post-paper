@@ -3,12 +3,12 @@
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
 
 export default function Page() {
   // const { data: session, status } = useSession();
-  const _router = useRouter();
+  // const _router = useRouter();
 
   // useEffect(() => {
   //   if (status === 'authenticated') {
@@ -20,7 +20,7 @@ export default function Page() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const { password, email } = Object.fromEntries(formData.entries());
-    signIn('credentials', { username: email, password });
+    signIn('credentials', { email, password });
   }
 
   async function signInGithub() {
