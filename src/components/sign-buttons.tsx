@@ -23,7 +23,7 @@ function AuthorizedActions({ session }: { session: Session }) {
     <>
       <div className="flex items-center gap-2">
         signed in as {session.user.name}
-        <Avatar src={session.user.image} />
+        <Avatar session={session} />
       </div>
       <SignOut />
     </>
@@ -32,6 +32,7 @@ function AuthorizedActions({ session }: { session: Session }) {
 
 export async function SignButtons() {
   const session = await getSession();
+  console.log('buttons', session);
 
   return session === null ? (
     <UnauthorizedActions />
