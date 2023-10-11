@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SignButtons } from './sign-buttons';
+import { Logo } from './logo';
 
 export function Navbar() {
   return (
@@ -46,12 +47,7 @@ export function Navbar() {
                 </li>
               </ul>
             </div> */}
-        <Link
-          className="btn btn-ghost text-lg uppercase text-primary-content leading-none text-left tracking-tighter"
-          href="/"
-        >
-          postpaper
-        </Link>
+        <Logo />
       </div>
       {/* <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
