@@ -1,9 +1,9 @@
 import { GithubSignIn } from '@/components/github-sign-in';
-import Link from 'next/link';
-import Messages from './messages';
-import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import Messages from './messages';
 
 export default async function Login() {
   const supabase = createServerComponentClient<Database>({ cookies });

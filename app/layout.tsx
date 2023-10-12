@@ -1,8 +1,8 @@
+import { LenisWrapper } from '@/components/lenis-wrapper';
+import '@/types/validate-env-vars';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import '@/types/validate-env-vars';
-import { LenisWrapper } from '@/components/lenis-wrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
