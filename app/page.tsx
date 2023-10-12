@@ -10,10 +10,15 @@ export default async function Index() {
 
   const {
     data: { user },
-    error,
+    error: authError,
   } = await supabase.auth.getUser();
 
-  console.log(user, error);
+  console.log(user, authError);
+
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .range(0, 9);
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -34,6 +39,14 @@ export default async function Index() {
           )}
         </div>
       </nav>
+      <div className="text-white">
+        {posts.map((data) => (
+          <div>
+            <div>{data.title}</div>
+            <div>{data.content}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

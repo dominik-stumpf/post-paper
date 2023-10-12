@@ -1,8 +1,20 @@
 import { GithubSignIn } from '@/components/github-sign-in';
 import Link from 'next/link';
 import Messages from './messages';
+import { cookies } from 'next/headers';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { redirect } from 'next/navigation';
 
-export default function Login() {
+export default async function Login() {
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) {
+    redirect('/');
+  }
+
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
