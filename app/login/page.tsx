@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Messages from './messages';
+import { GithubSignIn } from '@/components/github-sign-in';
 
 export default function Login() {
   return (
@@ -62,6 +63,7 @@ export default function Login() {
         >
           Sign Up
         </button>
+        <GithubSignIn />
         <Messages />
       </form>
     </div>

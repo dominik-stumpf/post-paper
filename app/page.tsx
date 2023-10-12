@@ -10,7 +10,10 @@ export default async function Index() {
 
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
+
+  console.log(user, error);
 
   return (
     <div className="w-full flex flex-col items-center">
