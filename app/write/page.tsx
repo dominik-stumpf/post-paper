@@ -2,9 +2,12 @@ import {
   createServerActionClient,
   createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -33,6 +36,7 @@ export default async function Page() {
 
     if (typeof content === 'string' && typeof title === 'string') {
       await supabase.from('posts').insert({ content, title, user_id: user.id });
+      revalidatePath('/');
     }
   }
 

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Messages from './messages';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Login() {
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
