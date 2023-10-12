@@ -1,6 +1,6 @@
+import { GithubSignIn } from '@/components/github-sign-in';
 import Link from 'next/link';
 import Messages from './messages';
-import { GithubSignIn } from '@/components/github-sign-in';
 
 export default function Login() {
   return (
@@ -21,6 +21,7 @@ export default function Login() {
           strokeLinejoin="round"
           className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
         >
+          <title>arrow</title>
           <polyline points="15 18 9 12 15 6" />
         </svg>{' '}
         Back
