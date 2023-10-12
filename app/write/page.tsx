@@ -62,7 +62,7 @@ function InputField({ name }: { name: string }) {
   return (
     <input
       name={name}
-      className="bg-background p-2 outline-none ring-1 ring-foreground"
+      className="p-2 bg-black outline-none ring-1 ring-white"
     />
   );
 }

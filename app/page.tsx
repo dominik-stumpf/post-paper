@@ -1,4 +1,5 @@
 import LogoutButton from '@/components/LogoutButton';
+import { PaperCard } from '@/components/paper-card';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
@@ -19,9 +20,9 @@ export default async function Index() {
     .range(0, 8);
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm text-foreground">
+    <div className="flex flex-col items-center w-full">
+      <nav className="flex justify-center w-full h-16 border-b border-b-foreground/10">
+        <div className="flex items-center justify-between w-full max-w-4xl p-3 text-sm text-foreground">
           {user ? (
             <>
               <Link href="/write">write</Link>
@@ -33,16 +34,16 @@ export default async function Index() {
           ) : (
             <Link
               href="/login"
-              className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover ml-auto"
+              className="flex px-3 py-2 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
             >
               Login
             </Link>
           )}
         </div>
       </nav>
-      <div className="text-white">
-        {posts?.map((data) => (
-          <pre key={data.id}>{JSON.stringify(data, null, 2)}</pre>
+      <div className="grid w-full gap-12 py-12 place-items-center">
+        {posts?.map((post) => (
+          <PaperCard key={post.id} {...post} />
         ))}
       </div>
     </div>
