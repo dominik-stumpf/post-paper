@@ -1,4 +1,4 @@
-import { envKeys } from '@/validate-env-vars';
+import { envKeys } from '@/types/validate-env-vars';
 
 type EnvKeys = Record<typeof envKeys[number], string>;
 
