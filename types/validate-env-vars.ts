@@ -9,4 +9,4 @@ for (const envKey of envKeys) {
   }
 }
 
-console.info('🔑 all environment variables loaded successfully 🔑');
+// console.info('🔑 environment variables loaded successfully');
