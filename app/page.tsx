@@ -1,10 +1,10 @@
+import DeployButton from '@/components/DeployButton';
+import LogoutButton from '@/components/LogoutButton';
+import NextJsLogo from '@/components/NextJsLogo';
+import SupabaseLogo from '@/components/SupabaseLogo';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import DeployButton from '../components/DeployButton';
-import LogoutButton from '../components/LogoutButton';
-import NextJsLogo from '../components/NextJsLogo';
-import SupabaseLogo from '../components/SupabaseLogo';
 
 export const dynamic = 'force-dynamic';
 

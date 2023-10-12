@@ -6,7 +6,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState } from 'react';
 
 export default function ClientComponent() {
-  const [todos, setTodos] = useState<any[]>([]);
+  const [todos, setTodos] = useState<string[]>([]);
 
   // Create a Supabase client configured to use cookies
   const supabase = createClientComponentClient();
@@ -23,7 +23,7 @@ export default function ClientComponent() {
     };
 
     getTodos();
-  }, [supabase, setTodos]);
+  }, [supabase]);
 
   return <pre>{JSON.stringify(todos, null, 2)}</pre>;
 }
