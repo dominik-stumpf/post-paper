@@ -13,6 +13,12 @@ interface PaperCardProps {
     name: string;
     user_name: string;
   } | null;
+  likes: {
+    // created_at: string;
+    // id: number;
+    post_id: string;
+    user_id: string;
+  }[];
 }
 
 export function PaperCard({
@@ -21,6 +27,7 @@ export function PaperCard({
   created_at,
   profiles,
   id,
+  likes,
 }: PaperCardProps) {
   if (profiles === null) {
     return null;
@@ -29,18 +36,21 @@ export function PaperCard({
   return (
     <Link href={`/paper/${id}`} className="w-1/2 max-w-2xl">
       <section className="flex flex-col w-full gap-4 p-4 border">
-        <div className="flex items-center gap-2">
-          <Avatar
-            imageSrc={profiles.avatar_url}
-            userName={profiles.user_name}
-          />
-          <div>{profiles.name}</div>
-          <time dateTime={created_at}>
-            {new Date(created_at).toLocaleString('en-US', {
-              month: 'short',
-              day: 'numeric',
-            })}
-          </time>
+        <div className="flex">
+          <div className="flex items-center gap-2 grow">
+            <Avatar
+              imageSrc={profiles.avatar_url}
+              userName={profiles.user_name}
+            />
+            <div>{profiles.name}</div>
+            <time dateTime={created_at}>
+              {new Date(created_at).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+              })}
+            </time>
+          </div>
+          <div className="grow-0">{likes.length}</div>
         </div>
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold overflow-clip max-h-16">{title}</h2>
