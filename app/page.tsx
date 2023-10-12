@@ -12,7 +12,7 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: posts, error: postsError } = await supabase
+  const { data: posts } = await supabase
     .from('posts')
     .select('*, profiles(*)')
     .order('created_at', { ascending: false })
