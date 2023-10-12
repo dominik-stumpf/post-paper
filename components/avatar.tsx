@@ -11,7 +11,7 @@ export function Avatar({ imageSrc, userName }: AvatarProps) {
         `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${userName}`
       }
       alt="avatar"
-      className="rounded-full w-7 aspect-square"
+      className="w-6 rounded-full aspect-square"
     />
   );
 }
