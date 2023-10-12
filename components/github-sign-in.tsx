@@ -5,7 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 export function GithubSignIn() {
   async function handleClick() {
     const requestUrl = document.location;
-    const supabase = createClientComponentClient();
+    const supabase = createClientComponentClient<Database>();
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {

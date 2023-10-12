@@ -6,14 +6,14 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function Index() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
 
-  console.log(user, authError);
+  // console.log(user, authError);
 
   const { data: posts, error } = await supabase
     .from('posts')
@@ -40,7 +40,7 @@ export default async function Index() {
         </div>
       </nav>
       <div className="text-white">
-        {posts.map((data) => (
+        {posts?.map((data) => (
           <div>
             <div>{data.title}</div>
             <div>{data.content}</div>

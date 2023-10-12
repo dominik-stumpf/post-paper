@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "apply-ci": "biome check --apply-unsafe app && biome format --write app"
+    "apply-ci": "biome check --apply-unsafe app && biome format --write app",
+    "gen-types": "supabase gen types typescript --linked > lib/database.types.ts"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.8.1",
