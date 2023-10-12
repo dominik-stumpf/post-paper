@@ -3,6 +3,9 @@ const nextConfig = {
   images: {
     domains: ['api.dicebear.com'],
   },
+  experimental: {
+    serverActions: true,
+  },
 }
 
 const withPWA = require("@ducanh2912/next-pwa").default({

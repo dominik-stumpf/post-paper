@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "apply-ci": "biome check --apply-unsafe src && biome format --write src"
+    "apply-ci": "biome check --apply-unsafe app && biome format --write app"
   },
   "dependencies": {
     "@biomejs/biome": "^1.2.2",

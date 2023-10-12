@@ -14,12 +14,3 @@ for (const envKey of envKeys) {
     throw new Error(`environment variable ${envKey} couldn't be read`);
   }
 }
-
-type EnvKeys = Record<typeof envKeys[number], string>;
-
-declare global {
-  namespace NodeJS {
-    // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-    export interface ProcessEnv extends EnvKeys {}
-  }
-}
