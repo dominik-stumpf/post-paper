@@ -1,8 +1,6 @@
-import LogoutButton from '@/components/logout-button';
 import { PaperCard } from '@/components/paper-card';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
