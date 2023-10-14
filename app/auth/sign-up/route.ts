@@ -9,17 +9,25 @@ export async function POST(request: Request) {
   const formData = await request.formData();
   const email = String(formData.get('email'));
   const password = String(formData.get('password'));
-  const supabase = createRouteHandlerClient({ cookies });
+  const name = String(formData.get('name'));
+  const supabase = createRouteHandlerClient<Database>({ cookies });
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
+      data: {
+        name: name,
+        avatar_url: `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${Math.round(
+          Math.random() * 100000,
+        )}`,
+      },
       emailRedirectTo: `${requestUrl.origin}/auth/callback`,
     },
   });
 
   if (error) {
+    console.error(error);
     return NextResponse.redirect(
       `${requestUrl.origin}/login?error=Could not authenticate user`,
       {

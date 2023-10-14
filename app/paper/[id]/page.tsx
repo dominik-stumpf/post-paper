@@ -1,14 +1,17 @@
-import { Likes } from '@/components/likes';
+import { LikeButton } from '@/components/like-button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Page({
   params: { id },
 }: { params: { id: number } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
+
   const { data: posts } = await supabase
     .from('posts')
-    .select('*, likes(*)')
+    .select('*, likes(post_id, user_id)')
     .eq('id', id);
 
   if (posts === null) {
@@ -16,12 +19,23 @@ export default async function Page({
   }
 
   const post = posts[0];
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const hasUserLiked = post.likes.some(
+    (like) => like.user_id === session?.user.id,
+  );
+
+  const likesCount = post.likes.length - (hasUserLiked ? 1 : 0);
 
   return (
-    <article>
-      <Likes />
+    <article className="flex flex-col items-start gap-4">
       <h1>{post.title}</h1>
       <p>{post.content}</p>
+      <LikeButton
+        data={{ likes: likesCount, hasUserLiked, post_id: post.id }}
+      />
     </article>
   );
 }

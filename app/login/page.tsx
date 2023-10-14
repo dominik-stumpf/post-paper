@@ -46,24 +46,39 @@ export default async function Login() {
         action="/auth/sign-in"
         method="post"
       >
+        <label className="text-md" htmlFor="name">
+          Name
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          id="name"
+          name="name"
+          placeholder="John Doe"
+          required
+          autoComplete="username"
+        />
         <label className="text-md" htmlFor="email">
           Email
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          id="email"
           name="email"
           placeholder="you@example.com"
           required
+          autoComplete="email"
         />
         <label className="text-md" htmlFor="password">
           Password
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          id="password"
           type="password"
           name="password"
           placeholder="••••••••"
           required
+          autoComplete="current-password"
         />
         <button
           className="bg-green-700 rounded px-4 py-2 text-white mb-2"
