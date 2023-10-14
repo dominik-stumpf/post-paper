@@ -8,7 +8,7 @@ export default async function Index() {
   const supabase = createServerComponentClient<Database>({ cookies });
   const { data: posts } = await supabase
     .from('posts')
-    .select('*, profiles(*), likes(*)')
+    .select('*, profiles(name, avatar_url), likes(id)')
     .order('created_at', { ascending: false })
     .range(0, 8);
 

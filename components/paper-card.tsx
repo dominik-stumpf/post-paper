@@ -11,13 +11,13 @@ interface PaperCardProps {
     avatar_url: string;
     // id: string;
     name: string;
-    user_name: string;
+    // user_name: string;
   } | null;
   likes: {
     // created_at: string;
-    // id: number;
-    post_id: string;
-    user_id: string;
+    id: number;
+    // post_id: string;
+    // user_id: string;
   }[];
 }
 
@@ -38,10 +38,7 @@ export function PaperCard({
       <section className="flex flex-col w-full gap-4 p-4 border">
         <div className="flex">
           <div className="flex items-center gap-2 grow">
-            <Avatar
-              imageSrc={profiles.avatar_url}
-              userName={profiles.user_name}
-            />
+            <Avatar imageSrc={profiles.avatar_url} userName={profiles.name} />
             <div>{profiles.name}</div>
             <time dateTime={created_at}>
               {new Date(created_at).toLocaleString('en-US', {
