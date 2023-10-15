@@ -8,7 +8,7 @@ export default async function Index() {
   );
   const { data: posts } = await supabase
     .from('posts')
-    .select('*, profiles(name, avatar_url), likes(id)')
+    .select('*, profiles(name, avatar_url), likes(count)')
     .order('created_at', { ascending: false })
     .range(0, 8);
 

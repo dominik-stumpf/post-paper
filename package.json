@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "apply-ci": "biome check --apply-unsafe app && biome format --write app",
-    "gen-types": "npx supabase gen types typescript --linked > lib/database.types.ts"
+    "gen-types": "npx supabase gen types typescript --linked > database.types.ts"
   },
   "dependencies": {
     "@studio-freight/react-lenis": "^0.0.36",

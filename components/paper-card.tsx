@@ -15,7 +15,8 @@ interface PaperCardProps {
   } | null;
   likes: {
     // created_at: string;
-    id: number;
+    // id: number;
+    count: number;
     // post_id: string;
     // user_id: string;
   }[];
@@ -47,7 +48,7 @@ export function PaperCard({
               })}
             </time>
           </div>
-          <div className="grow-0">{likes.length}</div>
+          <div className="grow-0">{likes[0].count}</div>
         </div>
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold overflow-clip max-h-16">{title}</h2>
