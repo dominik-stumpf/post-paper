@@ -28,6 +28,8 @@ function calculateNextLikeState({
     isLiked ? likes + offsetIfNotLiked : likes + offsetIfLiked;
 }
 
+const throttleTimeoutMs = 350;
+
 export function LikeButton({
   data: { likes, post_id, isLikedInitially },
 }: LikeButtonProps) {
@@ -44,7 +46,7 @@ export function LikeButton({
   // const throttleTimeoutId = useRef<number | null>(null);
   // const supabase = createClientComponentClient<Database>();
 
-  // async function handleLikes() {
+  // async function handleLike() {
   //   const newOptimisticIsLiked = {
   //     isLiked: !optimisticIsLiked.isLiked,
   //     isPending: true,
@@ -108,27 +110,40 @@ export function LikeButton({
   );
 
   const [isLiked, setIsLiked] = useState(isLikedInitially);
+  const [optimisticIsLiked, setOptimisticIsLiked] = useOptimistic({
+    isLiked: isLiked,
+  });
   const user = useClientUser();
   const hasUserInteracted = useRef(false);
   const supabase = createClientComponentClient<Database>();
+  const throttleTimeoutId = useRef<undefined | number>();
 
-  const handleLike = useCallback(() => {
+  const handleLike = () => {
     if (!user) {
       setIsLiked(false);
       console.log('login to like');
       return;
     }
 
-    setIsLiked((prev) => !prev);
-    hasUserInteracted.current = true;
-  }, [user]);
+    const newOptimisticIsLiked = { isLiked: !optimisticIsLiked.isLiked };
+    setOptimisticIsLiked(newOptimisticIsLiked);
+
+    if (throttleTimeoutId.current !== null) {
+      clearTimeout(throttleTimeoutId.current);
+    }
+
+    throttleTimeoutId.current = window.setTimeout(() => {
+      setIsLiked(!optimisticIsLiked.isLiked);
+      hasUserInteracted.current = true;
+    }, throttleTimeoutMs);
+  };
 
   useEffect(() => {
     if (!(hasUserInteracted.current && user)) {
       return;
     }
-    const abortController = new AbortController();
 
+    const abortController = new AbortController();
     (async () => {
       if (isLiked) {
         const response = await supabase
@@ -145,6 +160,7 @@ export function LikeButton({
         console.log('delete', response.status);
       }
     })();
+
     return () => {
       abortController.abort();
     };
@@ -154,9 +170,9 @@ export function LikeButton({
     <button
       type="button"
       onClick={handleLike}
-      className={`${isLiked && 'text-cyan-300'}`}
+      className={`${optimisticIsLiked.isLiked && 'text-cyan-300'}`}
     >
-      Like {calcNextLikeState(isLiked)}
+      Like {calcNextLikeState(optimisticIsLiked.isLiked)}
     </button>
   );
 }
