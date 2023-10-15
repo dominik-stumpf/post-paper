@@ -36,8 +36,5 @@ export function useClientUser() {
     }
   }, [supabase, user]);
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
   return user;
 }
