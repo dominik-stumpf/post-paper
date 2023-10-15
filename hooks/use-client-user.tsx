@@ -12,21 +12,28 @@ export function useClientUser() {
     if (user !== null) {
       return;
     }
-    (async () => {
-      const {
-        data: { user: newUser },
-        error,
-      } = await supabase.auth.getUser();
 
-      if (error) {
-        return;
-      }
-      if (!newUser) {
-        return;
-      }
+    try {
+      (async () => {
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
 
-      setUser(newUser);
-    })();
+        const newUser = session?.user;
+
+        if (error) {
+          return;
+        }
+        if (!newUser) {
+          return;
+        }
+
+        setUser(newUser);
+      })();
+    } catch (e) {
+      console.error(e);
+    }
   }, [supabase, user]);
 
   // useEffect(() => {
