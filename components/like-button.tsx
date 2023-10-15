@@ -30,8 +30,6 @@ function calculateNextLikeState({
 export function LikeButton({
   data: { likes, post_id, isLikedInitially },
 }: LikeButtonProps) {
-  // const offsetIfLiked = useRef(isLikedInitially ? -1 : 0);
-  // const offsetIfNotLiked = useRef(isLikedInitially ? 0 : 1);
   const calcNextLikeState = useCallback(
     calculateNextLikeState({ isLikedInitially, likes }),
     [],
@@ -59,21 +57,6 @@ export function LikeButton({
         isLiked: !prev.isLiked,
       }));
     }, 500);
-
-    // const newOptimisticLikeCount = {
-    //   likes:
-    //     likes +
-    //     (optimisticLikeState.isLiked
-    //       ? offsetIfLiked.current
-    //       : offsetIfNotLiked.current),
-    //   isLiked: !optimisticLikeState.isLiked,
-    // };
-    // setOptimisticLikeState(newOptimisticLikeCount);
-    // const newOptimisticLikeCount = likeCount === likes ? likeCount - 1 : ;
-    // setLikeCount((prev) => (prev === likes ? likes - 1 : likes));
-    // setIsLiked((prev) => !prev);
-    // const hasUserLiked = likes.some((like) => like.user_id === user.id);
-    // console.log(hasUserLiked);
     // if (hasUserLiked) {
     //   // setLikeCount((prev) => prev + 1);
     //   await supabase
