@@ -1,11 +1,11 @@
 import { PaperCard } from '@/components/paper-card';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-
-export const dynamic = 'force-dynamic';
+import { createClient } from '@supabase/supabase-js';
 
 export default async function Index() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
   const { data: posts } = await supabase
     .from('posts')
     .select('*, profiles(name, avatar_url), likes(id)')
