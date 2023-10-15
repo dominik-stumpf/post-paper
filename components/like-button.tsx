@@ -20,15 +20,18 @@ export function LikeButton({
 }: LikeButtonProps) {
   const [likeState, setLikeState] = useState({
     isLiked: hasUserLiked,
-    likes: likes + (hasUserLiked ? 1 : 0),
+    likes: likes,
   });
   const [optimisticLikeCount, setOptimisticLikeCount] =
     useOptimistic(likeState);
   const supabase = createClientComponentClient<Database>();
+  const offsetIfLiked = hasUserLiked ? -1 : 0;
+  const offsetIfNotLiked = hasUserLiked ? 0 : 1;
 
   async function handleLikes() {
     setLikeState((prev) => ({
-      likes: likes + (prev.isLiked ? 0 : 1),
+      likes:
+        likes + (prev.isLiked ? (hasUserLiked ? -1 : 0) : hasUserLiked ? 0 : 1),
       isLiked: !prev.isLiked,
     }));
     // const newOptimisticLikeCount = likeCount === likes ? likeCount - 1 : ;

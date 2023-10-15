@@ -27,7 +27,7 @@ export default async function Page({
     (like) => like.user_id === session?.user.id,
   );
 
-  const likesCount = post.likes.length - (hasUserLiked ? 1 : 0);
+  const likesCount = post.likes.length;
 
   return (
     <article className="flex flex-col items-start gap-4">
