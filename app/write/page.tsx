@@ -24,15 +24,17 @@ export default async function Page() {
 
     const supabase = createServerActionClient<Database>({ cookies });
     const {
-      data: { user },
+      data: { session },
       error: authError,
-    } = await supabase.auth.getUser();
+    } = await supabase.auth.getSession();
     const { title, content } = Object.fromEntries(formData.entries());
 
-    if (authError || user === null) {
+    if (authError || session?.user === undefined) {
       // console.error(authError);
       redirect('/');
     }
+
+    const { user } = session;
 
     if (typeof content === 'string' && typeof title === 'string') {
       await supabase.from('posts').insert({ content, title, user_id: user.id });
