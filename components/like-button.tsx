@@ -49,7 +49,6 @@ export function LikeButton({
 
   const handleLike = () => {
     if (!user) {
-      setIsLiked(false);
       console.log('login to like');
       return;
     }
@@ -57,8 +56,10 @@ export function LikeButton({
     const newOptimisticIsLiked = { isLiked: !optimisticIsLiked.isLiked };
     setOptimisticIsLiked(newOptimisticIsLiked);
 
-    if (throttleTimeoutId.current !== null) {
+    if (throttleTimeoutId.current !== undefined) {
       clearTimeout(throttleTimeoutId.current);
+      throttleTimeoutId.current = undefined;
+      console.log(throttleTimeoutId.current);
     }
 
     throttleTimeoutId.current = window.setTimeout(() => {
@@ -75,18 +76,16 @@ export function LikeButton({
     const abortController = new AbortController();
     (async () => {
       if (isLiked) {
-        const response = await supabase
+        await supabase
           .from('likes')
           .insert({ user_id: user.id, post_id: post_id })
           .abortSignal(abortController.signal);
-        console.log('insert', response.status);
       } else {
-        const response = await supabase
+        await supabase
           .from('likes')
           .delete()
           .match({ user_id: user.id, post_id: post_id })
           .abortSignal(abortController.signal);
-        console.log('delete', response.status);
       }
     })();
 
