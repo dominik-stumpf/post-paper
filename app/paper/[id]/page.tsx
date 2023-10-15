@@ -1,3 +1,4 @@
+import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -41,6 +42,7 @@ export default async function Page({
           post_id: post.id,
         }}
       />
+      <CopyToClipboard copyHref>share link</CopyToClipboard>
     </article>
   );
 }
