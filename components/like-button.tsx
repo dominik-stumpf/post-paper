@@ -59,7 +59,6 @@ export function LikeButton({
     if (throttleTimeoutId.current !== undefined) {
       clearTimeout(throttleTimeoutId.current);
       throttleTimeoutId.current = undefined;
-      console.log(throttleTimeoutId.current);
     }
 
     throttleTimeoutId.current = window.setTimeout(() => {
