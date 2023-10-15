@@ -9,16 +9,17 @@ export default async function Page({
 }: { params: { id: number } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
 
-  const { data: posts } = await supabase
+  const { data: post } = await supabase
     .from('posts')
     .select('*, likes(post_id, user_id)')
-    .eq('id', id);
+    .eq('id', id)
+    .limit(1)
+    .single();
 
-  if (posts === null) {
+  if (post === null) {
     return <div>post not found</div>;
   }
 
-  const post = posts[0];
   const {
     data: { session },
   } = await supabase.auth.getSession();
