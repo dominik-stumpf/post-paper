@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import LogoutButton from './logout-button';
+import { LogoutButton } from './logout-button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 

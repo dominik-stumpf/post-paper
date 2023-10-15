@@ -1,12 +1,13 @@
 import { LenisWrapper } from '@/components/lenis-wrapper';
-import { Navbar } from '@/components/navbar';
 import '@/types/validate-env-vars';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Navbar } from '@/components/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'POSTPAPER',
   description: 'Public posting webpage.',

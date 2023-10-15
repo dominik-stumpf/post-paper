@@ -1,4 +1,4 @@
-export default function LogoutButton() {
+export function LogoutButton() {
   return (
     <form action="/auth/sign-out" method="post">
       <button
