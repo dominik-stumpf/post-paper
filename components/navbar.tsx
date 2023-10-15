@@ -13,7 +13,10 @@ export async function Navbar() {
   }).auth.getSession();
 
   return (
-    <nav className="flex justify-center w-full h-16 sticky top-0 bg-black/50 backdrop-blur-lg backdrop-saturate-200">
+    <nav
+      className="flex justify-center w-full h-16 sticky top-0 bg-black/50 backdrop-blur-lg backdrop-saturate-200"
+      style={{ boxShadow: 'inset rgba(255 255 255 / 0.15) 0 -1px' }}
+    >
       <div className="flex items-center justify-between w-full max-w-4xl p-3 text-sm text-foreground">
         <Link href="/">POSTPAPER</Link>
         {session?.user ? (
