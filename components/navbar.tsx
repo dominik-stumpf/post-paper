@@ -13,8 +13,9 @@ export async function Navbar() {
   }).auth.getSession();
 
   return (
-    <nav className="flex justify-center w-full h-16 border-b border-b-foreground/10">
+    <nav className="flex justify-center w-full h-16 sticky top-0 bg-black/50 backdrop-blur-lg backdrop-saturate-200">
       <div className="flex items-center justify-between w-full max-w-4xl p-3 text-sm text-foreground">
+        <Link href="/">POSTPAPER</Link>
         {session?.user ? (
           <>
             <Link href="/write">write</Link>
