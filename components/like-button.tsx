@@ -23,7 +23,7 @@ function calculateNextLikeState({
 }: { isLikedInitially: boolean; likes: number }) {
   const offsetIfLiked = isLikedInitially ? -1 : 0;
   const offsetIfNotLiked = isLikedInitially ? 0 : 1;
-  return ({ isLiked }: { isLiked: boolean }) =>
+  return (isLiked: boolean) =>
     isLiked ? likes + offsetIfNotLiked : likes + offsetIfLiked;
 }
 
@@ -81,7 +81,7 @@ export function LikeButton({
         optimisticIsLiked.isPending && 'opacity-50'
       }`}
     >
-      Like {calcNextLikeState({ isLiked: optimisticIsLiked.isLiked })}
+      Like {calcNextLikeState(optimisticIsLiked.isLiked)}
     </button>
   );
 }
