@@ -39,6 +39,7 @@ export function LikeButton({
     isLiked: isLiked,
     isPending: false,
   });
+  const hasUserInteracted = useRef(false);
   const supabase = createClientComponentClient<Database>();
   const abort = useRef<number | null>(null);
 
@@ -47,6 +48,7 @@ export function LikeButton({
       isLiked: !optimisticIsLiked.isLiked,
       isPending: true,
     };
+
     setOptimisticIsLiked(newOptimisticIsLiked);
 
     if (abort.current !== null) {
@@ -55,7 +57,8 @@ export function LikeButton({
 
     abort.current = window.setTimeout(() => {
       setIsLiked(!optimisticIsLiked.isLiked);
-    }, 500);
+      hasUserInteracted.current = true;
+    }, 350);
     // if (hasUserLiked) {
     //   // setLikeCount((prev) => prev + 1);
     //   await supabase
@@ -70,7 +73,9 @@ export function LikeButton({
   }
 
   useEffect(() => {
-    console.log(isLiked ? 'inserting new row' : 'deleting current row');
+    if (hasUserInteracted.current) {
+      console.log(isLiked ? 'inserting new row' : 'deleting current row');
+    }
   }, [isLiked]);
 
   return (
