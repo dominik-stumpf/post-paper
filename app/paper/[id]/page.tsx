@@ -34,7 +34,11 @@ export default async function Page({
       <h1>{post.title}</h1>
       <p>{post.content}</p>
       <LikeButton
-        data={{ likes: likesCount, hasUserLiked, post_id: post.id }}
+        data={{
+          likes: likesCount,
+          isLikedInitially: hasUserLiked,
+          post_id: post.id,
+        }}
       />
     </article>
   );
