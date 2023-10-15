@@ -38,7 +38,7 @@ export function PaperCard({
       <section className="flex flex-col w-full gap-4 p-4 border">
         <div className="flex">
           <div className="flex items-center gap-2 grow">
-            <Avatar imageSrc={profiles.avatar_url} userName={profiles.name} />
+            <Avatar imageSrc={profiles.avatar_url} />
             <div>{profiles.name}</div>
             <time dateTime={created_at}>
               {new Date(created_at).toLocaleString('en-US', {

@@ -1,14 +1,15 @@
 interface AvatarProps {
   imageSrc?: string;
-  userName?: string;
 }
 
-export function Avatar({ imageSrc, userName }: AvatarProps) {
+export function Avatar({ imageSrc }: AvatarProps) {
   return (
     <img
       src={
         imageSrc ??
-        `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${userName}`
+        `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${Math.round(
+          Math.random() * 10000,
+        )}`
       }
       alt="avatar"
       className="w-6 rounded-full aspect-square"
