@@ -40,8 +40,8 @@ export function LikeButton({
     isPending: false,
   });
   const hasUserInteracted = useRef(false);
+  const throttleTimeoutId = useRef<number | null>(null);
   const supabase = createClientComponentClient<Database>();
-  const abort = useRef<number | null>(null);
 
   async function handleLikes() {
     const newOptimisticIsLiked = {
@@ -51,32 +51,50 @@ export function LikeButton({
 
     setOptimisticIsLiked(newOptimisticIsLiked);
 
-    if (abort.current !== null) {
-      clearTimeout(abort.current);
+    if (throttleTimeoutId.current !== null) {
+      clearTimeout(throttleTimeoutId.current);
     }
 
-    abort.current = window.setTimeout(() => {
+    throttleTimeoutId.current = window.setTimeout(() => {
       setIsLiked(!optimisticIsLiked.isLiked);
       hasUserInteracted.current = true;
     }, 350);
-    // if (hasUserLiked) {
-    //   // setLikeCount((prev) => prev + 1);
-    //   await supabase
-    //     .from('likes')
-    //     .delete()
-    //     .match({ user_id: user.id, post_id: post_id });
-    // } else {
-    //   await supabase
-    //     .from('likes')
-    //     .insert({ user_id: user.id, post_id: post_id });
-    // }
   }
 
   useEffect(() => {
-    if (hasUserInteracted.current) {
-      console.log(isLiked ? 'inserting new row' : 'deleting current row');
+    if (!hasUserInteracted.current) {
+      return;
     }
-  }, [isLiked]);
+    (async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        setIsLiked(false);
+        return;
+      }
+
+      if (!user) {
+        setIsLiked(false);
+        return;
+      }
+
+      if (isLiked) {
+        console.log('inserting new row');
+        await supabase
+          .from('likes')
+          .insert({ user_id: user.id, post_id: post_id });
+      } else {
+        console.log('deleting current row');
+        await supabase
+          .from('likes')
+          .delete()
+          .match({ user_id: user.id, post_id: post_id });
+      }
+    })();
+  }, [isLiked, post_id, supabase]);
 
   return (
     <button
