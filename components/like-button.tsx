@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
   experimental_useOptimistic as useOptimistic,
+  useRef,
 } from 'react';
 
 interface LikeButtonProps {
@@ -18,6 +19,8 @@ interface LikeButtonProps {
 export function LikeButton({
   data: { likes, post_id, hasUserLiked },
 }: LikeButtonProps) {
+  const offsetIfLiked = useRef(hasUserLiked ? -1 : 0);
+  const offsetIfNotLiked = useRef(hasUserLiked ? 0 : 1);
   const [likeState, setLikeState] = useState({
     isLiked: hasUserLiked,
     likes: likes,
@@ -25,13 +28,12 @@ export function LikeButton({
   const [optimisticLikeCount, setOptimisticLikeCount] =
     useOptimistic(likeState);
   const supabase = createClientComponentClient<Database>();
-  const offsetIfLiked = hasUserLiked ? -1 : 0;
-  const offsetIfNotLiked = hasUserLiked ? 0 : 1;
 
   async function handleLikes() {
     setLikeState((prev) => ({
       likes:
-        likes + (prev.isLiked ? (hasUserLiked ? -1 : 0) : hasUserLiked ? 0 : 1),
+        likes +
+        (prev.isLiked ? offsetIfLiked.current : offsetIfNotLiked.current),
       isLiked: !prev.isLiked,
     }));
     // const newOptimisticLikeCount = likeCount === likes ? likeCount - 1 : ;
