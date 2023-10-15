@@ -34,9 +34,9 @@ export function LikeButton({
     calculateNextLikeState({ isLikedInitially, likes }),
     [],
   );
-  const [isLiked, setIsLiked] = useState({ isLiked: isLikedInitially });
+  const [isLiked, setIsLiked] = useState(isLikedInitially);
   const [optimisticIsLiked, setOptimisticIsLiked] = useOptimistic({
-    isLiked: isLiked.isLiked,
+    isLiked: isLiked,
     isPending: false,
   });
   const supabase = createClientComponentClient<Database>();
@@ -52,10 +52,9 @@ export function LikeButton({
     if (abort.current !== null) {
       clearTimeout(abort.current);
     }
+
     abort.current = window.setTimeout(() => {
-      setIsLiked((prev) => ({
-        isLiked: !prev.isLiked,
-      }));
+      setIsLiked(!optimisticIsLiked.isLiked);
     }, 500);
     // if (hasUserLiked) {
     //   // setLikeCount((prev) => prev + 1);
@@ -69,6 +68,10 @@ export function LikeButton({
     //     .insert({ user_id: user.id, post_id: post_id });
     // }
   }
+
+  useEffect(() => {
+    console.log(isLiked ? 'inserting new row' : 'deleting current row');
+  }, [isLiked]);
 
   return (
     <button
