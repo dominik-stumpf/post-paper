@@ -1,7 +1,11 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+  experimental_useOptimistic as useOptimistic,
+} from 'react';
 
 interface LikeButtonProps {
   data: {
@@ -14,22 +18,23 @@ interface LikeButtonProps {
 export function LikeButton({
   data: { likes, post_id, hasUserLiked },
 }: LikeButtonProps) {
-  const [likeCount, setLikeCount] = useState(likes);
-  const [isLiked, setIsLiked] = useState(hasUserLiked);
+  const [likeState, setLikeState] = useState({
+    isLiked: hasUserLiked,
+    likes: likes + (hasUserLiked ? 1 : 0),
+  });
+  const [optimisticLikeCount, setOptimisticLikeCount] =
+    useOptimistic(likeState);
   const supabase = createClientComponentClient<Database>();
-  useEffect(() => {
-    // const {
-    //   data: { user },
-    // } = await supabase.auth.getUser();
-    // if (user === null) return;
-  }, []);
-
-  useEffect(() => {
-    setLikeCount(likes + (isLiked ? 1 : 0));
-  }, [isLiked, likes]);
 
   async function handleLikes() {
-    setIsLiked((prev) => !prev);
+    setLikeState((prev) => ({
+      likes: likes + (prev.isLiked ? 0 : 1),
+      isLiked: !prev.isLiked,
+    }));
+    // const newOptimisticLikeCount = likeCount === likes ? likeCount - 1 : ;
+    // setOptimisticLikeCount(newOptimisticLikeCount);
+    // setLikeCount((prev) => (prev === likes ? likes - 1 : likes));
+    // setIsLiked((prev) => !prev);
     // const hasUserLiked = likes.some((like) => like.user_id === user.id);
     // console.log(hasUserLiked);
     // if (hasUserLiked) {
@@ -49,9 +54,9 @@ export function LikeButton({
     <button
       type="button"
       onClick={handleLikes}
-      className={`${isLiked && 'text-cyan-300'}`}
+      className={`${likeState.isLiked && 'text-cyan-300'}`}
     >
-      {likeCount} Likes
+      Like {likeState.likes}
     </button>
   );
 }
