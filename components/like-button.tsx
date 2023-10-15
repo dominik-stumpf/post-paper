@@ -81,17 +81,22 @@ export function LikeButton({
         return;
       }
 
+      const insertController = new AbortController();
+      const deleteController = new AbortController();
+
       if (isLiked) {
-        console.log('inserting new row');
-        await supabase
+        const response = await supabase
           .from('likes')
-          .insert({ user_id: user.id, post_id: post_id });
+          .insert({ user_id: user.id, post_id: post_id })
+          .abortSignal(insertController.signal);
+        console.log('inserted new row, status:', response.status);
       } else {
-        console.log('deleting current row');
-        await supabase
+        const response = await supabase
           .from('likes')
           .delete()
-          .match({ user_id: user.id, post_id: post_id });
+          .match({ user_id: user.id, post_id: post_id })
+          .abortSignal(deleteController.signal);
+        console.log('deleted current row, status:', response.status);
       }
     })();
   }, [isLiked, post_id, supabase]);
