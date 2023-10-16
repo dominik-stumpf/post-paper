@@ -4,8 +4,8 @@ import {
 } from '@supabase/auth-helpers-nextjs';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { ContentInput } from './content-input';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,7 +30,6 @@ export default async function Page() {
     const { title, content } = Object.fromEntries(formData.entries());
 
     if (authError || session?.user === undefined) {
-      // console.error(authError);
       redirect('/');
     }
 
@@ -44,27 +43,26 @@ export default async function Page() {
 
   return (
     <>
-      <Link href="/">home</Link>
-      <form action={submitPost}>
-        <label>
-          title
-          <InputField name="title" />
-        </label>
-        <label>
-          content
-          <InputField name="content" />
-        </label>
+      <form
+        action={submitPost}
+        className="flex gap-4 py-16 flex-col w-1/3 max-w-3xl"
+      >
+        {/* <label htmlFor="title">title</label>
+        <InputField name="title" id="title" /> */}
+        {/* <label id="content">content</label> */}
+        <ContentInput />
         <button type="submit">post</button>
       </form>
     </>
   );
 }
 
-function InputField({ name }: { name: string }) {
-  return (
-    <input
-      name={name}
-      className="p-2 bg-black outline-none ring-1 ring-white"
-    />
-  );
-}
+// function InputField({ name, id }: { name: string; id: string }) {
+//   return (
+//     <input
+//       name={name}
+//       id={id}
+//       className="p-2 bg-black outline-none ring-1 ring-white w-full"
+//     />
+//   );
+// }
