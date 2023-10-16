@@ -155,7 +155,7 @@ export const ALL_PLUGINS = [
   //   ],
   // }),
   // tablePlugin(),
-  thematicBreakPlugin(),
+  // thematicBreakPlugin(),
   // frontmatterPlugin(),
   // codeBlockPlugin({ defaultCodeBlockLanguage: 'txt' }),
   // sandpackPlugin({ sandpackConfig: virtuosoSampleSandpackConfig }),

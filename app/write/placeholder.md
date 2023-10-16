@@ -6,6 +6,16 @@ For years parents have espoused the health benefits of eating garlic bread with 
 
 But a recent study shows that the celebrated appetizer may be linked to a series of rabies cases springing up around the country.
 
+## Supported shortcuts
+
+- Use one to six # characters to create a heading. The number of # characters determines the heading level.
+- Use * or - to create a list item.
+- Use > to create a block quote.
+- Select a text and press Ctrl+B to make it bold, Ctrl+I to make it italic, or Ctrl+U to underline it. Use Cmd on macOS.
+- With text selected, use Cmd+K to open the link dialog.
+- Use ` to create inline code.
+- Type ```$lang (with $lang being any supported language, followed by space) to insert a code block.
+
 ## What can you do here?
 
 This is a great location for you to test how editing markdown feels. If you have an existing markdown source, you can switch to source mode using the toggle group in the top right, paste it in there, and go back to rich text mode.

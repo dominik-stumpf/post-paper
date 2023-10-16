@@ -1,6 +1,6 @@
 // You can use this code in a separate component that's imported in your pages.
 'use client';
-import '@mdxeditor/editor/style.css';
+// import '@mdxeditor/editor/style.css';
 import dynamic from 'next/dynamic';
 
 export const MDXEditor = dynamic(
