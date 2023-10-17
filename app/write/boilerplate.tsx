@@ -22,12 +22,12 @@
 // } from '@mdxeditor/editor';
 
 import {
-  listsPlugin,
-  quotePlugin,
   headingsPlugin,
   linkPlugin,
-  thematicBreakPlugin,
+  listsPlugin,
   markdownShortcutPlugin,
+  quotePlugin,
+  thematicBreakPlugin,
 } from '@mdxeditor/editor';
 
 // const defaultSnippetContent = `

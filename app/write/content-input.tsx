@@ -1,12 +1,12 @@
 'use client';
 
-import styles from './markdown.module.css';
 import { MDXEditor } from '@/components/mdx-editor';
+import { MDXEditorMethods } from '@mdxeditor/editor';
+import { useEffect, useRef } from 'react';
 import { ALL_PLUGINS } from './boilerplate';
 import demo from './demo.md';
+import styles from './markdown.module.css';
 import placeholder from './placeholder.md';
-import { useEffect, useRef } from 'react';
-import { MDXEditorMethods } from '@mdxeditor/editor';
 
 // function PlaceHolder({ className }: { className: string }) {
 //   return (
