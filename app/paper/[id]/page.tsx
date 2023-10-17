@@ -2,6 +2,7 @@ import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import Markdown from 'react-markdown';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,9 +33,10 @@ export default async function Page({
   const likesCount = post.likes.length;
 
   return (
-    <article className="flex flex-col items-start gap-4">
+    <article className="flex flex-col items-start gap-4 prose lg:prose-lg prose-invert py-16">
       <h1>{post.title}</h1>
       <p>{post.content}</p>
+      <Markdown>{post.content}</Markdown>
       <LikeButton
         data={{
           likes: likesCount,
