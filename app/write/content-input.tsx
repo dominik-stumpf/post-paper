@@ -1,6 +1,6 @@
 'use client';
 
-import { MDXEditor } from '@/components/mdx-editor';
+import { MDXEditor } from '@/app/write/mdx-editor';
 import { MDXEditorMethods } from '@mdxeditor/editor';
 import { useEffect, useRef } from 'react';
 import { ALL_PLUGINS } from './boilerplate';
