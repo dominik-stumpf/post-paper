@@ -33,7 +33,7 @@ export default async function Page({
   const likesCount = post.likes.length;
 
   return (
-    <article className="flex flex-col items-start gap-4 prose lg:prose-lg prose-invert py-16">
+    <article className="flex flex-col items-start gap-4 prose lg:prose-lg prose-invert w-full py-16">
       <h1>{post.title}</h1>
       <p>{post.content}</p>
       <Markdown>{post.content}</Markdown>
