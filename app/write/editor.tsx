@@ -61,12 +61,13 @@ export function Editor() {
     theme,
     onError,
   };
-  const [editorState, setEditorState] = useState<EditorState | undefined>();
+  const [editorState, setEditorState] = useState<string | undefined>();
   console.log(editorState);
 
   function onChange(editorState: EditorState) {
     if (editorState === undefined) return;
-    setEditorState(editorState);
+    const editorStateJSON = editorState.toJSON();
+    setEditorState(JSON.stringify(editorStateJSON));
   }
 
   return (
