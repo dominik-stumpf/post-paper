@@ -5,7 +5,7 @@ import {
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { ContentInput } from './content-input';
+import { ContentInput } from './mdr/content-input';
 
 export const dynamic = 'force-dynamic';
 
