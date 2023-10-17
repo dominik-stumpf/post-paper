@@ -2,11 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root, body {
-  height: 100%;
-}
-
 body {
+  min-height: 100vh;
   display: flex;
   flex-flow: column nowrap;
   background-color: black;
