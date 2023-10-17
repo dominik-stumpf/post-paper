@@ -31,9 +31,7 @@ export default function RootLayout({
       <body className={`${inter.className} ${inter.variable}`}>
         <Navbar />
         <LenisWrapper>
-          <main className="min-h-screen bg-background flex flex-col items-center text-foreground">
-            {children}
-          </main>
+          <main className="h-full flex flex-col items-center">{children}</main>
         </LenisWrapper>
       </body>
     </html>

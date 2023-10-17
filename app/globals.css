@@ -2,13 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: black;
-  color: white;
+:root, body {
+  height: 100%;
 }
 
-html.lenis {
-  height: auto;
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: black;
+  color: white;
 }
 
 .lenis.lenis-smooth {
