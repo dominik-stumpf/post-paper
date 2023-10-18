@@ -9,7 +9,7 @@ interface PostFragment {
   content: string;
 }
 
-function getPostFragment(editorState: EditorState) {
+function getPaperFragment(editorState: EditorState) {
   const result: PostFragment = { title: '', content: '' };
   editorState.read(() => {
     const nodes = editorState._nodeMap;
@@ -31,7 +31,7 @@ function getPostFragment(editorState: EditorState) {
   return result;
 }
 
-function validatePostFragment({ title, content }: PostFragment) {
+function validatePaperFragment({ title, content }: PostFragment) {
   const isTitleValid = title.length < 256 && title.length > 16;
   const isContentValid = content.length > 128 && content.length < 16384;
 
@@ -71,8 +71,8 @@ export default function Page() {
           type="button"
           onClick={() => {
             if (editorStateRef.current) {
-              const isPostFragmentValid = validatePostFragment(
-                getPostFragment(editorStateRef.current),
+              const isPostFragmentValid = validatePaperFragment(
+                getPaperFragment(editorStateRef.current),
               );
               if (!isPostFragmentValid) {
                 return;
