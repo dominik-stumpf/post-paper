@@ -35,9 +35,10 @@ export default async function Page({
 
   return (
     <Prose>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-      <Markdown>{post.content}</Markdown>
+      <div>
+        <h1>{post.title}</h1>
+        <Markdown>{post.content}</Markdown>
+      </div>
       <LikeButton
         data={{
           likes: likesCount,

@@ -2,13 +2,20 @@ import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 // import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+import { editorNodes } from './editor-nodes';
+import { Prose } from '@/components/prose';
 
 const theme = {
   // Theme styling goes here
@@ -56,14 +63,15 @@ function OnChangePlugin({
   return null;
 }
 
+const initialConfig = {
+  namespace: 'paperEditor',
+  nodes: [...editorNodes],
+  theme,
+  onError,
+};
+
 export function Editor() {
-  const initialConfig = {
-    namespace: 'MyEditor',
-    theme,
-    onError,
-  };
   const [editorState, setEditorState] = useState<string | undefined>();
-  console.log(editorState);
 
   function onChange(editorState: EditorState) {
     if (editorState === undefined) return;
@@ -73,17 +81,22 @@ export function Editor() {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      {/* <PlainTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>Enter some text...</div>}
-        ErrorBoundary={LexicalErrorBoundary}
-      /> */}
       <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        placeholder={<div>Enter some text...</div>}
+        contentEditable={
+          <Prose>
+            <ContentEditable className="min-h-[16rem] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black" />
+          </Prose>
+        }
+        placeholder={null}
         ErrorBoundary={LexicalErrorBoundary}
       />
       <HistoryPlugin />
+      <LinkPlugin />
+      <ListPlugin />
+      <TablePlugin />
+      <MarkdownShortcutPlugin />
+      <HorizontalRulePlugin />
+      <TabIndentationPlugin />
       <MyCustomAutoFocusPlugin />
       <OnChangePlugin onChange={onChange} />
     </LexicalComposer>

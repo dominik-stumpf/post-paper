@@ -4,22 +4,22 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import { Editor } from './editor';
 import { Prose } from '@/components/prose';
+import { ReferenceArticle } from './reference-article';
 
-export default async function Page() {
-  const supabase = createClientComponentClient<Database>();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+export default function Page() {
+  // const supabase = createClientComponentClient<Database>();
+  // const {
+  //   data: { session },
+  // } = await supabase.auth.getSession();
 
-  if (session === null) {
-    redirect('/');
-  }
+  // if (session === null) {
+  //   redirect('/');
+  // }
 
   return (
-    <form>
-      <Prose>
-        <Editor />
-      </Prose>
+    <form className="w-full flex flex-row justify-center items-start gap-16">
+      <Editor />
+      <ReferenceArticle />
     </form>
   );
 }
