@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
 
+export const proseClassName =
+  'max-w-prose prose w-full lg:prose-lg prose-fuchsia prose-invert';
+
 export function Prose({ children }: { children: ReactNode }) {
-  return (
-    <article className="max-w-prose prose w-full lg:prose-lg prose-fuchsia prose-invert prose-code:bg-fuchsia-500/20 prose-code:text-fuchsia-500 py-16">
-      {children}
-    </article>
-  );
+  return <article className={proseClassName}>{children}</article>;
 }

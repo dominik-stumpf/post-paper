@@ -2,50 +2,59 @@
 
 For years parents have espoused the health benefits of eating garlic bread with cheese to their children, with the food earning such an iconic status in our culture that kids will often dress up as warm, cheesy loaf for Halloween.
 
-[— Daring Fireball](https://daringfireball.net/projects/markdown/).
-
 But a recent study shows that the celebrated appetizer may be linked to a series of rabies cases springing up around the country.
 
-## Supported shortcuts
+[Link to GitHub](https://github.com/home)
 
-- Use one to six # characters to create a heading. The number of # characters determines the heading level.
-- Use * or - to create a list item.
-- Use > to create a block quote.
-- Select a text and press Ctrl+B to make it bold, Ctrl+I to make it italic, or Ctrl+U to underline it. Use Cmd on macOS.
-- With text selected, use Cmd+K to open the link dialog.
-- Use ` to create inline code.
-- Type ```$lang (with $lang being any supported language, followed by space) to insert a code block.
+## Bubble sort algorithm
 
-## What can you do here?
+```js
+function sort(result) {
+  for (let i = 0; i < result.length; i += 1) {
+    for (let j = 0; j < result.length - 1 - i; j += 1) {
+      if (result[j] < result[j + 1]) {
+        const incremented = result[j];
+        result[j] = result[j + 1];
+        result[j + 1] = incremented;
+      }
+    }
+  }
+  return result;
+}
 
-This is a great location for you to test how editing markdown feels. If you have an existing markdown source, you can switch to source mode using the toggle group in the top right, paste it in there, and go back to rich text mode.
+function isArrSorted(arr) {
+  for (let i = 0; i < arr.length - 1; i += 1) {
+    console.assert(arr[i] >= arr[i + 1], `${arr[i]} >= ${arr[i + 1]}`);
+  }
+}
 
-If you need a few ideas, here's what you can try:
+function getRandomNumbers(n = 32) {
+  return Array.from(
+    {
+      length: n,
+    },
+    () => Math.floor(Math.random() * 100),
+  );
+}
 
-1. Add your own code sample
-2. Change the type of the headings
-3. Insert a table, add a few rows and columns
-4. Switch back to source markdown to see what you're going to get as an output
-5. Test the diff feature to see how the markdown has changed
-6. Add a frontmatter block through the toolbar button
+function main() {
+  isArrSorted(sort(getRandomNumbers()));
+}
 
-> The overriding design goal for Markdown’s formatting syntax is to make it as readable as possible.
-> The idea is that a Markdown-formatted document should be publishable as-is, as plain text,
-> without looking like it’s been marked up with tags or formatting instructions.
+main();
+```
 
-[— Daring Fireball](https://daringfireball.net/projects/markdown/).
+## Quick guide
 
-In here, you can find the following markdown elements:
+> Note: 
+> After finishing a symbol like ````js` or `#` hit space to finalize it.
+> Use `Shift+Enter` (line break) where you want new line, but don't want to exit the text context (e.g. blockquote)
 
-* Headings
-* Lists
-  * Unordered
-  * Ordered
-  * And nested ;)
-* Links
-* Bold/Italic/Underline formatting
-* Tables
-* Code block editors
-* And much more.
-
-The current editor content is styled using the `@tailwindcss/typography` [plugin](https://tailwindcss.com/docs/typography-plugin).
+- Use `#` to create headings, with each `#` added the header level is lowered.
+- Use `*` or `-` to create a list item, indent with tab.
+- Use `>` to create a block quote.
+- Use `---` to create horizontal rule.
+- Use `~~` to create strike through.
+- After selecting text, use `Ctrl+B` for bold, `Ctrl+I` for italic, `Ctrl+U` for underline.
+- Use ``` to create inline code.
+- Type ````language` to insert a code block.

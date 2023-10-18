@@ -34,11 +34,11 @@ export default async function Page({
   const likesCount = post.likes.length;
 
   return (
-    <Prose>
-      <div>
+    <div className="py-16">
+      <Prose>
         <h1>{post.title}</h1>
         <Markdown>{post.content}</Markdown>
-      </div>
+      </Prose>
       <LikeButton
         data={{
           likes: likesCount,
@@ -47,6 +47,6 @@ export default async function Page({
         }}
       />
       <CopyToClipboard copyHref>share link</CopyToClipboard>
-    </Prose>
+    </div>
   );
 }

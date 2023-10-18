@@ -17,9 +17,9 @@ export default function Page() {
   // }
 
   return (
-    <form className="w-full flex flex-row justify-center items-start gap-16">
+    <form className="w-full flex flex-row justify-center items-start gap-16 py-16">
       <Editor />
-      <ReferenceArticle />
+      {/* <ReferenceArticle /> */}
     </form>
   );
 }

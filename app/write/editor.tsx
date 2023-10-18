@@ -1,8 +1,10 @@
 import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { Prose } from '@/components/prose';
+import { proseClassName } from '@/components/prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { editorNodes } from './editor-nodes';
+
 // import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
@@ -15,47 +17,36 @@ import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPl
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-import { editorNodes } from './editor-nodes';
+import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+import ListMaxIndentLevelPlugin from '@/app/write/plugins/ListMaxIndentLevelPlugin';
+import { editorTheme } from './editor-theme';
 
-const theme = {
-  // Theme styling goes here
-};
+import markdown from './placeholder.md';
 
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-function MyCustomAutoFocusPlugin() {
+import { $convertFromMarkdownString, TRANSFORMERS } from '@lexical/markdown';
+
+function AutoFocusPlugin() {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    // Focus the editor when the effect fires!
     editor.focus();
   }, [editor]);
 
   return null;
 }
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
 function onError(error: Error) {
   console.error(error);
 }
 
-// When the editor changes, you can get notified via the
-// OnChangePlugin!
 function OnChangePlugin({
   onChange,
   // biome-ignore lint/nursery/noConfusingVoidType: <explanation>
 }: { onChange: (editorState: EditorState) => void }) {
-  // Access the editor through the LexicalComposerContext
   const [editor] = useLexicalComposerContext();
-  // Wrap our listener in useEffect to handle the teardown and avoid stale references.
+
   useEffect(() => {
-    // most listeners return a teardown function that can be called to clean them up.
     return editor.registerUpdateListener(({ editorState }) => {
-      // call onChange here to pass the latest state up to the parent.
       onChange(editorState);
     });
   }, [editor, onChange]);
@@ -63,11 +54,8 @@ function OnChangePlugin({
   return null;
 }
 
-const initialConfig = {
-  namespace: 'paperEditor',
-  nodes: [...editorNodes],
-  theme,
-  onError,
+const loadContent = () => {
+  return () => $convertFromMarkdownString(markdown, TRANSFORMERS);
 };
 
 export function Editor() {
@@ -79,13 +67,23 @@ export function Editor() {
     setEditorState(JSON.stringify(editorStateJSON));
   }
 
+  const initialEditorState = loadContent();
+
+  const initialConfig = {
+    namespace: 'paperEditor',
+    nodes: [...editorNodes],
+    theme: editorTheme,
+    editorState: initialEditorState,
+    onError,
+  };
+
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <RichTextPlugin
         contentEditable={
-          <Prose>
-            <ContentEditable className="min-h-[16rem] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black" />
-          </Prose>
+          <ContentEditable
+            className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black`}
+          />
         }
         placeholder={null}
         ErrorBoundary={LexicalErrorBoundary}
@@ -94,11 +92,13 @@ export function Editor() {
       <LinkPlugin />
       <ListPlugin />
       <TablePlugin />
-      <MarkdownShortcutPlugin />
+      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
       <HorizontalRulePlugin />
       <TabIndentationPlugin />
-      <MyCustomAutoFocusPlugin />
+      <ListMaxIndentLevelPlugin maxDepth={2} />
+      <AutoFocusPlugin />
       <OnChangePlugin onChange={onChange} />
+      <LexicalClickableLinkPlugin />
     </LexicalComposer>
   );
 }
