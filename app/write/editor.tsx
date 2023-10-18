@@ -1,10 +1,12 @@
 import { EditorState } from 'lexical';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 
 import { proseClassName } from '@/components/prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { editorNodes } from './editor-nodes';
 
+import ListMaxIndentLevelPlugin from '@/app/write/plugins/ListMaxIndentLevelPlugin';
+import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
 // import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
@@ -14,12 +16,10 @@ import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
-import ListMaxIndentLevelPlugin from '@/app/write/plugins/ListMaxIndentLevelPlugin';
 import { editorTheme } from './editor-theme';
 
 import markdown from './placeholder.md';
@@ -103,7 +103,6 @@ export function Editor({
         <TabIndentationPlugin />
         <ListMaxIndentLevelPlugin maxDepth={2} />
         <AutoFocusPlugin />
-        {/* <OnChangePlugin onChange={onChange} /> */}
         <LexicalClickableLinkPlugin />
         <OnChangePlugin
           onChange={(editorState) => {

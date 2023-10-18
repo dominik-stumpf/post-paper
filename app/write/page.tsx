@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { Editor } from './editor';
 import { EditorState } from 'lexical';
+import { useRef } from 'react';
+import { Editor } from './editor';
 
 interface PostFragment {
   title: string;
@@ -14,18 +14,18 @@ function getPaperFragment(editorState: EditorState) {
   editorState.read(() => {
     const nodes = editorState._nodeMap;
 
-    for (const [_, node] of nodes.entries()) {
-      if (node.__tag === 'h1') {
+    for (const node of nodes.values()) {
+      if (result.title.length === 0 && node.__tag === 'h1') {
         result.title = node.getTextContent();
+        continue;
       }
-      if (node.getType() === 'paragraph') {
+      if (result.content.length === 0 && node.getType() === 'paragraph') {
         result.content = node.getTextContent();
+        continue;
       }
 
-      if (result.title && result.content) {
-        console.log(result);
-        return result;
-      }
+      console.log(result);
+      return result;
     }
   });
   return result;
