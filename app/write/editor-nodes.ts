@@ -2,12 +2,12 @@ import { CodeHighlightNode, CodeNode } from '@lexical/code';
 import { HashtagNode } from '@lexical/hashtag';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { ListItemNode, ListNode } from '@lexical/list';
-import { HeadingNode, QuoteNode } from '@lexical/rich-text';
-import { Klass, LexicalNode } from 'lexical';
-import { TableCellNode, TableRowNode, TableNode } from '@lexical/table';
 // import { LinkNode } from '@lexical/link';
 // import { ListNode, ListItemNode } from '@lexical/list';
 import { HorizontalRuleNode } from '@lexical/react/LexicalHorizontalRuleNode';
+import { HeadingNode, QuoteNode } from '@lexical/rich-text';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
+import { Klass, LexicalNode } from 'lexical';
 
 // import { AutocompleteNode } from './AutocompleteNode';
 // import { EmojiNode } from './EmojiNode';

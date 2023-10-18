@@ -1,9 +1,9 @@
 'use client';
 
+import { Prose } from '@/components/prose';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import { Editor } from './editor';
-import { Prose } from '@/components/prose';
 import { ReferenceArticle } from './reference-article';
 
 export default function Page() {

@@ -1,21 +1,21 @@
 import { $getRoot, $getSelection, EditorState } from 'lexical';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import { Prose } from '@/components/prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 // import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { HorizontalRulePlugin } from '@lexical/react/LexicalHorizontalRulePlugin';
-import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 import { editorNodes } from './editor-nodes';
-import { Prose } from '@/components/prose';
 
 const theme = {
   // Theme styling goes here
@@ -71,7 +71,7 @@ const initialConfig = {
 };
 
 export function Editor() {
-  const [editorState, setEditorState] = useState<string | undefined>();
+  const [_editorState, setEditorState] = useState<string | undefined>();
 
   function onChange(editorState: EditorState) {
     if (editorState === undefined) return;
