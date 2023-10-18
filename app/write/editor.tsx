@@ -1,5 +1,5 @@
 import { EditorState } from 'lexical';
-import { useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 import { proseClassName } from '@/components/prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -17,6 +17,7 @@ import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPl
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
 import ListMaxIndentLevelPlugin from '@/app/write/plugins/ListMaxIndentLevelPlugin';
 import { editorTheme } from './editor-theme';
@@ -39,33 +40,35 @@ function onError(error: Error) {
   console.error(error);
 }
 
-function OnChangePlugin({
-  onChange,
-  // biome-ignore lint/nursery/noConfusingVoidType: <explanation>
-}: { onChange: (editorState: EditorState) => void }) {
-  const [editor] = useLexicalComposerContext();
+// function OnChangePlugin({
+//   onChange,
+//   // biome-ignore lint/nursery/noConfusingVoidType: <explanation>
+// }: { onChange: (editorState: EditorState) => void }) {
+//   const [editor] = useLexicalComposerContext();
 
-  useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
-      onChange(editorState);
-    });
-  }, [editor, onChange]);
+//   useEffect(() => {
+//     return editor.registerUpdateListener(({ editorState }) => {
+//       onChange(editorState);
+//     });
+//   }, [editor, onChange]);
 
-  return null;
-}
+//   return null;
+// }
 
 const loadContent = () => {
   return () => $convertFromMarkdownString(markdown, TRANSFORMERS);
 };
 
-export function Editor() {
-  const [_editorState, setEditorState] = useState<string | undefined>();
+export function Editor({
+  editorStateRef,
+}: { editorStateRef: MutableRefObject<EditorState | undefined> }) {
+  // const [_editorState, setEditorState] = useState<string | undefined>();
 
-  function onChange(editorState: EditorState) {
-    if (editorState === undefined) return;
-    const editorStateJSON = editorState.toJSON();
-    setEditorState(JSON.stringify(editorStateJSON));
-  }
+  // function onChange(editorState: EditorState) {
+  //   if (editorState === undefined) return;
+  //   const editorStateJSON = editorState.toJSON();
+  //   setEditorState(JSON.stringify(editorStateJSON));
+  // }
 
   const initialEditorState = loadContent();
 
@@ -77,28 +80,37 @@ export function Editor() {
     onError,
   };
 
+  // const editorStateRef = useRef<EditorState | undefined>();
+
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <RichTextPlugin
-        contentEditable={
-          <ContentEditable
-            className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black`}
-          />
-        }
-        placeholder={null}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <HistoryPlugin />
-      <LinkPlugin />
-      <ListPlugin />
-      <TablePlugin />
-      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-      <HorizontalRulePlugin />
-      <TabIndentationPlugin />
-      <ListMaxIndentLevelPlugin maxDepth={2} />
-      <AutoFocusPlugin />
-      <OnChangePlugin onChange={onChange} />
-      <LexicalClickableLinkPlugin />
-    </LexicalComposer>
+    <>
+      <LexicalComposer initialConfig={initialConfig}>
+        <RichTextPlugin
+          contentEditable={
+            <ContentEditable
+              className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black`}
+            />
+          }
+          placeholder={null}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+        <LinkPlugin />
+        <ListPlugin />
+        <TablePlugin />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+        <HorizontalRulePlugin />
+        <TabIndentationPlugin />
+        <ListMaxIndentLevelPlugin maxDepth={2} />
+        <AutoFocusPlugin />
+        {/* <OnChangePlugin onChange={onChange} /> */}
+        <LexicalClickableLinkPlugin />
+        <OnChangePlugin
+          onChange={(editorState) => {
+            editorStateRef.current = editorState;
+          }}
+        />
+      </LexicalComposer>
+    </>
   );
 }
