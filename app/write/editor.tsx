@@ -1,5 +1,5 @@
-import { $getRoot, $getSelection, EditorState } from 'lexical';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { EditorState } from 'lexical';
+import { useEffect, useState } from 'react';
 
 import { proseClassName } from '@/components/prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
