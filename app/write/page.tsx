@@ -3,17 +3,11 @@
 import { EditorState, LexicalNode } from 'lexical';
 import { useRef, FormEvent } from 'react';
 import { Editor } from './editor';
-// import { submitPost } from './submit-post-action';
 import { PaperParser } from './paper-parser';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
-
-  // if (session === null) {
-  //   redirect('/');
-  // }
-
   const editorStateRef = useRef<EditorState | undefined>();
 
   async function handleSubmit(event: FormEvent) {
