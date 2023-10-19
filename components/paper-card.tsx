@@ -52,8 +52,10 @@ export function PaperCard({
           </div>
           <div className="grow-0">{likes.length}</div>
         </div>
-        <div className="">
-          <Markdown>{paper_data.slice(0, 256)}</Markdown>
+        <div className="prose prose-invert">
+          <Markdown allowedElements={['h1', 'p']}>
+            {paper_data.slice(0, 256)}
+          </Markdown>
         </div>
         {/* <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold overflow-clip max-h-16">{title}</h2>
