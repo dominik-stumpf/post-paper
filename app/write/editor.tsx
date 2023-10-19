@@ -98,7 +98,7 @@ export function Editor({
         <LinkPlugin />
         <ListPlugin />
         <TablePlugin />
-        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+        <MarkdownShortcutPlugin />
         <HorizontalRulePlugin />
         <TabIndentationPlugin />
         <ListMaxIndentLevelPlugin maxDepth={2} />
