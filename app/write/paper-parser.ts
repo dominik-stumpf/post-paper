@@ -73,7 +73,10 @@ export class PaperParser {
     // console.log(JSON.stringify(truncatedPaper));
     // console.log(JSON.stringify(fullPaper));
 
-    return { fullPaper, truncatedPaper };
+    return {
+      fullPaper: JSON.stringify(fullPaper),
+      truncatedPaper: JSON.stringify(truncatedPaper),
+    };
   }
 
   truncateRecursively(

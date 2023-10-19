@@ -3,14 +3,12 @@
 import { EditorState, LexicalNode } from 'lexical';
 import { useRef, FormEvent } from 'react';
 import { Editor } from './editor';
-import { submitPost } from './submit-post-action';
+// import { submitPost } from './submit-post-action';
 import { PaperParser } from './paper-parser';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function Page() {
-  // const supabase = createClientComponentClient<Database>();
-  // const {
-  //   data: { session },
-  // } = await supabase.auth.getSession();
+  const supabase = createClientComponentClient<Database>();
 
   // if (session === null) {
   //   redirect('/');
@@ -20,19 +18,27 @@ export default function Page() {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+
     if (editorStateRef.current === undefined) {
       return;
     }
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session === null) {
+      return;
+    }
+
     const paperParser = new PaperParser(editorStateRef.current);
-    paperParser.parse();
-    // const isPostFragmentValid = validatePaperFragment(
-    //   getPaperFragment(editorStateRef.current),
-    // );
-    // if (!isPostFragmentValid) {
-    //   return;
-    // }
-    // const post = JSON.stringify(editorStateRef.current);
-    // console.log(post);
+    const { fullPaper, truncatedPaper } = paperParser.parse();
+
+    await supabase.from('posts').insert({
+      paper_data: fullPaper,
+      paper_data_brief: truncatedPaper,
+      user_id: session.user.id,
+    });
   }
 
   return (
