@@ -4,7 +4,7 @@ import { EditorState, LexicalNode } from 'lexical';
 import { useRef, FormEvent } from 'react';
 import { Editor } from './editor';
 import { submitPost } from './submit-post-action';
-import { PaperValidator } from './paper-validator';
+import { PaperParser } from './paper-parser';
 
 export default function Page() {
   // const supabase = createClientComponentClient<Database>();
@@ -23,8 +23,8 @@ export default function Page() {
     if (editorStateRef.current === undefined) {
       return;
     }
-    const validator = new PaperValidator(editorStateRef.current);
-    validator.validate();
+    const paperParser = new PaperParser(editorStateRef.current);
+    paperParser.parse();
     // const isPostFragmentValid = validatePaperFragment(
     //   getPaperFragment(editorStateRef.current),
     // );

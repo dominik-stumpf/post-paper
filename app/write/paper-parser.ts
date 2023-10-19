@@ -1,20 +1,5 @@
-import {
-  $createNodeSelection,
-  $createRangeSelection,
-  $getRoot,
-  $setSelection,
-  EditorState,
-  LexicalNode,
-  RangeSelection,
-  createEditor,
-} from 'lexical';
-
-interface PaperFragment {
-  title: string;
-  content: string;
-}
-
-export class PaperValidator {
+import { EditorState } from 'lexical';
+export class PaperParser {
   private readonly minTitleLength = 16;
   private readonly maxTitleLength = 128;
   private readonly minContentLength = 128;
@@ -26,7 +11,7 @@ export class PaperValidator {
 
   constructor(private readonly paper: EditorState) {}
 
-  validate() {
+  parse() {
     let sliceEnd = 2;
     let contentLength = 0;
 
@@ -68,33 +53,36 @@ export class PaperValidator {
     });
 
     console.log(this.conditionStates);
-    const truncated = this.paper.toJSON();
+
+    const truncatedPaper = this.paper.toJSON();
     const fullPaper = this.paper.toJSON();
 
-    truncated.root.children = truncated.root.children.slice(0, sliceEnd);
-    const remainingCharTruncation = contentLength - this.minContentLength;
-    const lastChild = (truncated.root.children.at(-1) as simplifiedTextNode)
-      .children;
+    truncatedPaper.root.children = truncatedPaper.root.children.slice(
+      0,
+      sliceEnd,
+    );
 
-    if (lastChild === undefined) {
-      return;
-    }
+    const remainingCharTruncation = contentLength - this.minContentLength;
+
+    const lastChild = (
+      truncatedPaper.root.children.at(-1) as simplifiedTextNode
+    ).children;
 
     this.truncateRecursively(lastChild, remainingCharTruncation);
 
-    console.log(JSON.stringify(truncated));
-    console.log(JSON.stringify(fullPaper));
-    return;
+    // console.log(JSON.stringify(truncatedPaper));
+    // console.log(JSON.stringify(fullPaper));
+
+    return { fullPaper, truncatedPaper };
   }
 
   truncateRecursively(
-    element: simplifiedTextNode[],
+    element: simplifiedTextNode[] | undefined,
     truncateCharCount: number,
   ) {
-    if (truncateCharCount <= 0) return;
+    if (truncateCharCount <= 0 || element === undefined) return;
 
     let tracker = truncateCharCount;
-    // console.log('truncating', element, truncateCharCount);
 
     function truncate(elem: simplifiedTextNode[]) {
       for (let i = elem.length - 1; i >= 0; i -= 1) {
