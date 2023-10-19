@@ -28,13 +28,7 @@ export function PaperCard({
   likes,
   paper_data,
 }: PaperCardProps) {
-  if (typeof paper_data !== 'string' || profiles === null) return;
-
-  // const editor = createHeadlessEditor();
-  // const editorState = editor.parseEditorState(paper_data_brief);
-  // editor.setEditorState(editorState);
-  // console.log(editorState, paper_data_brief);
-  // const html = $generateHtmlFromNodes(editor, null);
+  if (profiles === null) return;
 
   return (
     <Link href={`/paper/${id}`} scroll={false} className="w-1/2 max-w-2xl">
