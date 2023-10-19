@@ -36,8 +36,7 @@ export default async function Page({
   return (
     <div className="py-16">
       <Prose>
-        <h1>{post.title}</h1>
-        <Markdown>{post.content}</Markdown>
+        <Markdown>{post.paper_data}</Markdown>
       </Prose>
       <LikeButton
         data={{

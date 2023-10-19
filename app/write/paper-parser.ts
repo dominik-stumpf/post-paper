@@ -1,4 +1,5 @@
 import { EditorState } from 'lexical';
+import { $convertToMarkdownString } from '@lexical/markdown';
 export class PaperParser {
   private readonly minTitleLength = 16;
   private readonly maxTitleLength = 128;
@@ -70,10 +71,16 @@ export class PaperParser {
 
     this.truncateRecursively(lastChild, remainingCharTruncation);
 
-    return {
-      fullPaper: JSON.stringify(fullPaper),
-      truncatedPaper: JSON.stringify(truncatedPaper),
-    };
+    let markdown = '';
+    this.paper.read(() => {
+      markdown = $convertToMarkdownString();
+    });
+    return { fullPaper: markdown };
+    // return { fullPaper: $convertToMarkdownString(TRANSFORMERS, this.paper) };
+    // return {
+    //   fullPaper: JSON.stringify(fullPaper),
+    //   truncatedPaper: JSON.stringify(truncatedPaper),
+    // };
   }
 
   truncateRecursively(

@@ -26,11 +26,11 @@ export default function Page() {
     }
 
     const paperParser = new PaperParser(editorStateRef.current);
-    const { fullPaper, truncatedPaper } = paperParser.parse();
+    const { fullPaper } = paperParser.parse();
 
     await supabase.from('posts').insert({
       paper_data: fullPaper,
-      paper_data_brief: truncatedPaper,
+      // paper_data_brief: truncatedPaper,
       user_id: session.user.id,
     });
   }
