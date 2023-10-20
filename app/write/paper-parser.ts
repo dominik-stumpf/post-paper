@@ -75,7 +75,8 @@ export class PaperParser {
     this.paper.read(() => {
       markdown = $convertToMarkdownString();
     });
-    return { fullPaper: markdown };
+    // return { fullPaper: markdown };
+    return markdown;
     // return { fullPaper: $convertToMarkdownString(TRANSFORMERS, this.paper) };
     // return {
     //   fullPaper: JSON.stringify(fullPaper),

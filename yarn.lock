@@ -1086,6 +1086,11 @@
   dependencies:
     "@lexical/utils" "0.12.2"
 
+"@lexical/headless@^0.12.2":
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/@lexical/headless/-/headless-0.12.2.tgz#300d5399d5d45e6f0bdc677c9ccaaf287d372572"
+  integrity sha512-fgAPcNG8z/uL++eplR5u5RZQU62n/aOf/znEnMn0toM73yzZQm3+V9Jx/Q5U/QfFuWVwQddVLZ32DGqMCW1/8w==
+
 "@lexical/history@0.12.2":
   version "0.12.2"
   resolved "https://registry.yarnpkg.com/@lexical/history/-/history-0.12.2.tgz#6870871c8120468a213e47c5b303f5b1dd378cba"
@@ -1723,6 +1728,16 @@
   dependencies:
     "@webassemblyjs/ast" "1.11.6"
     "@xtuc/long" "4.2.2"
+
+"@wooorm/starry-night@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@wooorm/starry-night/-/starry-night-3.0.0.tgz#e8d561b902e79ffc11dd33ee17f691dd4a130bf2"
+  integrity sha512-9bS69LSlh7btL0zP4nkgt2m+yfVCimBmCHfzhDuqC/gYK592n205YKNED/Ax9HwaqtjmZN0LzpAKJjppGFvzKw==
+  dependencies:
+    "@types/hast" "^3.0.0"
+    import-meta-resolve "^3.0.0"
+    vscode-oniguruma "^2.0.0"
+    vscode-textmate "^9.0.0"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -2837,7 +2852,7 @@ has@^1.0.3:
   resolved "https://registry.yarnpkg.com/has/-/has-1.0.4.tgz#2eb2860e000011dae4f1406a86fe80e530fb2ec6"
   integrity sha512-qdSAmqLF6209RFj4VVItywPMbm3vWylknmB3nvNiUIs72xAimcM8nVYxYr7ncvZq5qzk9MKIZR8ijqD/1QuYjQ==
 
-hast-util-to-jsx-runtime@^2.0.0:
+hast-util-to-jsx-runtime@^2.0.0, hast-util-to-jsx-runtime@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/hast-util-to-jsx-runtime/-/hast-util-to-jsx-runtime-2.2.0.tgz#ffd59bfcf0eb8321c6ed511bfc4b399ac3404bc2"
   integrity sha512-wSlp23N45CMjDg/BPW8zvhEi3R+8eRE1qFbjEyAUzMCzu2l1Wzwakq+Tlia9nkCtEl5mDxa7nKHsvYJ6Gfn21A==
@@ -2888,6 +2903,11 @@ ieee754@^1.1.13:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+
+import-meta-resolve@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/import-meta-resolve/-/import-meta-resolve-3.0.0.tgz#94a6aabc623874fbc2f3525ec1300db71c6cbc11"
+  integrity sha512-4IwhLhNNA8yy445rPjD/lWh++7hMDOml2eHtd58eG7h+qK3EryMuuRbsHGPikCoAgIkkDnckKfWSk2iDla/ejg==
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -4550,7 +4570,7 @@ sucrase@^3.32.0:
     pirates "^4.0.1"
     ts-interface-checker "^0.1.9"
 
-supabase@^1.106.1:
+supabase@latest:
   version "1.106.1"
   resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.106.1.tgz#a7870099258b8118b3171054171e6e4024ef013b"
   integrity sha512-Wc1GYraDRCRGZIkCPoN00QuSP//Cm2Q4q5B6LvEHb2dKoezO7Mx7SYZ5rhh3X0ko9Yii0ABeN2GE88ZVL9R5mg==
@@ -4883,7 +4903,7 @@ unicode-property-aliases-ecmascript@^2.0.0:
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
 
-unified@^11.0.0:
+unified@^11.0.0, unified@^11.0.3:
   version "11.0.3"
   resolved "https://registry.yarnpkg.com/unified/-/unified-11.0.3.tgz#e141be0fe466a2d28b2160f62712bc9cbc08fdd4"
   integrity sha512-jlCV402P+YDcFcB2VcN/n8JasOddqIiaxv118wNBoZXEhOn+lYG7BR4Bfg2BwxvlK58dwbuH2w7GX2esAjL6Mg==
@@ -4999,6 +5019,16 @@ vfile@^6.0.0:
     "@types/unist" "^3.0.0"
     unist-util-stringify-position "^4.0.0"
     vfile-message "^4.0.0"
+
+vscode-oniguruma@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/vscode-oniguruma/-/vscode-oniguruma-2.0.1.tgz#1196a343635ff8d42eb880e325b5f4e70731c02f"
+  integrity sha512-poJU8iHIWnC3vgphJnrLZyI3YdqRlR27xzqDmpPXYzA93R4Gk8z7T6oqDzDoHjoikA2aS82crdXFkjELCdJsjQ==
+
+vscode-textmate@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/vscode-textmate/-/vscode-textmate-9.0.0.tgz#313c6c8792b0507aef35aeb81b6b370b37c44d6c"
+  integrity sha512-Cl65diFGxz7gpwbav10HqiY/eVYTO1sjQpmRmV991Bj7wAoOAjGQ97PpQcXorDE2Uc4hnGWLY17xme+5t6MlSg==
 
 watchpack@2.4.0, watchpack@^2.4.0:
   version "2.4.0"

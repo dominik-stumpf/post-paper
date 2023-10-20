@@ -26,24 +26,24 @@ export default function Page() {
     }
 
     const paperParser = new PaperParser(editorStateRef.current);
-    const { fullPaper } = paperParser.parse();
+    const parsedPaper = paperParser.parse();
 
-    await supabase.from('posts').insert({
-      paper_data: fullPaper,
-      // paper_data_brief: truncatedPaper,
-      user_id: session.user.id,
-    });
+    console.log(`inserting ${parsedPaper}`);
+    // await supabase.from('posts').insert({
+    //   paper_data: fullPaper,
+    //   user_id: session.user.id,
+    // });
   }
 
   return (
     <form
-      className="w-full flex flex-row justify-center items-start gap-16 py-16"
+      className="w-full flex flex-col items-center gap-16 py-16"
       onSubmit={handleSubmit}
     >
-      <div className="flex flex-col gap-8 w-full items-center">
+      <div className="flex flex-row gap-16 w-full justify-center">
         <Editor editorStateRef={editorStateRef} />
-        <button type="submit">Post Paper</button>
       </div>
+      <button type="submit">Post Paper</button>
     </form>
   );
 }

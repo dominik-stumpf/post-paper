@@ -3,6 +3,13 @@ import { Avatar } from './avatar';
 import { Prose } from './prose';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import Markdown from 'react-markdown';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { $convertFromMarkdownString } from '@lexical/markdown';
+import { createHeadlessEditor } from '@lexical/headless';
+import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
+import { $generateHtmlFromNodes } from '@lexical/html';
 
 // interface PaperCardProps {
 //   data: Database['public']['Functions']['get_post_list']['Returns'][0];
@@ -21,7 +28,7 @@ interface PaperCardProps {
 }
 [];
 
-export function PaperCard({
+export async function PaperCard({
   created_at,
   profiles,
   id,
@@ -29,6 +36,9 @@ export function PaperCard({
   paper_data,
 }: PaperCardProps) {
   if (profiles === null) return;
+
+  // const tree = fromMarkdown(paper_data);
+  // console.log(tree);
 
   return (
     <Link href={`/paper/${id}`} scroll={false} className="w-1/2 max-w-2xl">
