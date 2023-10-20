@@ -41,7 +41,7 @@ export default function Page() {
       onSubmit={handleSubmit}
     >
       <div className="flex flex-row gap-16 w-full justify-center">
-        <Editor editorStateRef={editorStateRef} />
+        <Editor />
       </div>
       <button type="submit">Post Paper</button>
     </form>
