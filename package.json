@@ -13,6 +13,7 @@
   "dependencies": {
     "@lexical/headless": "^0.12.2",
     "@lexical/react": "^0.12.2",
+    "@monaco-editor/react": "^4.6.0",
     "@studio-freight/react-lenis": "^0.0.36",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/supabase-js": "^2.38.0",
@@ -20,6 +21,7 @@
     "hast-util-to-jsx-runtime": "^2.2.0",
     "lexical": "^0.12.2",
     "mdast-util-from-markdown": "^2.0.0",
+    "monaco-editor": "^0.44.0",
     "next": "^13.5.5",
     "raw-loader": "^4.0.2",
     "react": "18.2.0",
