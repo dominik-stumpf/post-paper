@@ -4,95 +4,122 @@ import { proseClassName } from '@/components/prose';
 import { JetBrains_Mono } from 'next/font/google';
 import Markdown from 'react-markdown';
 import placeholder from './placeholder.md';
-import { useEffect, useRef } from 'react';
-import MonacoEditor from '@monaco-editor/react';
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--mono',
-  subsets: ['latin'],
-});
+import { Fragment, useEffect, useRef, useState } from 'react';
+import MonacoEditor, {
+  BeforeMount,
+  OnChange,
+  OnMount,
+  OnValidate,
+} from '@monaco-editor/react';
+import { initVimMode } from 'monaco-vim';
 
 export function Editor() {
-  function handleEditorChange(value, event) {
-    // here is the current value
-  }
+  const [markdown, setMarkdown] = useState(placeholder);
+  const handleEditorChange: OnChange = (value, event) => {
+    setMarkdown(value);
+  };
 
-  function handleEditorDidMount(editor, monaco) {
+  const handleEditorDidMount: OnMount = (editor, monaco) => {
     console.log('onMount: the editor instance:', editor);
     console.log('onMount: the monaco instance:', monaco);
-  }
 
-  function handleEditorWillMount(monaco) {
+    // editor.addAction({
+    //   // an unique identifier of the contributed action
+    //   id: 'some-unique-id',
+    //   // a label of the action that will be presented to the user
+    //   label: 'Some label!',
+    //   keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S],
+
+    //   // the method that will be executed when the action is triggered.
+    //   run: (editor) => {
+    //     alert('we wanna save something => ' + editor.getValue());
+    //     return null;
+    //   },
+    // });
+
+    window.require.config({
+      paths: {
+        'monaco-vim': 'https://unpkg.com/monaco-vim/dist/monaco-vim',
+      },
+    });
+
+    window.require(['monaco-vim'], (MonacoVim) => {
+      const statusNode = document.querySelector('.status-node');
+      MonacoVim.initVimMode(editor, statusNode);
+    });
+    const vimMode = initVimMode(
+      editor,
+      document.getElementById('my-statusbar'),
+    );
+  };
+
+  const handleEditorWillMount: BeforeMount = (monaco) => {
     console.log('beforeMount: the monaco instance:', monaco);
-  }
+    monaco.editor.defineTheme('customTheme', {
+      base: 'vs-dark', // can also be vs-dark or hc-black
+      inherit: true, // can also be false to completely replace the builtin rules
+      rules: [],
+      colors: {
+        'editor.background': '#000000',
+      },
+    });
+  };
 
-  function handleEditorValidation(markers) {
+  const handleEditorValidation: OnValidate = (markers) => {
     // model markers
     // markers.forEach(marker => console.log('onValidate:', marker.message));
-  }
+  };
   return (
-    <MonacoEditor
-      height="200vh"
-      width="100ch"
-      defaultLanguage="markdown"
-      defaultValue={placeholder}
-      theme="vs-dark"
-      onChange={handleEditorChange}
-      onMount={handleEditorDidMount}
-      beforeMount={handleEditorWillMount}
-      onValidate={handleEditorValidation}
-    />
+    <>
+      <MonacoEditor
+        height="unset"
+        width="100ch"
+        defaultLanguage="markdown"
+        defaultValue={placeholder}
+        theme="customTheme"
+        onChange={handleEditorChange}
+        onMount={handleEditorDidMount}
+        beforeMount={handleEditorWillMount}
+        onValidate={handleEditorValidation}
+        options={{
+          scrollbar: { vertical: 'hidden', horizontal: 'hidden' },
+          minimap: { enabled: false },
+          overviewRulerBorder: false,
+          overviewRulerLanes: 0,
+          lineNumbers: 'off',
+          wordWrap: 'on',
+          fontFamily: 'var(--mono)',
+          fontLigatures: true,
+          fontSize: 18,
+          folding: false,
+          bracketPairColorization: { enabled: true },
+          // contextmenu: false,
+          lineHeight: 1.5,
+          renderLineHighlightOnlyWhenFocus: true,
+          guides: { indentation: false },
+          cursorSmoothCaretAnimation: 'on',
+          cursorStyle: 'block',
+          cursorWidth: 32,
+        }}
+      />
+      <Preview markdownString={markdown} />
+    </>
   );
 }
 
-// export const Editor: React.FC = () => {
-//   const divEl = useRef<HTMLDivElement>(null);
-//   let editor: monaco.editor.IStandaloneCodeEditor;
-//   // biome-ignore lint/nursery/useExhaustiveDependencies: <explanation>
-//   useEffect(() => {
-//     // monaco.editor.defineTheme('myCustomTheme', {
-//     //   base: 'vs-dark', // can also be vs-dark or hc-black
-//     //   inherit: true, // can also be false to completely replace the builtin rules
-//     //   rules: [
-//     //     // {
-//     //     // 	token: "comment",
-//     //     // 	foreground: "ffa500",
-//     //     // 	fontStyle: "italic underline",
-//     //     // },
-//     //     // { token: "comment.js", foreground: "008800", fontStyle: "bold" },
-//     //     // { token: "comment.css", foreground: "0000ff" }, // will inherit fontStyle from `comment` above
-//     //     // { token: "identifier.ts", foreground: "ff0000", fontStyle: 'italic'}
-//     //   ],
-//     //   // colors: {}
-//     // });
-
-//     if (divEl.current) {
-//       editor = monaco.editor.create(divEl.current, {
-//         value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join(
-//           '\n',
-//         ),
-//         language: 'typescript',
-//         theme: 'vs-dark',
-//       });
-//     }
-
-//     console.log(editor.getValue());
-
-//     return () => {
-//       editor.dispose();
-//     };
-//   }, []);
-//   return <div className="Editor" ref={divEl} />;
-// };
-
-// export function Editor() {
-//   return (
-//     <>
-//       <Markdown
-//         className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black ${jetbrainsMono.variable} prose-code:font-[var(--mono)]`}
-//       >
-//         {placeholder}
-//       </Markdown>
-//     </>
-//   );
-// }
+export function Preview({ markdownString }: { markdownString: string }) {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  return (
+    isClient &&
+    markdownString && (
+      <Markdown
+        className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black prose-code:font-[var(--mono)]`}
+      >
+        {markdownString}
+      </Markdown>
+    )
+  );
+}
