@@ -1,15 +1,15 @@
 'use client';
 
 import { proseClassName } from '@/components/prose';
-import Markdown from 'react-markdown';
-import { useEffect, useRef, useState, MutableRefObject } from 'react';
-import { vim } from '@replit/codemirror-vim';
-import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { bracketMatching } from '@codemirror/matchbrackets';
 import { languages } from '@codemirror/language-data';
-import './editor.css';
+import { bracketMatching } from '@codemirror/matchbrackets';
+import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
+import CodeMirror, { EditorView } from '@uiw/react-codemirror';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import Markdown from 'react-markdown';
+import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({
   settings: {

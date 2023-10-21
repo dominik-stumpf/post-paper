@@ -1,5 +1,5 @@
-import { EditorState } from 'lexical';
 import { $convertToMarkdownString } from '@lexical/markdown';
+import { EditorState } from 'lexical';
 export class PaperParser {
   private readonly minTitleLength = 16;
   private readonly maxTitleLength = 128;
@@ -56,7 +56,7 @@ export class PaperParser {
     console.log(this.conditionStates);
 
     const truncatedPaper = this.paper.toJSON();
-    const fullPaper = this.paper.toJSON();
+    const _fullPaper = this.paper.toJSON();
 
     truncatedPaper.root.children = truncatedPaper.root.children.slice(
       0,
