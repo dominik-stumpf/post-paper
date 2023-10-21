@@ -5,23 +5,33 @@ import Markdown from 'react-markdown';
 import placeholder from './placeholder.md';
 import { useEffect, useRef, useState } from 'react';
 import { vim } from '@replit/codemirror-vim';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import './editor.css';
+import * as themes from '@uiw/codemirror-themes-all';
+
+const customTheme = themes.gruvboxDarkInit({
+  settings: {
+    fontFamily: 'var(--mono)',
+    background: 'black',
+    lineHighlight: '#ffffff11',
+    selection: '#ffffff22',
+  },
+});
 
 export function Editor() {
   const [editorContent, setEditorContent] = useState(placeholder);
   return (
     <>
       <CodeMirror
-        theme="dark"
+        theme={customTheme}
         value={placeholder}
         onChange={(editorOutput) => {
           setEditorContent(editorOutput);
         }}
         placeholder={'Enter some Markdown...'}
-        className="text-lg font-mono"
+        className="text-lg"
         id="editor"
         basicSetup={{
           foldGutter: false,
@@ -29,11 +39,13 @@ export function Editor() {
           allowMultipleSelections: false,
           autocompletion: false,
         }}
-        height="75vh"
+        height="80vh"
+        minWidth="50vw"
         maxWidth="50vw"
         extensions={[
           vim(),
           markdown({ base: markdownLanguage, codeLanguages: languages }),
+          EditorView.lineWrapping,
         ]}
       />
       <Preview markdownString={editorContent} />
