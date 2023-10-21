@@ -2,8 +2,13 @@ import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar';
 import '@/types/validate-env-vars';
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--mono',
+  subsets: ['latin'],
+});
 
 const inter = Inter({ subsets: ['latin'], variable: '--inter' });
 
@@ -28,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${inter.variable}`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <Navbar />
         <LenisWrapper>
           <main className="grow flex flex-col items-center">{children}</main>

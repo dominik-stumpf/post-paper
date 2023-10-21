@@ -1,16 +1,10 @@
 'use client';
 
-import { EditorState, LexicalNode } from 'lexical';
+import { EditorState } from 'lexical';
 import { useRef, FormEvent } from 'react';
 import { Editor } from './editor';
 import { PaperParser } from './paper-parser';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { JetBrains_Mono } from 'next/font/google';
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--mono',
-  subsets: ['latin'],
-});
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -46,9 +40,7 @@ export default function Page() {
       className="w-full flex flex-col items-center gap-16 py-16"
       onSubmit={handleSubmit}
     >
-      <div
-        className={`flex flex-row gap-16 w-full justify-center ${jetbrainsMono.variable}`}
-      >
+      <div className={'flex flex-row gap-16 w-full justify-center'}>
         <Editor />
       </div>
       <button type="submit">Post Paper</button>
