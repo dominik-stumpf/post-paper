@@ -13,6 +13,7 @@
   "dependencies": {
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/language-data": "^6.3.1",
+    "@codemirror/matchbrackets": "^0.19.4",
     "@codemirror/view": "^6.21.3",
     "@lexical/headless": "^0.12.2",
     "@lexical/react": "^0.12.2",

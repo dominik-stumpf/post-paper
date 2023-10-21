@@ -35,9 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <Navbar />
-        <LenisWrapper>
-          <main className="grow flex flex-col items-center">{children}</main>
-        </LenisWrapper>
+        <LenisWrapper>{children}</LenisWrapper>
       </body>
     </html>
   );

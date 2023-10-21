@@ -2,11 +2,11 @@
 
 import { proseClassName } from '@/components/prose';
 import Markdown from 'react-markdown';
-import placeholder from './placeholder.md';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, MutableRefObject } from 'react';
 import { vim } from '@replit/codemirror-vim';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { bracketMatching } from '@codemirror/matchbrackets';
 import { languages } from '@codemirror/language-data';
 import './editor.css';
 import * as themes from '@uiw/codemirror-themes-all';
@@ -20,14 +20,18 @@ const customTheme = themes.gruvboxDarkInit({
   },
 });
 
-export function Editor() {
-  const [editorContent, setEditorContent] = useState(placeholder);
+export function Editor({
+  editorContentRef,
+}: { editorContentRef: MutableRefObject<string> }) {
+  const [editorContent, setEditorContent] = useState(editorContentRef.current);
+
   return (
     <>
       <CodeMirror
         theme={customTheme}
-        value={placeholder}
+        value={editorContent}
         onChange={(editorOutput) => {
+          editorContentRef.current = editorOutput;
           setEditorContent(editorOutput);
         }}
         placeholder={'Enter some Markdown...'}
@@ -39,11 +43,10 @@ export function Editor() {
           allowMultipleSelections: false,
           autocompletion: false,
         }}
-        height="80vh"
-        minWidth="50vw"
-        maxWidth="50vw"
+        height="100%"
+        width="100%"
         extensions={[
-          vim(),
+          vim({ status: true }),
           markdown({ base: markdownLanguage, codeLanguages: languages }),
           EditorView.lineWrapping,
         ]}
@@ -61,11 +64,7 @@ export function Preview({ markdownString }: { markdownString: string }) {
   return (
     isClient &&
     markdownString && (
-      <Markdown
-        className={`${proseClassName} min-h-[75vh] outline-none focus:ring-1 ring-white ring-offset-[1rem] ring-offset-black prose-code:font-[var(--mono)]`}
-      >
-        {markdownString}
-      </Markdown>
+      <Markdown className={`${proseClassName}`}>{markdownString}</Markdown>
     )
   );
 }

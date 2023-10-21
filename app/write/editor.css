@@ -2,3 +2,15 @@
   color: unset;
   background-color: unset;
 }
+
+#editor ::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-transparent;
+}
+
+#editor .cm-vim-panel {
+  @apply text-white font-bold bg-black/80
+}
