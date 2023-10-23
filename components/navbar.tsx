@@ -18,9 +18,9 @@ export async function Navbar() {
         <Link href="/">POSTPAPER</Link>
         {session?.user ? (
           <>
-            <Link href="/write">write</Link>
             <div className="flex items-center gap-4">
-              Hey, {session.user.email}!
+              Hey, {session.user.user_metadata.name}!
+              <Link href="/write">write</Link>
               <LogoutButton />
             </div>
           </>
