@@ -10,6 +10,7 @@ import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import Markdown from 'react-markdown';
 import './editor.css';
+import { PaperParser } from '@/utils/paper-parser';
 
 const customTheme = themes.gruvboxDarkInit({
   settings: {
@@ -33,6 +34,7 @@ export function Editor({
         onChange={(editorOutput) => {
           editorContentRef.current = editorOutput;
           setEditorContent(editorOutput);
+          console.log(new PaperParser(editorOutput).parseCard());
         }}
         placeholder={'Enter some Markdown...'}
         className="text-lg"

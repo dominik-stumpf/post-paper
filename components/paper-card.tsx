@@ -1,15 +1,12 @@
 import Link from 'next/link';
 import { Avatar } from './avatar';
 import { Prose } from './prose';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import Markdown from 'react-markdown';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import { fromMarkdown } from 'mdast-util-from-markdown';
-import { $convertFromMarkdownString } from '@lexical/markdown';
-import { createHeadlessEditor } from '@lexical/headless';
-import { $createParagraphNode, $createTextNode, $getRoot } from 'lexical';
-import { $generateHtmlFromNodes } from '@lexical/html';
+import { Fragment, ReactNode } from 'react';
+import { PaperParser } from '@/utils/paper-parser';
 
 // interface PaperCardProps {
 //   data: Database['public']['Functions']['get_post_list']['Returns'][0];
@@ -39,6 +36,7 @@ export async function PaperCard({
 
   // const tree = fromMarkdown(paper_data);
   // console.log(tree);
+  const { title, content } = new PaperParser(paper_data.slice(256)).parseCard();
 
   return (
     <Link href={`/paper/${id}`} scroll={false} className="w-1/2 max-w-2xl">
@@ -56,16 +54,35 @@ export async function PaperCard({
           </div>
           <div className="grow-0">{likes.length}</div>
         </div>
-        <div className="prose prose-invert">
-          <Markdown allowedElements={['h1', 'p']}>
+        {/* <div className="prose prose-invert">
+          <Markdown
+            allowedElements={['h1', 'p']}
+            unwrapDisallowed
+            components={{
+              h1: ({ children, ...rest }) => (
+                <h2 {...rest} className="overflow-clip max-h-16">
+                  {children}
+                </h2>
+              ),
+              p: ({ children, ...rest }) => (
+                <p {...rest} className="inline line-clamp-2 max-h-16">
+                  {children}
+                </p>
+              ),
+            }}
+          >
             {paper_data.slice(0, 256)}
           </Markdown>
-        </div>
-        {/* <div className="flex flex-col gap-3">
+        </div> */}
+        <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold overflow-clip max-h-16">{title}</h2>
           <p className="leading-normal line-clamp-2 max-h-16">{content}</p>
-        </div> */}
+        </div>
       </section>
     </Link>
   );
+}
+
+function Title({ children }: { children: ReactNode }) {
+  return <h2>{children}</h2>;
 }
