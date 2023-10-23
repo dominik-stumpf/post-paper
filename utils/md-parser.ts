@@ -85,12 +85,14 @@ const changelog =
 /** @type {PluggableList} */
 const emptyPlugins: PluggableList = [];
 /** @type {Readonly<RemarkRehypeOptions>} */
-const emptyRemarkRehypeOptions = { allowDangerousHtml: true };
+const emptyRemarkRehypeOptions: Readonly<RemarkRehypeOptions> = {
+  allowDangerousHtml: true,
+};
 const safeProtocol = /^(https?|ircs?|mailto|xmpp)$/i;
 
 // Mutable because we `delete` any time it’s used and a message is sent.
 /** @type {ReadonlyArray<Readonly<Deprecation>>} */
-const deprecations = [
+const deprecations: ReadonlyArray<Readonly<Deprecation>> = [
   { from: 'astPlugins', id: 'remove-buggy-html-in-markdown-parser' },
   { from: 'allowDangerousHtml', id: 'remove-buggy-html-in-markdown-parser' },
   {
@@ -136,7 +138,7 @@ const deprecations = [
  * @returns {JSX.Element}
  *   React element.
  */
-export function Markdown(options: Options) {
+export function Markdown(options: Options): JSX.Element {
   const allowedElements = options.allowedElements;
   const allowElement = options.allowElement;
   const children = options.children || '';
@@ -186,7 +188,7 @@ export function Markdown(options: Options) {
 
   const mdastTree = processor.parse(file);
   /** @type {Nodes} */
-  let hastTree = processor.runSync(mdastTree, file);
+  let hastTree: Nodes = processor.runSync(mdastTree, file);
 
   // Wrap in `div` if there’s a class name.
   if (className) {
@@ -231,7 +233,7 @@ export function Markdown(options: Options) {
 
     if (node.type === 'element') {
       /** @type {string} */
-      let key;
+      let key: string;
 
       for (key in urlAttributes) {
         if (
