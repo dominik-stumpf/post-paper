@@ -41,17 +41,17 @@ export class PaperParser {
     // }
 
     // Markdown({ children: this.paper });
-    let iterationCount = 0;
     let title = '';
     let content = '';
     let isIteratingHeader = false;
+    let iterationCount = 0;
 
     function transform(
       ...[node, index, parent]: Parameters<Visitor>
     ): ReturnType<Visitor> {
       iterationCount += 1;
       console.log('visiting', node, iterationCount);
-      if (iterationCount > 8) {
+      if (iterationCount > 16) {
         return EXIT;
       }
       const isRootChild = parent?.type === 'root';
@@ -60,18 +60,22 @@ export class PaperParser {
         isIteratingHeader = true;
       }
       if (
-        !isIteratingHeader &&
+        isIteratingHeader &&
         isRootChild &&
         index !== undefined &&
         index > 0
       ) {
         isIteratingHeader = false;
       }
+
       if (isIteratingHeader) {
         // console.log('iterating header', node);
         if ('value' in node) {
           title += node.value;
         }
+      } else if ('value' in node) {
+        // console.log(node);
+        content += node.value.replaceAll('\n', ' ');
       }
     }
 
