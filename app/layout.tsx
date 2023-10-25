@@ -1,11 +1,16 @@
 import { LenisWrapper } from '@/components/lenis-wrapper';
+import { Navbar } from '@/components/navbar';
 import '@/types/validate-env-vars';
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/navbar';
 
-const inter = Inter({ subsets: ['latin'] });
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--mono',
+  subsets: ['latin'],
+});
+
+const inter = Inter({ subsets: ['latin'], variable: '--inter' });
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -28,13 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
         <Navbar />
-        <LenisWrapper>
-          <main className="min-h-screen bg-background flex flex-col items-center text-foreground">
-            {children}
-          </main>
-        </LenisWrapper>
+        <LenisWrapper>{children}</LenisWrapper>
       </body>
     </html>
   );

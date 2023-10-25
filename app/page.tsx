@@ -6,17 +6,17 @@ export default async function Index() {
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
+
   const { data: posts } = await supabase
-    .from('posts')
-    .select('*, profiles(name, avatar_url), likes(id)')
+    .rpc('get_post_list')
     .order('created_at', { ascending: false })
-    .range(0, 8);
+    .range(0, 10);
 
   return (
     <div className="flex flex-col items-center w-full">
       <div className="grid w-full gap-12 py-12 place-items-center">
         {posts?.map((post) => (
-          <PaperCard key={post.id} {...post} />
+          <PaperCard key={post.id} data={post} />
         ))}
       </div>
     </div>

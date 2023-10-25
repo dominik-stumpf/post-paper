@@ -1,68 +1,49 @@
-import {
-  createServerActionClient,
-  createServerComponentClient,
-} from '@supabase/auth-helpers-nextjs';
-import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+'use client';
 
-export const dynamic = 'force-dynamic';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { FormEvent, useRef } from 'react';
+import { Editor } from './editor';
 
-export default async function Page() {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+import placeholder from './placeholder.md';
 
-  if (session === null) {
-    redirect('/');
-  }
+export default function Page() {
+  const supabase = createClientComponentClient<Database>();
+  const editorContentRef = useRef(placeholder);
 
-  async function submitPost(formData: FormData) {
-    'use server';
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
 
-    const supabase = createServerActionClient<Database>({ cookies });
+    if (editorContentRef.current === '') {
+      return;
+    }
+
     const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    const { title, content } = Object.fromEntries(formData.entries());
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    if (authError || user === null) {
-      // console.error(authError);
-      redirect('/');
+    if (session === null) {
+      return;
     }
 
-    if (typeof content === 'string' && typeof title === 'string') {
-      await supabase.from('posts').insert({ content, title, user_id: user.id });
-      revalidatePath('/');
-    }
+    // const paperParser = new PaperParser(editorStateRef.current);
+    // const parsedPaper = paperParser.parse();
+
+    console.log(`inserting ${editorContentRef.current}`);
+    await supabase.from('posts').insert({
+      paper_data: editorContentRef.current,
+      user_id: session.user.id,
+    });
   }
 
   return (
-    <>
-      <Link href="/">home</Link>
-      <form action={submitPost}>
-        <label>
-          title
-          <InputField name="title" />
-        </label>
-        <label>
-          content
-          <InputField name="content" />
-        </label>
-        <button type="submit">post</button>
-      </form>
-    </>
-  );
-}
-
-function InputField({ name }: { name: string }) {
-  return (
-    <input
-      name={name}
-      className="p-2 bg-black outline-none ring-1 ring-white"
-    />
+    <form
+      className="w-full h-[80vh] max-h-[80vh] mt-16 px-16 overflow-hidden grid grid-cols-2 gap-16 grid-rows-[1fr_auto]"
+      onSubmit={handleSubmit}
+    >
+      <Editor editorContentRef={editorContentRef} />
+      <button type="submit" className="col-span-2">
+        Post Paper
+      </button>
+    </form>
   );
 }

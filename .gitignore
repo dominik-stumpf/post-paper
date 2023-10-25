@@ -39,4 +39,4 @@ public/sw*
 public/workbox*
 
 # database types
-lib/database.types.ts
+database.types.ts

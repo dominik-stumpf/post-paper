@@ -1,35 +1,19 @@
 import Link from 'next/link';
 import { Avatar } from './avatar';
+import { PaperParser } from '@/utils/paper-parser';
 
 interface PaperCardProps {
-  content: string;
-  created_at: string;
-  id: string;
-  title: string;
-  // user_id: string;
-  profiles: {
-    avatar_url: string;
-    // id: string;
-    name: string;
-    // user_name: string;
-  } | null;
-  likes: {
-    // created_at: string;
-    id: number;
-    // post_id: string;
-    // user_id: string;
-  }[];
+  data: Database['public']['Functions']['get_post_list']['Returns'][0];
 }
 
-export function PaperCard({
-  content,
-  title,
-  created_at,
-  profiles,
-  id,
-  likes,
+export async function PaperCard({
+  data: { created_at, avatar_url, name, id, likes_count, truncated_paper_data },
 }: PaperCardProps) {
-  if (profiles === null) {
+  const paperParser = new PaperParser(truncated_paper_data);
+  const parsedCard = paperParser.parseCard();
+  const { isPaperValid } = paperParser.validateParsedCard(parsedCard);
+
+  if (!isPaperValid) {
     return null;
   }
 
@@ -38,8 +22,8 @@ export function PaperCard({
       <section className="flex flex-col w-full gap-4 p-4 border">
         <div className="flex">
           <div className="flex items-center gap-2 grow">
-            <Avatar imageSrc={profiles.avatar_url} />
-            <div>{profiles.name}</div>
+            <Avatar imageSrc={avatar_url} />
+            <div>{name}</div>
             <time dateTime={created_at}>
               {new Date(created_at).toLocaleString('en-US', {
                 month: 'short',
@@ -47,11 +31,15 @@ export function PaperCard({
               })}
             </time>
           </div>
-          <div className="grow-0">{likes.length}</div>
+          <div className="grow-0">{likes_count}</div>
         </div>
         <div className="flex flex-col gap-3">
-          <h2 className="text-2xl font-bold overflow-clip max-h-16">{title}</h2>
-          <p className="leading-normal line-clamp-2 max-h-16">{content}</p>
+          <h2 className="text-2xl font-bold overflow-clip max-h-16">
+            {parsedCard.title}
+          </h2>
+          <p className="leading-normal line-clamp-2 max-h-16">
+            {parsedCard.content}
+          </p>
         </div>
       </section>
     </Link>
