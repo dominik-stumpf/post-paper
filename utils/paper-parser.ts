@@ -1,5 +1,8 @@
-// import { fromMarkdown } from 'mdast-util-from-markdown';
-import { Markdown } from './md-parser';
+import { fromMarkdown } from 'mdast-util-from-markdown';
+import { visit, EXIT, SKIP } from 'unist-util-visit';
+// import { Markdown } from './md-parser';
+type Root = import('mdast').Root;
+type Visitor = import('unist-util-visit').BuildVisitor<Root>;
 
 export class PaperParser {
   private readonly minTitleLength = 16;
@@ -16,26 +19,55 @@ export class PaperParser {
   parseCard() {
     // const processor = unified().use(remarkParse);
     // const mdastTree = processor.parse(this.paper);
-    // const mdastTree = fromMarkdown(this.paper);
+
+    const mdastTree = fromMarkdown(this.paper);
+    let title = '';
+    let content = '';
 
     // const heading = mdastTree.children[0];
-    // let title = '';
 
-    // if (heading.type === 'heading' && heading.depth === 1) {
+    // if (heading?.type === 'heading' && heading.depth === 1) {
     //   title = heading.children
     //     .flatMap((context) => {
-    //       if (context.type === 'text') {
+    //       if (Object.hasOwn(context, 'value')) {
     //         return context.value;
-    //       } else {
-    //         console.log('context', context);
     //       }
+    //       // if (context.type === 'text') {
+    //       //   return context.value;
+    //       // } else {
+    //       //   // console.log('context', context);
+    //       // }
     //       return '';
     //     })
     //     .join('');
     // }
-    Markdown({ children: this.paper });
 
-    return { title: 'title', content: 'content' };
+    // Markdown({ children: this.paper });
+    let iterationCount = 0;
+
+    function transform(
+      ...[node, index, parent]: Parameters<Visitor>
+    ): ReturnType<Visitor> {
+      iterationCount += 1;
+      console.log('visiting', node, iterationCount);
+      if (iterationCount > 5) {
+        return EXIT;
+      }
+      if (parent?.type === 'root' && index === 0 && node.type === 'heading') {
+        // const child = node.children.splice(0, 1)[0];
+        const flatChildren = node.children.flat(Infinity);
+        for (const child of flatChildren) {
+          if ('value' in child) {
+            console.log(child.value);
+          }
+        }
+        return [SKIP, index + 1];
+      }
+    }
+
+    visit(mdastTree, transform);
+
+    return { title: title, content: content };
   }
 
   truncateRecursively(
