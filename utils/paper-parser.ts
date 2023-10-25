@@ -21,8 +21,6 @@ export class PaperParser {
     // const mdastTree = processor.parse(this.paper);
 
     const mdastTree = fromMarkdown(this.paper);
-    let title = '';
-    let content = '';
 
     // const heading = mdastTree.children[0];
 
@@ -44,24 +42,36 @@ export class PaperParser {
 
     // Markdown({ children: this.paper });
     let iterationCount = 0;
+    let title = '';
+    let content = '';
+    let isIteratingHeader = false;
 
     function transform(
       ...[node, index, parent]: Parameters<Visitor>
     ): ReturnType<Visitor> {
       iterationCount += 1;
       console.log('visiting', node, iterationCount);
-      if (iterationCount > 5) {
+      if (iterationCount > 8) {
         return EXIT;
       }
-      if (parent?.type === 'root' && index === 0 && node.type === 'heading') {
-        // const child = node.children.splice(0, 1)[0];
-        const flatChildren = node.children.flat(Infinity);
-        for (const child of flatChildren) {
-          if ('value' in child) {
-            console.log(child.value);
-          }
+      const isRootChild = parent?.type === 'root';
+
+      if (isRootChild && index === 0 && node.type === 'heading') {
+        isIteratingHeader = true;
+      }
+      if (
+        !isIteratingHeader &&
+        isRootChild &&
+        index !== undefined &&
+        index > 0
+      ) {
+        isIteratingHeader = false;
+      }
+      if (isIteratingHeader) {
+        // console.log('iterating header', node);
+        if ('value' in node) {
+          title += node.value;
         }
-        return [SKIP, index + 1];
       }
     }
 
