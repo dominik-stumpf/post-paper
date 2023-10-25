@@ -3,11 +3,10 @@
 import { proseClassName } from '@/components/prose';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
-import { bracketMatching } from '@codemirror/matchbrackets';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useState } from 'react';
 import Markdown from 'react-markdown';
 import './editor.css';
 import { PaperParser } from '@/utils/paper-parser';
@@ -34,7 +33,6 @@ export function Editor({
         onChange={(editorOutput) => {
           editorContentRef.current = editorOutput;
           setEditorContent(editorOutput);
-          console.log(new PaperParser(editorOutput).parseCard());
         }}
         placeholder={'Enter some Markdown...'}
         className="text-lg"

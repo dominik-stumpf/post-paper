@@ -1,6 +1,5 @@
 import { fromMarkdown } from 'mdast-util-from-markdown';
 import { visit, EXIT, SKIP } from 'unist-util-visit';
-// import { Markdown } from './md-parser';
 type Root = import('mdast').Root;
 type Visitor = import('unist-util-visit').BuildVisitor<Root>;
 
