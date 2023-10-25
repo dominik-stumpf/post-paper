@@ -3,7 +3,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FormEvent, useRef } from 'react';
 import { Editor } from './editor';
-import { PaperParser } from '../../utils/paper-parser';
+
 import placeholder from './placeholder.md';
 
 export default function Page() {

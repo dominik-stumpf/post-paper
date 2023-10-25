@@ -9,7 +9,6 @@ import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { MutableRefObject, useEffect, useState } from 'react';
 import Markdown from 'react-markdown';
 import './editor.css';
-import { PaperParser } from '@/utils/paper-parser';
 
 const customTheme = themes.gruvboxDarkInit({
   settings: {
