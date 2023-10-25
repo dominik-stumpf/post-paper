@@ -3,6 +3,11 @@ import { visit, EXIT, SKIP } from 'unist-util-visit';
 type Root = import('mdast').Root;
 type Visitor = import('unist-util-visit').BuildVisitor<Root>;
 
+interface PaperCard {
+  content: string;
+  title: string;
+}
+
 export class PaperParser {
   private readonly minTitleLength = 16;
   private readonly maxTitleLength = 128;
@@ -15,7 +20,7 @@ export class PaperParser {
 
   constructor(private readonly paper: string) {}
 
-  parseCard() {
+  public parseCard(): PaperCard {
     const mdastTree = fromMarkdown(this.paper.slice(0, 256));
     let title = '';
     let content = '';
@@ -60,4 +65,50 @@ export class PaperParser {
 
     return { title: title, content: content };
   }
+
+  private validate(validationPatterns: ValidationPattern[]): ValidationResult {
+    const result: ValidationResult = {
+      isPaperValid: true,
+      errorMessage: undefined,
+    };
+
+    for (const validationPattern of validationPatterns) {
+      if (!validationPattern.test) {
+        result.isPaperValid = false;
+        result.errorMessage = validationPattern.message;
+        return result;
+      }
+    }
+
+    return result;
+  }
+
+  public validateParsedCard({ title, content }: PaperCard) {
+    const validationPatterns: ValidationPattern[] = [
+      {
+        test: title.length >= this.minTitleLength,
+        message: `Main title is too short ${title.length}/${this.minTitleLength}`,
+      },
+      {
+        test: title.length <= this.maxTitleLength,
+        message: `Main title is too long ${title.length}/${this.maxTitleLength}`,
+      },
+      {
+        test: content.length >= this.minContentLength,
+        message: `Content is too short ${content.length}/${this.minContentLength}`,
+      },
+    ];
+
+    return this.validate(validationPatterns);
+  }
+}
+
+interface ValidationResult {
+  isPaperValid: boolean;
+  errorMessage?: string;
+}
+
+interface ValidationPattern {
+  test: boolean;
+  message: string;
 }
