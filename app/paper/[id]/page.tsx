@@ -2,6 +2,7 @@ import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { PageRoot } from '@/components/page-root';
 import { Prose } from '@/components/prose';
+import { RenderPaper } from '@/components/render-paper';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Markdown from 'react-markdown';
@@ -37,9 +38,7 @@ export default async function Page({
   return (
     <PageRoot>
       <main>
-        <Prose>
-          <Markdown>{post.paper_data}</Markdown>
-        </Prose>
+        <RenderPaper>{post.paper_data}</RenderPaper>
       </main>
       <LikeButton
         data={{

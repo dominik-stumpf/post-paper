@@ -15,6 +15,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkToc from 'remark-toc';
 import '@/app/gruvbox-dark-hard.min.css';
+import { RenderPaper } from '@/components/render-paper';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -39,10 +40,10 @@ export default function Page() {
     // const parsedPaper = paperParser.parse();
 
     console.log(`inserting ${editorContent}`);
-    await supabase.from('posts').insert({
-      paper_data: editorContent,
-      user_id: session.user.id,
-    });
+    // await supabase.from('posts').insert({
+    //   paper_data: editorContent,
+    //   user_id: session.user.id,
+    // });
   }
 
   return (
@@ -55,7 +56,7 @@ export default function Page() {
         setEditorContent={setEditorContent}
       />
       <div className="h-remaining flex flex-col relative">
-        <Preview markdownString={editorContent} />
+        <Preview markdown={editorContent} />
         <button type="submit" className="">
           Post Paper
         </button>
@@ -64,17 +65,10 @@ export default function Page() {
   );
 }
 
-function Preview({ markdownString }: { markdownString: string }) {
-  const rehypePlugins: PluggableList = [rehypeSlug, rehypeHighlight];
-  const remarkPlugins: PluggableList = [remarkGfm, remarkToc];
-
+function Preview({ markdown }: { markdown: string }) {
   return (
-    <Markdown
-      className={`${proseClassName} border-fuchsia-500 border prose-pre:p-0 overflow-hidden`}
-      remarkPlugins={remarkPlugins}
-      rehypePlugins={rehypePlugins}
-    >
-      {markdownString}
-    </Markdown>
+    <div className="overflow-y-scroll border border-fuchsia-500">
+      <RenderPaper>{markdown}</RenderPaper>
+    </div>
   );
 }

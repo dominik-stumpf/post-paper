@@ -11,10 +11,12 @@
     "gen-types": "source .env.local && npx supabase gen types typescript --project-id ${PROJECT_ID} > database.types.ts"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-markdown": "^6.2.2",
     "@codemirror/language-data": "^6.3.1",
     "@codemirror/matchbrackets": "^0.19.4",
-    "@codemirror/view": "^6.21.3",
+    "@codemirror/state": "^6.3.1",
+    "@codemirror/view": "^6.21.4",
     "@replit/codemirror-vim": "^6.0.14",
     "@studio-freight/react-lenis": "^0.0.36",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
