@@ -2,7 +2,7 @@ import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { PageRoot } from '@/components/page-root';
 
-import { RenderPaper } from '@/components/render-paper';
+import { RenderPaper } from '@/components/render-paper/render-paper';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 

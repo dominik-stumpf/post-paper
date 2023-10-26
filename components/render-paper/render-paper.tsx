@@ -2,6 +2,8 @@ import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import { PluggableList } from 'unified';
+import './black-metal-bathory.css';
+import './classic-dark.css';
 
 export function RenderPaper({ children }: { children: string }) {
   const rehypePlugins: PluggableList = [rehypeHighlight];

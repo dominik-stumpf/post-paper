@@ -5,9 +5,7 @@ import { FormEvent, useState } from 'react';
 import { Editor } from './editor';
 
 import initialMarkdown from './react-hooks-post.md';
-
-import '@/app/gruvbox-dark-hard.min.css';
-import { RenderPaper } from '@/components/render-paper';
+import { RenderPaper } from '@/components/render-paper/render-paper';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -40,7 +38,7 @@ export default function Page() {
 
   return (
     <form
-      className="w-full max-w-screen-xl h-remaining border border-emerald-500 mx-auto overflow-hidden grid grid-cols-2 gap-16"
+      className="w-full max-w-screen-2xl h-remaining mx-auto overflow-hidden grid grid-cols-2 gap-16"
       onSubmit={handleSubmit}
     >
       <Editor
@@ -59,7 +57,7 @@ export default function Page() {
 
 function Preview({ markdown }: { markdown: string }) {
   return (
-    <div className="overflow-y-scroll border border-fuchsia-500 h-full">
+    <div className="overflow-y-scroll h-full">
       <RenderPaper>{markdown}</RenderPaper>
     </div>
   );

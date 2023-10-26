@@ -58,9 +58,7 @@ export const Editor = memo(
       };
     }, [initialEditorContent, onUpdate]);
 
-    return (
-      <div ref={editor} id="editor" className="text-lg border h-remaining" />
-    );
+    return <div ref={editor} id="editor" className="text-lg h-remaining" />;
   },
 );
 
