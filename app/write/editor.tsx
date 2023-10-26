@@ -1,14 +1,14 @@
 'use client';
 
+import { defaultKeymap } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
-import { vim } from '@replit/codemirror-vim';
-import * as themes from '@uiw/codemirror-themes-all';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
-import { defaultKeymap } from '@codemirror/commands';
+import { vim } from '@replit/codemirror-vim';
+import * as themes from '@uiw/codemirror-themes-all';
 import { basicSetup } from 'codemirror';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({

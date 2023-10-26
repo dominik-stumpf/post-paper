@@ -1,19 +1,11 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Editor } from './editor';
 
 import initialMarkdown from './react-hooks-post.md';
-import { PageRoot } from '@/components/page-root';
-import Markdown from 'react-markdown';
-import { proseClassName } from '@/components/prose';
-import { PluggableList } from 'unified';
 
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import remarkToc from 'remark-toc';
 import '@/app/gruvbox-dark-hard.min.css';
 import { RenderPaper } from '@/components/render-paper';
 

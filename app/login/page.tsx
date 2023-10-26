@@ -1,9 +1,9 @@
 import { GithubSignIn } from '@/components/github-sign-in';
+import { PageRoot } from '@/components/page-root';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Messages from './messages';
-import { PageRoot } from '@/components/page-root';
 
 export const dynamic = 'force-dynamic';
 
