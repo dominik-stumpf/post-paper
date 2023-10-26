@@ -20,5 +20,13 @@
 }
 
 #editor .cm-focused {
-  @apply outline-none
+  @apply outline-none;
+}
+
+#editor .cm-scroller {
+  @apply overflow-hidden;
+}
+
+#editor .cm-fat-cursor {
+  @apply bg-transparent ring-1 ring-white;
 }

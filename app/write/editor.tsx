@@ -7,7 +7,7 @@ import { EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
-import { basicSetup } from 'codemirror';
+import { basicSetup, minimalSetup } from 'codemirror';
 import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
 import './editor.css';
 
@@ -15,8 +15,9 @@ const customTheme = themes.gruvboxDarkInit({
   settings: {
     fontFamily: 'var(--mono)',
     background: 'black',
-    lineHighlight: '#ffffff11',
-    selection: '#ffffff22',
+    // lineHighlight: '#ffffff11',
+    // caret: '#ff0000',
+    selection: '#ffffff33',
   },
 });
 
@@ -38,7 +39,7 @@ export const Editor = memo(
       const startState = EditorState.create({
         doc: initialEditorContent,
         extensions: [
-          basicSetup,
+          minimalSetup,
           EditorView.lineWrapping,
           keymap.of(defaultKeymap),
           customTheme,
@@ -58,7 +59,9 @@ export const Editor = memo(
       };
     }, [initialEditorContent, onUpdate]);
 
-    return <div ref={editor} id="editor" className="text-lg h-remaining" />;
+    return (
+      <div ref={editor} id="editor" className="text-lg h-remaining w-full" />
+    );
   },
 );
 
