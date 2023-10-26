@@ -12,6 +12,14 @@ const config: Config = {
       sans: ['var(--inter)', ...defaultTheme.fontFamily.sans],
       mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
     },
+    extend: {
+      height: {
+        header: 'var(--header-height)',
+      },
+      minHeight: {
+        remaining: 'calc(100vh - var(--header-height))',
+      },
+    },
   },
   plugins: [typography],
 };

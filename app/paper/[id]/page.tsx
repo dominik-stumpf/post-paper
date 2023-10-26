@@ -1,5 +1,6 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
+import { PageRoot } from '@/components/page-root';
 import { Prose } from '@/components/prose';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -34,10 +35,12 @@ export default async function Page({
   const likesCount = post.likes.length;
 
   return (
-    <div className="py-16">
-      <Prose>
-        <Markdown>{post.paper_data}</Markdown>
-      </Prose>
+    <PageRoot>
+      <main>
+        <Prose>
+          <Markdown>{post.paper_data}</Markdown>
+        </Prose>
+      </main>
       <LikeButton
         data={{
           likes: likesCount,
@@ -46,6 +49,6 @@ export default async function Page({
         }}
       />
       <CopyToClipboard copyHref>share link</CopyToClipboard>
-    </div>
+    </PageRoot>
   );
 }
