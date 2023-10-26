@@ -1,13 +1,11 @@
 'use client';
 
-import { proseClassName } from '@/components/prose';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
 import CodeMirror, { EditorView } from '@uiw/react-codemirror';
-import { MutableRefObject, useEffect, useState } from 'react';
-import Markdown from 'react-markdown';
+import { Dispatch, SetStateAction } from 'react';
 import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({
@@ -19,22 +17,22 @@ const customTheme = themes.gruvboxDarkInit({
   },
 });
 
-export function Editor({
-  editorContentRef,
-}: { editorContentRef: MutableRefObject<string> }) {
-  const [editorContent, setEditorContent] = useState(editorContentRef.current);
+interface EditorProps {
+  editorContent: string;
+  setEditorContent: Dispatch<SetStateAction<string>>;
+}
 
+export function Editor({ editorContent, setEditorContent }: EditorProps) {
   return (
     <>
       <CodeMirror
         theme={customTheme}
         value={editorContent}
         onChange={(editorOutput) => {
-          editorContentRef.current = editorOutput;
           setEditorContent(editorOutput);
         }}
         placeholder={'Enter some Markdown...'}
-        className="text-lg"
+        className="text-lg border h-remaining"
         id="editor"
         basicSetup={{
           foldGutter: false,
@@ -42,28 +40,13 @@ export function Editor({
           allowMultipleSelections: false,
           autocompletion: false,
         }}
-        height="100%"
-        width="100%"
+        maxHeight="100%"
         extensions={[
           vim({ status: true }),
           markdown({ base: markdownLanguage, codeLanguages: languages }),
           EditorView.lineWrapping,
         ]}
       />
-      <Preview markdownString={editorContent} />
     </>
-  );
-}
-
-export function Preview({ markdownString }: { markdownString: string }) {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-  return (
-    isClient &&
-    markdownString && (
-      <Markdown className={`${proseClassName}`}>{markdownString}</Markdown>
-    )
   );
 }
