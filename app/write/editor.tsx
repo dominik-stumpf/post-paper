@@ -8,7 +8,7 @@ import { EditorView, keymap } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
 import { basicSetup } from 'codemirror';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
 import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({
@@ -21,43 +21,48 @@ const customTheme = themes.gruvboxDarkInit({
 });
 
 interface EditorProps {
-  editorContent: string;
+  initialEditorContent: string;
   setEditorContent: Dispatch<SetStateAction<string>>;
 }
 
-export const Editor = ({ editorContent, setEditorContent }: EditorProps) => {
-  const editor = useRef<HTMLDivElement>(null);
-  const onUpdate = EditorView.updateListener.of((v) => {
-    setEditorContent(v.state.doc.toString());
-  });
-
-  useEffect(() => {
-    if (!editor.current) return;
-
-    const startState = EditorState.create({
-      doc: editorContent,
-      extensions: [
-        basicSetup,
-        EditorView.lineWrapping,
-        keymap.of(defaultKeymap),
-        customTheme,
-        vim({ status: true }),
-        markdown({ base: markdownLanguage, codeLanguages: languages }),
-        onUpdate,
-      ],
+export const Editor = memo(
+  ({ initialEditorContent, setEditorContent }: EditorProps) => {
+    const editor = useRef<HTMLDivElement>(null);
+    const onUpdate = EditorView.updateListener.of((v) => {
+      setEditorContent(v.state.doc.toString());
     });
 
-    const view = new EditorView({ state: startState, parent: editor.current });
+    useEffect(() => {
+      if (!editor.current) return;
 
-    return () => {
-      view.destroy();
-    };
-  }, [editorContent, onUpdate]);
+      const startState = EditorState.create({
+        doc: initialEditorContent,
+        extensions: [
+          basicSetup,
+          EditorView.lineWrapping,
+          keymap.of(defaultKeymap),
+          customTheme,
+          vim({ status: true }),
+          markdown({ base: markdownLanguage, codeLanguages: languages }),
+          onUpdate,
+        ],
+      });
 
-  return (
-    <div ref={editor} id="editor" className="text-lg border h-remaining" />
-  );
-};
+      const view = new EditorView({
+        state: startState,
+        parent: editor.current,
+      });
+
+      return () => {
+        view.destroy();
+      };
+    }, [initialEditorContent, onUpdate]);
+
+    return (
+      <div ref={editor} id="editor" className="text-lg border h-remaining" />
+    );
+  },
+);
 
 // export function Editor({ editorContent, setEditorContent }: EditorProps) {
 //   return (

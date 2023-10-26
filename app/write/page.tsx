@@ -44,7 +44,7 @@ export default function Page() {
       onSubmit={handleSubmit}
     >
       <Editor
-        editorContent={editorContent}
+        initialEditorContent={initialMarkdown}
         setEditorContent={setEditorContent}
       />
       <div className="h-remaining flex flex-col relative">
@@ -59,7 +59,7 @@ export default function Page() {
 
 function Preview({ markdown }: { markdown: string }) {
   return (
-    <div className="overflow-y-scroll border border-fuchsia-500">
+    <div className="overflow-y-scroll border border-fuchsia-500 h-full">
       <RenderPaper>{markdown}</RenderPaper>
     </div>
   );
