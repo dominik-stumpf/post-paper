@@ -1,9 +1,3 @@
-import Markdown from 'react-markdown';
-import {
-  rehypePlugins,
-  remarkPlugins,
-  className,
-} from '@/components/render-paper/render-paper';
 // @ts-expect-error: untyped.
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 
