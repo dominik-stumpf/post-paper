@@ -16,27 +16,14 @@ interface PreviewRendererProps {
 }
 
 function PreviewRendererComponent({ children }: PreviewRendererProps) {
-  console.log('rendering new markdown');
-
   return toJsxRuntime(children, {
     Fragment,
-    ignoreInvalidStyle: true,
     jsx,
     jsxs,
-    passKeys: true,
-    passNode: true,
+    // ignoreInvalidStyle: true,
+    // passKeys: true,
+    // passNode: true,
   });
-
-  // return (
-
-  //   // <Markdown
-  //   //   className={className}
-  //   //   rehypePlugins={rehypePlugins}
-  //   //   remarkPlugins={remarkPlugins}
-  //   // >
-  //   //   {children}
-  //   // </Markdown>
-  // );
 }
 
 export const PreviewRenderer = memo(PreviewRendererComponent);
