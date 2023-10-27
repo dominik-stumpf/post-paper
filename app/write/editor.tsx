@@ -23,20 +23,20 @@ const customTheme = themes.gruvboxDarkInit({
 interface EditorProps {
   initialEditorContent: string;
   setEditorContent: (editorContent: string) => void;
-  setCaretOffset: (caretOffset: number) => void;
+  setPositionOffset: (positionOffset: number) => void;
 }
 
 function EditorComponent({
   initialEditorContent,
   setEditorContent,
-  setCaretOffset,
+  setPositionOffset,
 }: EditorProps) {
   const editor = useRef<HTMLDivElement>(null);
   console.log('editor update');
 
   const onUpdate = EditorView.updateListener.of((v) => {
     setEditorContent(v.state.doc.toString());
-    setCaretOffset(v.view.state.selection.ranges[0].from);
+    setPositionOffset(v.view.state.selection.ranges[0].from);
   });
 
   useEffect(() => {

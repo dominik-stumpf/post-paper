@@ -9,16 +9,7 @@ import { PreviewRenderer } from './preview-renderer';
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
   const [editorContent, setEditorContent] = useState(initialMarkdown);
-  const [positionOffset, setPositionOffset] = useState(1000);
-
-  // const handleCaretMovement = useCallback((offset: number) => {
-  //   // console.log(offset);
-  //   setPositionOffset(offset);
-  // }, []);
-
-  // const handleEditorStateChange = useCallback((state: string) => {
-  //   // setEditorContent(state);
-  // }, []);
+  const [positionOffset, setPositionOffset] = useState(0);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -53,7 +44,7 @@ export default function Page() {
       <Editor
         initialEditorContent={initialMarkdown}
         setEditorContent={setEditorContent}
-        setCaretOffset={setPositionOffset}
+        setPositionOffset={setPositionOffset}
       />
       <div className="h-remaining flex flex-col relative">
         <Preview markdown={editorContent} positionOffset={positionOffset} />
@@ -71,16 +62,17 @@ function Preview({
 }: { markdown: string; positionOffset: number }) {
   useEffect(() => {
     console.log(positionOffset);
-    document
-      .querySelector('#caret-active-node')
-      ?.scrollIntoView({ behavior: 'smooth' });
+    // document
+    //   .querySelector('#caret-active-node')
+    //   ?.scrollIntoView({ behavior: 'smooth' });
   }, [positionOffset]);
 
   return (
     <div className="overflow-y-scroll h-full">
-      <PreviewRenderer positionOffset={positionOffset}>
+      {markdown}
+      {/* <PreviewRenderer positionOffset={positionOffset}>
         {markdown}
-      </PreviewRenderer>
+      </PreviewRenderer> */}
     </div>
   );
 }
