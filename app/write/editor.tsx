@@ -32,7 +32,6 @@ function EditorComponent({
   setPositionOffset,
 }: EditorProps) {
   const editor = useRef<HTMLDivElement>(null);
-  console.log('editor update');
 
   const onUpdate = EditorView.updateListener.of((v) => {
     setEditorContent(v.state.doc.toString());

@@ -5,6 +5,7 @@ import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
 import { PreviewRenderer } from './preview-renderer';
+import { Preview } from './preview';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -53,26 +54,5 @@ export default function Page() {
         </button>
       </div>
     </form>
-  );
-}
-
-function Preview({
-  markdown,
-  positionOffset,
-}: { markdown: string; positionOffset: number }) {
-  useEffect(() => {
-    console.log(positionOffset);
-    // document
-    //   .querySelector('#caret-active-node')
-    //   ?.scrollIntoView({ behavior: 'smooth' });
-  }, [positionOffset]);
-
-  return (
-    <div className="overflow-y-scroll h-full">
-      {markdown}
-      {/* <PreviewRenderer positionOffset={positionOffset}>
-        {markdown}
-      </PreviewRenderer> */}
-    </div>
   );
 }
