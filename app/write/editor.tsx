@@ -1,14 +1,13 @@
 'use client';
 
-import { defaultKeymap } from '@codemirror/commands';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
-import { EditorView, keymap } from '@codemirror/view';
+import { EditorView, placeholder } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
-import { basicSetup, minimalSetup } from 'codemirror';
-import { Dispatch, SetStateAction, memo, useEffect, useRef } from 'react';
+import { minimalSetup } from 'codemirror';
+import { memo, useEffect, useRef } from 'react';
 import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({
@@ -23,14 +22,16 @@ const customTheme = themes.gruvboxDarkInit({
 
 interface EditorProps {
   initialEditorContent: string;
-  setEditorContent: Dispatch<SetStateAction<string>>;
+  setEditorContent: (editorContent: string) => void;
+  setCaretOffset: (caretOffset: number) => void;
 }
 
 export const Editor = memo(
-  ({ initialEditorContent, setEditorContent }: EditorProps) => {
+  ({ initialEditorContent, setEditorContent, setCaretOffset }: EditorProps) => {
     const editor = useRef<HTMLDivElement>(null);
     const onUpdate = EditorView.updateListener.of((v) => {
       setEditorContent(v.state.doc.toString());
+      setCaretOffset(v.view.state.selection.ranges[0].from);
     });
 
     useEffect(() => {
@@ -39,9 +40,9 @@ export const Editor = memo(
       const startState = EditorState.create({
         doc: initialEditorContent,
         extensions: [
+          placeholder('Enter some markdown...'),
           minimalSetup,
           EditorView.lineWrapping,
-          keymap.of(defaultKeymap),
           customTheme,
           vim({ status: true }),
           markdown({ base: markdownLanguage, codeLanguages: languages }),
@@ -64,32 +65,3 @@ export const Editor = memo(
     );
   },
 );
-
-// export function Editor({ editorContent, setEditorContent }: EditorProps) {
-//   return (
-//     <>
-//       <CodeMirror
-//         theme={customTheme}
-//         value={editorContent}
-//         onChange={(editorOutput) => {
-//           setEditorContent(editorOutput);
-//         }}
-//         placeholder={'Enter some Markdown...'}
-//         className="text-lg border h-remaining"
-//         id="editor"
-//         basicSetup={{
-//           foldGutter: false,
-//           lineNumbers: false,
-//           allowMultipleSelections: false,
-//           autocompletion: false,
-//         }}
-//         maxHeight="100%"
-//         extensions={[
-//           vim({ status: true }),
-//           markdown({ base: markdownLanguage, codeLanguages: languages }),
-//           EditorView.lineWrapping,
-//         ]}
-//       />
-//     </>
-//   );
-// }
