@@ -26,42 +26,48 @@ interface EditorProps {
   setCaretOffset: (caretOffset: number) => void;
 }
 
-export const Editor = memo(
-  ({ initialEditorContent, setEditorContent, setCaretOffset }: EditorProps) => {
-    const editor = useRef<HTMLDivElement>(null);
-    const onUpdate = EditorView.updateListener.of((v) => {
-      setEditorContent(v.state.doc.toString());
-      setCaretOffset(v.view.state.selection.ranges[0].from);
+function EditorComponent({
+  initialEditorContent,
+  setEditorContent,
+  setCaretOffset,
+}: EditorProps) {
+  const editor = useRef<HTMLDivElement>(null);
+  console.log('editor update');
+
+  const onUpdate = EditorView.updateListener.of((v) => {
+    setEditorContent(v.state.doc.toString());
+    setCaretOffset(v.view.state.selection.ranges[0].from);
+  });
+
+  useEffect(() => {
+    if (!editor.current) return;
+
+    const startState = EditorState.create({
+      doc: initialEditorContent,
+      extensions: [
+        placeholder('Enter some markdown...'),
+        minimalSetup,
+        EditorView.lineWrapping,
+        customTheme,
+        vim({ status: true }),
+        markdown({ base: markdownLanguage, codeLanguages: languages }),
+        onUpdate,
+      ],
     });
 
-    useEffect(() => {
-      if (!editor.current) return;
+    const view = new EditorView({
+      state: startState,
+      parent: editor.current,
+    });
 
-      const startState = EditorState.create({
-        doc: initialEditorContent,
-        extensions: [
-          placeholder('Enter some markdown...'),
-          minimalSetup,
-          EditorView.lineWrapping,
-          customTheme,
-          vim({ status: true }),
-          markdown({ base: markdownLanguage, codeLanguages: languages }),
-          onUpdate,
-        ],
-      });
+    return () => {
+      view.destroy();
+    };
+  }, [initialEditorContent, onUpdate]);
 
-      const view = new EditorView({
-        state: startState,
-        parent: editor.current,
-      });
+  return (
+    <div ref={editor} id="editor" className="text-lg h-remaining w-full" />
+  );
+}
 
-      return () => {
-        view.destroy();
-      };
-    }, [initialEditorContent, onUpdate]);
-
-    return (
-      <div ref={editor} id="editor" className="text-lg h-remaining w-full" />
-    );
-  },
-);
+export const Editor = memo(EditorComponent);

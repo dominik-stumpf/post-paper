@@ -4,22 +4,21 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
-import { RenderPaper } from '@/components/render-paper/render-paper';
-import MdOffsetParser from '@/utils/md-offset-parser';
+import { PreviewRenderer } from './preview-renderer';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
   const [editorContent, setEditorContent] = useState(initialMarkdown);
-  const [caretOffset, setCaretOffset] = useState(1000);
+  const [positionOffset, setPositionOffset] = useState(1000);
 
-  const handleCaretMovement = useCallback((offset: number) => {
-    // console.log(offset);
-    setCaretOffset(offset);
-  }, []);
+  // const handleCaretMovement = useCallback((offset: number) => {
+  //   // console.log(offset);
+  //   setPositionOffset(offset);
+  // }, []);
 
-  const handleEditorStateChange = useCallback((state: string) => {
-    // setEditorContent(state);
-  }, []);
+  // const handleEditorStateChange = useCallback((state: string) => {
+  //   // setEditorContent(state);
+  // }, []);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -53,11 +52,11 @@ export default function Page() {
     >
       <Editor
         initialEditorContent={initialMarkdown}
-        setEditorContent={handleEditorStateChange}
-        setCaretOffset={handleCaretMovement}
+        setEditorContent={setEditorContent}
+        setCaretOffset={setPositionOffset}
       />
       <div className="h-remaining flex flex-col relative">
-        <Preview markdown={editorContent} caretOffset={caretOffset} />
+        <Preview markdown={editorContent} positionOffset={positionOffset} />
         <button type="submit" className="">
           Post Paper
         </button>
@@ -68,20 +67,20 @@ export default function Page() {
 
 function Preview({
   markdown,
-  caretOffset,
-}: { markdown: string; caretOffset: number }) {
+  positionOffset,
+}: { markdown: string; positionOffset: number }) {
   useEffect(() => {
-    console.log(caretOffset);
+    console.log(positionOffset);
     document
       .querySelector('#caret-active-node')
       ?.scrollIntoView({ behavior: 'smooth' });
-  }, [caretOffset]);
+  }, [positionOffset]);
 
   return (
     <div className="overflow-y-scroll h-full">
-      {/* <RenderPaper Parser={MdOffsetParser} positionOffset={caretOffset}>
+      <PreviewRenderer positionOffset={positionOffset}>
         {markdown}
-      </RenderPaper> */}
+      </PreviewRenderer>
     </div>
   );
 }
