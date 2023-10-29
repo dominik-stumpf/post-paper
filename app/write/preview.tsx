@@ -9,6 +9,84 @@ import {
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import remarkRehype from 'remark-rehype';
+import { visit, EXIT, CONTINUE, SKIP, BuildVisitor } from 'unist-util-visit';
+
+type HastVisitor = BuildVisitor<HastRoot>;
+
+// export function markHastOffset(offset: number, hast: HastNodes) {
+//   visit(hast, transform);
+
+//   function transform(
+//     ...[node, index, parent]: Parameters<HastVisitor>
+//   ): ReturnType<HastVisitor> {
+//     if (parent?.type !== 'root') return SKIP;
+//     if (node.type !== 'element') return CONTINUE;
+
+//     const startOffset = node.position?.start.offset;
+//     const endOffset = node.position?.end.offset;
+
+//     if (
+//       typeof startOffset === 'number' &&
+//       typeof endOffset === 'number' &&
+//       startOffset <= offset &&
+//       offset <= endOffset
+//     ) {
+//       node.properties.id = 'caret-active-node';
+//       // console.log(node);
+//       return EXIT;
+//     }
+//   }
+
+//   return hast;
+// }
+
+export function findIdByOffsetPosition(offset: number, hast: HastNodes) {
+  let id;
+  visit(hast, transform);
+
+  function transform(
+    ...[node, index, parent]: Parameters<HastVisitor>
+  ): ReturnType<HastVisitor> {
+    // if (parent?.type !== 'root') return SKIP;
+    if (node.type !== 'element') return CONTINUE;
+
+    const startOffset = node.position?.start.offset;
+    const endOffset = node.position?.end.offset;
+
+    if (
+      typeof startOffset === 'number' &&
+      typeof endOffset === 'number' &&
+      startOffset <= offset &&
+      offset <= endOffset
+    ) {
+      // node.properties.id = 'caret-active-node';
+      id = node.properties.id;
+      // console.log(node);
+      return EXIT;
+    }
+  }
+
+  // return hast;
+  return id;
+}
+
+function applyIdToRootChild(hast: HastNodes) {
+  const getRandomId = () => {
+    return `scroll-${crypto.randomUUID()}`;
+  };
+  visit(hast, transform);
+
+  function transform(
+    ...[node, index, parent]: Parameters<HastVisitor>
+  ): ReturnType<HastVisitor> {
+    if (parent?.type !== 'root') return CONTINUE;
+    if (node.type !== 'element') return CONTINUE;
+
+    node.properties.id = getRandomId();
+  }
+
+  return hast;
+}
 
 function processMdToHast(md: string) {
   const processor = unified()
@@ -27,20 +105,26 @@ export function Preview({
   markdown,
   positionOffset,
 }: { markdown: string; positionOffset: number }) {
-  // const [ParsedMarkdown, setParsedMarkdown] = useState(markdown);
   const [hast, setHast] = useState<HastNodes>();
+  const [offsetId, setOffsetId] = useState<string | undefined>();
 
   useEffect(() => {
-    // setParsedMarkdown(markdown);
-    setHast(processMdToHast(markdown));
+    const newHast = applyIdToRootChild(processMdToHast(markdown));
+    setHast(newHast);
   }, [markdown]);
 
   useEffect(() => {
-    console.log(positionOffset);
-    // document
-    //   .querySelector('#caret-active-node')
-    //   ?.scrollIntoView({ behavior: 'smooth' });
-  }, [positionOffset]);
+    if (!hast) return;
+    setOffsetId(findIdByOffsetPosition(positionOffset, hast));
+  }, [positionOffset, hast]);
+
+  useEffect(() => {
+    if (!offsetId) return;
+    // console.log('query', offsetId);
+    document
+      .querySelector(`#${offsetId}`)
+      ?.scrollIntoView({ behavior: 'smooth' });
+  }, [offsetId]);
 
   return (
     <div className={`overflow-y-scroll h-full ${className}`}>
