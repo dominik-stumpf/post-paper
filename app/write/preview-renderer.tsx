@@ -12,9 +12,9 @@ interface PreviewRendererProps {
 }
 
 export function PreviewRenderer({ children }: PreviewRendererProps) {
-  // useEffect(() => {
-  //   console.log('updating renderer', children);
-  // }, [children]);
+  useEffect(() => {
+    console.log('updating renderer', children);
+  }, [children]);
 
   // const getPreview = useMemo(() => {
   //   console.log('updating renderer', children);
