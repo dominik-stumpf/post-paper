@@ -45,54 +45,6 @@ export function markHastOffset(offset: number, hast: HastNodes) {
   return hast;
 }
 
-// export function findIdByOffsetPosition(offset: number, hast: HastNodes) {
-//   let id;
-//   visit(hast, transform);
-
-//   function transform(
-//     ...[node, index, parent]: Parameters<HastVisitor>
-//   ): ReturnType<HastVisitor> {
-//     // if (parent?.type !== 'root') return SKIP;
-//     if (node.type !== 'element') return CONTINUE;
-
-//     const startOffset = node.position?.start.offset;
-//     const endOffset = node.position?.end.offset;
-
-//     if (
-//       typeof startOffset === 'number' &&
-//       typeof endOffset === 'number' &&
-//       startOffset <= offset &&
-//       offset <= endOffset
-//     ) {
-//       // node.properties.id = 'caret-active-node';
-//       id = node.properties.id;
-//       // console.log(node);
-//       return EXIT;
-//     }
-//   }
-
-//   // return hast;
-//   return id;
-// }
-
-// function applyIdToRootChild(hast: HastNodes) {
-//   const getRandomId = () => {
-//     return `scroll-${crypto.randomUUID()}`;
-//   };
-//   visit(hast, transform);
-
-//   function transform(
-//     ...[node, index, parent]: Parameters<HastVisitor>
-//   ): ReturnType<HastVisitor> {
-//     if (parent?.type !== 'root') return CONTINUE;
-//     if (node.type !== 'element') return CONTINUE;
-
-//     // node.properties.id = getRandomId();
-//   }
-
-//   return hast;
-// }
-
 function processMdToHast(md: string) {
   const processor = unified()
     .use(remarkParse)

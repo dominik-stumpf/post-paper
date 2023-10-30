@@ -183,11 +183,6 @@ const elementTagNames = [
   'view',
 ] as const;
 
-// type Elements = Record<
-//   typeof elementTagNames[number],
-//   ReturnType<typeof createElement>
-// >;
-
 export const intrinsicElements: Components = {} as Components;
 
 for (let i = 0; i < elementTagNames.length; i += 1) {
@@ -203,7 +198,6 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
 
     useEffect(() => {
       if (!isActive || elementRef.current === null) return;
-      console.log('scrolling', elementRef.current);
       elementRef.current.scrollIntoView({ behavior: 'instant' });
     }, [isActive]);
 
