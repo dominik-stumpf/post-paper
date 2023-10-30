@@ -189,11 +189,6 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
   const tagName = elementTagNames[i];
   const component: Components['p'] = ({ children, node, ...rest }) => {
     const isActive = node?.properties.id === offsetId;
-
-    if (isActive) {
-      console.log(node);
-    }
-
     const elementRef = useRef<Element>(null);
 
     useEffect(() => {
@@ -204,7 +199,7 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
     return createElement(
       tagName,
       {
-        className: isActive ? 'border border-red-500' : undefined,
+        className: isActive ? 'bg-white/10' : undefined,
         ref: elementRef,
         ...rest,
       },

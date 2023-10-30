@@ -65,14 +65,8 @@ export function Preview({
   const [hast, setHast] = useState<HastNodes>();
 
   useEffect(() => {
-    // setHast(processMdToHast(markdown));
     setHast(markHastOffset(positionOffset, processMdToHast(markdown)));
   }, [markdown, positionOffset]);
-
-  // useEffect(() => {
-  //   // console.log('setting new hast');
-  //   setHast((prevHast) => prevHast && markHastOffset(positionOffset, prevHast));
-  // }, [positionOffset]);
 
   return (
     <div className={`overflow-y-scroll h-full ${className}`}>
