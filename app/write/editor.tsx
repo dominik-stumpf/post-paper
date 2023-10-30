@@ -5,17 +5,15 @@ import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
-import * as themes from '@uiw/codemirror-themes-all';
+import { gruvboxDarkInit } from '@uiw/codemirror-themes-all';
 import { minimalSetup } from 'codemirror';
 import { memo, useEffect, useRef } from 'react';
 import './editor.css';
 
-const customTheme = themes.gruvboxDarkInit({
+const customTheme = gruvboxDarkInit({
   settings: {
     fontFamily: 'var(--mono)',
     background: 'black',
-    // lineHighlight: '#ffffff11',
-    // caret: '#ff0000',
     selection: '#ffffff33',
   },
 });
