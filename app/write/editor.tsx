@@ -1,69 +1,72 @@
 'use client';
 
-import { proseClassName } from '@/components/prose';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
+import { EditorState } from '@codemirror/state';
+import { EditorView, placeholder } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
 import * as themes from '@uiw/codemirror-themes-all';
-import CodeMirror, { EditorView } from '@uiw/react-codemirror';
-import { MutableRefObject, useEffect, useState } from 'react';
-import Markdown from 'react-markdown';
+import { minimalSetup } from 'codemirror';
+import { memo, useEffect, useRef } from 'react';
 import './editor.css';
 
 const customTheme = themes.gruvboxDarkInit({
   settings: {
     fontFamily: 'var(--mono)',
     background: 'black',
-    lineHighlight: '#ffffff11',
-    selection: '#ffffff22',
+    // lineHighlight: '#ffffff11',
+    // caret: '#ff0000',
+    selection: '#ffffff33',
   },
 });
 
-export function Editor({
-  editorContentRef,
-}: { editorContentRef: MutableRefObject<string> }) {
-  const [editorContent, setEditorContent] = useState(editorContentRef.current);
-
-  return (
-    <>
-      <CodeMirror
-        theme={customTheme}
-        value={editorContent}
-        onChange={(editorOutput) => {
-          editorContentRef.current = editorOutput;
-          setEditorContent(editorOutput);
-        }}
-        placeholder={'Enter some Markdown...'}
-        className="text-lg"
-        id="editor"
-        basicSetup={{
-          foldGutter: false,
-          lineNumbers: false,
-          allowMultipleSelections: false,
-          autocompletion: false,
-        }}
-        height="100%"
-        width="100%"
-        extensions={[
-          vim({ status: true }),
-          markdown({ base: markdownLanguage, codeLanguages: languages }),
-          EditorView.lineWrapping,
-        ]}
-      />
-      <Preview markdownString={editorContent} />
-    </>
-  );
+interface EditorProps {
+  initialEditorContent: string;
+  setEditorContent: (editorContent: string) => void;
+  setPositionOffset: (positionOffset: number) => void;
 }
 
-export function Preview({ markdownString }: { markdownString: string }) {
-  const [isClient, setIsClient] = useState(false);
+function EditorComponent({
+  initialEditorContent,
+  setEditorContent,
+  setPositionOffset,
+}: EditorProps) {
+  const editor = useRef<HTMLDivElement>(null);
+
+  const onUpdate = EditorView.updateListener.of((v) => {
+    setEditorContent(v.state.doc.toString());
+    setPositionOffset(v.view.state.selection.ranges[0].from);
+  });
+
   useEffect(() => {
-    setIsClient(true);
-  }, []);
+    if (!editor.current) return;
+
+    const startState = EditorState.create({
+      doc: initialEditorContent,
+      extensions: [
+        placeholder('Enter some markdown...'),
+        minimalSetup,
+        EditorView.lineWrapping,
+        customTheme,
+        vim({ status: true }),
+        markdown({ base: markdownLanguage, codeLanguages: languages }),
+        onUpdate,
+      ],
+    });
+
+    const view = new EditorView({
+      state: startState,
+      parent: editor.current,
+    });
+
+    return () => {
+      view.destroy();
+    };
+  }, [initialEditorContent, onUpdate]);
+
   return (
-    isClient &&
-    markdownString && (
-      <Markdown className={`${proseClassName}`}>{markdownString}</Markdown>
-    )
+    <div ref={editor} id="editor" className="text-lg h-remaining w-full" />
   );
 }
+
+export const Editor = memo(EditorComponent);

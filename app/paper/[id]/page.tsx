@@ -1,9 +1,10 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
-import { Prose } from '@/components/prose';
+import { PageRoot } from '@/components/page-root';
+
+import { RenderPaper } from '@/components/render-paper/render-paper';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import Markdown from 'react-markdown';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,10 +35,10 @@ export default async function Page({
   const likesCount = post.likes.length;
 
   return (
-    <div className="py-16">
-      <Prose>
-        <Markdown>{post.paper_data}</Markdown>
-      </Prose>
+    <PageRoot>
+      <main>
+        <RenderPaper>{post.paper_data}</RenderPaper>
+      </main>
       <LikeButton
         data={{
           likes: likesCount,
@@ -46,6 +47,6 @@ export default async function Page({
         }}
       />
       <CopyToClipboard copyHref>share link</CopyToClipboard>
-    </div>
+    </PageRoot>
   );
 }

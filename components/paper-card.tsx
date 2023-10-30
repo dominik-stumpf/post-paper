@@ -31,7 +31,6 @@ export async function PaperCard({
               })}
             </time>
           </div>
-          <div className="grow-0">{likes_count}</div>
         </div>
         <div className="flex flex-col gap-3">
           <h2 className="text-2xl font-bold overflow-clip max-h-16">

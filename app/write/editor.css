@@ -14,3 +14,19 @@
 #editor .cm-vim-panel {
   @apply text-white font-bold bg-black/80
 }
+
+#editor .cm-editor {
+  @apply h-full w-full;
+}
+
+#editor .cm-focused {
+  @apply outline-none;
+}
+
+#editor .cm-scroller {
+  @apply overflow-hidden;
+}
+
+#editor .cm-fat-cursor {
+  @apply bg-transparent ring-1 ring-white;
+}
