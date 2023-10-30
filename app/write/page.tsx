@@ -1,10 +1,10 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
-import { PreviewRenderer } from './preview-renderer';
+
 import { Preview } from './preview';
 
 export default function Page() {

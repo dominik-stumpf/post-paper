@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
-import { PreviewRenderer } from './preview-renderer';
-import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
 import {
-  remarkPlugins,
-  rehypePlugins,
   className,
+  rehypePlugins,
+  remarkPlugins,
 } from '@/components/render-paper/render-paper';
+import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
+import { useEffect, useState } from 'react';
 import remarkParse from 'remark-parse';
-import { unified } from 'unified';
 import remarkRehype from 'remark-rehype';
-import { visit, EXIT, CONTINUE, SKIP, BuildVisitor } from 'unist-util-visit';
+import { unified } from 'unified';
+import { BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
+import { PreviewRenderer } from './preview-renderer';
 
 type HastVisitor = BuildVisitor<HastRoot>;
 
@@ -19,7 +19,7 @@ export function markHastOffset(offset: number, hast: HastNodes) {
   visit(hast, transform);
 
   function transform(
-    ...[node, index, parent]: Parameters<HastVisitor>
+    ...[node, _index, _parent]: Parameters<HastVisitor>
   ): ReturnType<HastVisitor> {
     if (node.type !== 'element') return CONTINUE;
 

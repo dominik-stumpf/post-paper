@@ -1,5 +1,5 @@
-import { DOMElement, createElement, useEffect, useRef } from 'react';
 import type { Components } from 'hast-util-to-jsx-runtime';
+import { createElement, useEffect, useRef } from 'react';
 import { offsetId } from './preview';
 
 // generated from type: JSX.IntrinsicElements
