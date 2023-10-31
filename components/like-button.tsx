@@ -5,20 +5,17 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState, useRef } from 'react';
 
 interface LikeButtonProps {
-  data: {
-    post_id: string;
-  };
+  post_id: string;
 }
 
 const throttleTimeoutMs = 300;
 
-export function LikeButton({ data: { post_id } }: LikeButtonProps) {
+export function LikeButton({ post_id }: LikeButtonProps) {
   const [like, setLike] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const initialLikeCount = useRef<number | null>(null);
   const { isLoading, user } = useClientUser();
   const supabase = createClientComponentClient<Database>();
-  const throttleTimeoutId = useRef<undefined | number>();
   const [lastSyncedIsLikedState, setLastSyncedIsLikedState] = useState<
     boolean | null
   >(null);
@@ -58,25 +55,18 @@ export function LikeButton({ data: { post_id } }: LikeButtonProps) {
     if (initialLikeCount.current === null || !user) return;
 
     setLike(initialLikeCount.current + (isLiked ? 1 : 0));
-    handleLike();
-  }, [isLiked, user]);
 
-  function handleLike() {
-    if (throttleTimeoutId.current !== undefined) {
-      clearTimeout(throttleTimeoutId.current);
-      throttleTimeoutId.current = undefined;
-    }
-
-    throttleTimeoutId.current = window.setTimeout(() => {
-      if (lastSyncedIsLikedState !== null) {
-        setLastSyncedIsLikedState(isLiked);
-      }
+    const throttleTimeoutId = window.setTimeout(() => {
+      setLastSyncedIsLikedState((prev) => (prev === null ? null : isLiked));
     }, throttleTimeoutMs);
-  }
+
+    return () => {
+      clearTimeout(throttleTimeoutId);
+    };
+  }, [isLiked, user]);
 
   useEffect(() => {
     if (!user || lastSyncedIsLikedState === null) return;
-    console.log(lastSyncedIsLikedState);
 
     const abortController = new AbortController();
 
