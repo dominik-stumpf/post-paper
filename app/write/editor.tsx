@@ -5,18 +5,18 @@ import { languages } from '@codemirror/language-data';
 import { EditorState } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
-// import { gruvboxDarkInit } from '@uiw/codemirror-themes-all';
+import { gruvboxDarkInit } from '@uiw/codemirror-theme-gruvbox-dark';
 import { minimalSetup } from 'codemirror';
 import { memo, useEffect, useRef } from 'react';
 import './editor.css';
 
-// const customTheme = gruvboxDarkInit({
-//   settings: {
-//     fontFamily: 'var(--mono)',
-//     background: 'black',
-//     selection: '#ffffff33',
-//   },
-// });
+const customTheme = gruvboxDarkInit({
+  settings: {
+    fontFamily: 'var(--mono)',
+    background: 'black',
+    selection: '#ffffff33',
+  },
+});
 
 interface EditorProps {
   initialEditorContent: string;
@@ -45,7 +45,7 @@ function EditorComponent({
         placeholder('Enter some markdown...'),
         minimalSetup,
         EditorView.lineWrapping,
-        // customTheme,
+        customTheme,
         vim({ status: true }),
         markdown({ base: markdownLanguage, codeLanguages: languages }),
         onUpdate,

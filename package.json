@@ -42,6 +42,7 @@
     "@studio-freight/react-lenis": "^0.0.36",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/supabase-js": "^2.38.0",
+    "@uiw/codemirror-theme-gruvbox-dark": "^4.21.20",
     "codemirror": "^6.0.1",
     "hast-util-to-jsx-runtime": "^2.2.0",
     "mdast-util-from-markdown": "^2.0.0",
