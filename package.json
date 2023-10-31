@@ -37,6 +37,7 @@
     "@codemirror/matchbrackets": "^0.19.4",
     "@codemirror/state": "^6.3.1",
     "@codemirror/view": "^6.21.4",
+    "@ducanh2912/next-pwa": "^9.7.2",
     "@replit/codemirror-vim": "^6.0.14",
     "@studio-freight/react-lenis": "^0.0.36",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
@@ -68,6 +69,6 @@
     "supabase": "^1.106.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2",
-    "webpack": "^5.88.2"
+    "webpack": "5.89.0"
   }
 }
