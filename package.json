@@ -58,7 +58,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
-    "@ducanh2912/next-pwa": "^9.7.1",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "20.8.2",
     "@types/react": "18.2.24",
