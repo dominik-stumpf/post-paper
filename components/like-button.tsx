@@ -55,11 +55,7 @@ export function LikeButton({ data: { post_id } }: LikeButtonProps) {
   }, [supabase, post_id, user, isLoading, like]);
 
   useEffect(() => {
-    if (initialLikeCount.current === null) return;
-    if (!user) {
-      console.log('login to like');
-      return;
-    }
+    if (initialLikeCount.current === null || !user) return;
 
     setLike(initialLikeCount.current + (isLiked ? 1 : 0));
     handleLike();
@@ -108,6 +104,10 @@ export function LikeButton({ data: { post_id } }: LikeButtonProps) {
     <button
       type="button"
       onClick={() => {
+        if (!user) {
+          console.log('log in to like');
+          return;
+        }
         setIsLiked((prev) => !prev);
         if (lastSyncedIsLikedState === null) {
           setLastSyncedIsLikedState(!isLiked);
