@@ -37,7 +37,7 @@
     "@codemirror/matchbrackets": "^0.19.4",
     "@codemirror/state": "^6.3.1",
     "@codemirror/view": "^6.21.4",
-    "@ducanh2912/next-pwa": "^9.7.2",
+    "@ducanh2912/next-pwa": "9.5.0",
     "@replit/codemirror-vim": "^6.0.14",
     "@studio-freight/react-lenis": "^0.0.36",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
