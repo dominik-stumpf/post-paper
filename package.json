@@ -30,6 +30,7 @@
     "apply-ci": "biome check --apply-unsafe app && biome format --write app",
     "gen-types": "source .env.local && npx supabase gen types typescript --project-id ${PROJECT_ID} > database.types.ts"
   },
+  "type": "module",
   "dependencies": {
     "@codemirror/commands": "^6.3.0",
     "@codemirror/lang-markdown": "^6.2.2",
