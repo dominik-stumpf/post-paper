@@ -27,14 +27,10 @@ export default function Page() {
       return;
     }
 
-    // const paperParser = new PaperParser(editorStateRef.current);
-    // const parsedPaper = paperParser.parse();
-
-    console.log(`inserting ${editorContent}`);
-    // await supabase.from('posts').insert({
-    //   paper_data: editorContent,
-    //   user_id: session.user.id,
-    // });
+    await supabase.from('posts').insert({
+      paper_data: editorContent,
+      user_id: session.user.id,
+    });
   }
 
   return (
