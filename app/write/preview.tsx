@@ -26,6 +26,7 @@ export function markHastOffset(offset: number, hast: HastNodes) {
     const startOffset = node.position?.start.offset;
     const endOffset = node.position?.end.offset;
 
+    node.properties = {};
     if (
       typeof startOffset === 'number' &&
       typeof endOffset === 'number' &&
@@ -35,8 +36,6 @@ export function markHastOffset(offset: number, hast: HastNodes) {
       node.properties.id = offsetId;
       // console.log(node);
       // return EXIT;
-    } else {
-      node.properties = {};
     }
 
     return SKIP;
