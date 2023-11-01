@@ -23,6 +23,9 @@ const config: Config = {
         'fg-low': 'var(--fg-low)',
         separator: 'var(--separator)',
       },
+      borderRadius: {
+        radius: 'var(--radius)',
+      },
       height: {
         header: 'var(--header-height)',
         remaining,
