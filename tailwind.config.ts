@@ -10,11 +10,19 @@ const config: Config = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    fontFamily: {
-      sans: ['var(--inter)', ...defaultTheme.fontFamily.sans],
-      mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
-    },
     extend: {
+      fontFamily: {
+        sans: ['var(--inter)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
+      },
+      colors: {
+        accent: 'var(--accent)',
+        bg: 'var(--bg)',
+        'bg-low': 'var(--bg)',
+        fg: 'var(--fg)',
+        'fg-low': 'var(--fg-low)',
+        separator: 'var(--separator)',
+      },
       height: {
         header: 'var(--header-height)',
         remaining,

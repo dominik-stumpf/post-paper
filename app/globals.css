@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --fg: #fff;
-  --bg: #000;
   --header-height: 4rem;
+  --fg: #fff;
+  --fg-low: #d1d5db;
+  --bg: #000;
+  --bg-low: #333;
+  --accent: #8b5cf6;
+  --separator: #3A3A3A;
 }
 
 body {
