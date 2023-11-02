@@ -31,7 +31,7 @@ export default async function Page({
   return (
     <PageRoot>
       <main className="max-w-prose mx-auto">
-        <div className="flex gap-2 grow mb-8">
+        <div className="flex gap-2 mb-8">
           <Avatar imageSrc={avatar_url} />
           <div>{name}</div>
           <time dateTime={post.created_at}>
