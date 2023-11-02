@@ -9,7 +9,7 @@ interface RenderPaperProps {
 }
 
 export const className =
-  'max-w-prose prose lg:prose-lg w-full prose-fuchsia prose-invert prose-pre:p-0';
+  'max-w-prose prose lg:prose-lg w-full prose-invert prose-pre:p-0';
 export const rehypePlugins: PluggableList = [rehypeHighlight];
 export const remarkPlugins: PluggableList = [remarkGfm];
 

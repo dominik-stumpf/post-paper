@@ -18,10 +18,10 @@ export default async function Login() {
   }
 
   return (
-    <PageRoot>
-      <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2 h-full">
+    <PageRoot fullPage>
+      <div className="h-full flex items-center justify-center flex-col">
         <form
-          className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
+          className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground max-w-md"
           action="/auth/sign-in"
           method="post"
         >
@@ -75,8 +75,8 @@ export default async function Login() {
           <GithubSignIn />
           <Messages />
         </form>
+        <div className="h-header w-full" />
       </div>
-      <div className="h-header w-full" />
     </PageRoot>
   );
 }

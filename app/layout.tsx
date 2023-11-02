@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans min-h-full bg-bg-color text-fg-color`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans min-h-full bg-bg-color text-fg-color selection:bg-fg-color selection:text-bg-color accent-primary-color`}
       >
         <Navbar />
         <LenisWrapper>{children}</LenisWrapper>

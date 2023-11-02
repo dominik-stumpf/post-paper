@@ -30,8 +30,8 @@ export default async function Page({
 
   return (
     <PageRoot>
-      <main>
-        <div className="flex items-center gap-2 grow mb-8">
+      <main className="max-w-prose mx-auto">
+        <div className="flex gap-2 grow mb-8">
           <Avatar imageSrc={avatar_url} />
           <div>{name}</div>
           <time dateTime={post.created_at}>

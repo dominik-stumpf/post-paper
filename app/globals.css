@@ -33,23 +33,19 @@
   }
 }
 
-::selection {
-  @apply text-neutral-950 bg-neutral-50;
-}
-
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-transparent;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-700;
+  @apply bg-fg-color/25 border-[0.3rem] border-bg-color border-solid
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-neutral-600;
+  @apply bg-fg-color/50;
 }

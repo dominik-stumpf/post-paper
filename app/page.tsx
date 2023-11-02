@@ -1,3 +1,4 @@
+import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
 import { createClient } from '@supabase/supabase-js';
 
@@ -13,12 +14,12 @@ export default async function Index() {
     .range(0, 10);
 
   return (
-    <div className="flex flex-col items-center w-full">
-      <div className="grid w-full gap-12 py-12 place-items-center">
+    <PageRoot>
+      <div className="grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 mx-auto">
         {posts?.map((post) => (
           <PaperCard key={post.id} data={post} />
         ))}
       </div>
-    </div>
+    </PageRoot>
   );
 }

@@ -19,7 +19,7 @@ const config: Config = {
       colors: {
         'primary-color': { ...violet, DEFAULT: violet['500'] },
         'fg-color': gray['100'],
-        'fg-dim-color': gray['200'],
+        'fg-dim-color': gray['300'],
         'bg-color': gray['950'],
         'surface-color': gray['800'],
         'line-color': gray['600'],
