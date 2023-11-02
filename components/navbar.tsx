@@ -15,9 +15,9 @@ export async function Navbar() {
   }).auth.getSession();
 
   return (
-    <nav className="isolate flex justify-center w-full h-header sticky top-0 bg-black/50 backdrop-blur-lg backdrop-saturate-200 shadow-[inset_rgba(255_255_255_/_0.15)_0_-1px] z-40">
+    <nav className="isolate flex justify-center w-full h-header sticky top-0 bg-black/25 backdrop-blur-lg backdrop-saturate-150 shadow-[inset_rgba(255_255_255_/_0.15)_0_-1px] z-40">
       <PageRoot onlyHorizontalBoundary>
-        <div className="flex items-center justify-between w-full p-3 text-sm text-foreground">
+        <div className="flex items-center justify-between w-full h-full p-3 text-sm text-foreground">
           <BrandLogo />
           {session?.user ? (
             <>
