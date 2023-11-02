@@ -4,6 +4,7 @@
 
 :root {
   --header-height: 4rem;
+  overflow-y: scroll;
 }
 
 .lenis.lenis-smooth {
