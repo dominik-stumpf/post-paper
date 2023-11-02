@@ -4,13 +4,6 @@
 
 :root {
   --header-height: 4rem;
-  --radius: 6px;
-  --fg: #fff;
-  --fg-low: #d1d5db;
-  --bg: #000;
-  --bg-low: #333;
-  --accent: #8b5cf6;
-  --separator: #3A3A3A;
 }
 
 body {

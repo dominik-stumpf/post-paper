@@ -19,7 +19,7 @@ export async function PaperCard({
 
   return (
     <Link href={`/paper/${id}`} className="w-1/2 max-w-2xl">
-      <section className="flex flex-col w-full gap-4 p-4 border border-separator rounded-radius">
+      <section className="flex flex-col w-full gap-4 p-4 border-line border rounded">
         <div className="flex">
           <div className="flex items-center gap-2 grow">
             <Avatar imageSrc={avatar_url} />

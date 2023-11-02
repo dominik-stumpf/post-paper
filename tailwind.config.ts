@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { violet, gray } from 'tailwindcss/colors';
 import typography from '@tailwindcss/typography';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -16,21 +17,21 @@ const config: Config = {
         mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        accent: 'var(--accent)',
-        bg: 'var(--bg)',
-        'bg-low': 'var(--bg)',
-        fg: 'var(--fg)',
-        'fg-low': 'var(--fg-low)',
-        separator: 'var(--separator)',
-      },
-      borderRadius: {
-        radius: 'var(--radius)',
+        primary: { ...violet, DEFAULT: violet['500'] },
+        fg: gray['100'],
+        'fg-dim': gray['200'],
+        bg: gray['950'],
+        surface: gray['800'],
+        line: gray['600'],
       },
       height: {
         header: 'var(--header-height)',
         remaining,
       },
       minHeight: {
+        remaining,
+      },
+      maxHeight: {
         remaining,
       },
     },
