@@ -32,21 +32,21 @@ export async function PaperCard({
         <time dateTime={created_at} className="text-fg-dim-color">
           {date}
         </time>
-        <a
+        <Link
           href={'/'}
           className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-fg-color hover:bg-bg-color"
         >
           {'category'}
-        </a>
+        </Link>
       </div>
       <div className="group relative">
-        <h2 className="mt-3 text-xl font-semibold leading-6 text-fg-color group-hover:text-fg-dim-color line-clamp-2">
-          <a href={`/paper/${id}`}>
+        <h2 className="mt-3 text-2xl tracking-tight font-semibold leading-6 text-fg-color group-hover:text-fg-dim-color line-clamp-2">
+          <Link href={`/paper/${id}`}>
             <span className="absolute inset-0" />
             {title}
-          </a>
+          </Link>
         </h2>
-        <p className="mt-5 line-clamp-2 text-sm leading-6 text-fg-dim">
+        <p className="mt-5 line-clamp-2 leading-6 text-fg-dim text-base">
           {content}
         </p>
       </div>
@@ -58,10 +58,10 @@ export async function PaperCard({
         />
         <div className="text-sm leading-6">
           <p className="font-semibold text-fg-dim">
-            <a href={'/'}>
+            <Link href={'/'}>
               <span className="absolute inset-0" />
               {name}
-            </a>
+            </Link>
           </p>
           <p className="text-fg-dim">{'Role title'}</p>
         </div>
