@@ -1,7 +1,6 @@
 import type { Config } from 'tailwindcss';
 import { violet, gray } from 'tailwindcss/colors';
 import typography from '@tailwindcss/typography';
-import defaultTheme from 'tailwindcss/defaultTheme';
 
 const remaining = 'calc(100vh - var(--header-height))';
 
@@ -13,8 +12,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--inter)', ...defaultTheme.fontFamily.sans],
-        mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
+        sans: ['var(--font-geist-sans)'],
+        mono: ['var(--font-geist-mono)'],
       },
       colors: {
         'primary-color': { ...violet, DEFAULT: violet['500'] },

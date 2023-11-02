@@ -2,15 +2,8 @@ import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar';
 import '@/types/validate-env-vars';
 import { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--mono',
-  subsets: ['latin'],
-});
-
-const inter = Inter({ subsets: ['latin'], variable: '--inter' });
+import { GeistSans, GeistMono } from 'geist/font';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -34,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans min-h-full bg-bg-color text-fg-color selection:bg-fg-color selection:text-bg-color accent-primary-color`}
+        className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-full bg-bg-color text-fg-color selection:bg-fg-color selection:text-bg-color accent-primary-color`}
       >
         <Navbar />
         <LenisWrapper>{children}</LenisWrapper>
