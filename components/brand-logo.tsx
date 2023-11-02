@@ -12,7 +12,7 @@ export function BrandLogo() {
           className="h-7 w-7 fill-fg-color absolute"
         >
           <title>Brand logo background circle</title>
-          <circle cx="50%" cy="50%" r="45%" />
+          <circle cx="50%" cy="50%" r="48%" />
         </svg>
         <Feather className="h-7 w-7 fill-fg-color stroke-bg-color stroke-[0.6rem] absolute invert" />
       </span>
