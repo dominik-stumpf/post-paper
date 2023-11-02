@@ -33,7 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans`}>
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans min-h-full bg-bg-color text-fg-color`}
+      >
         <Navbar />
         <LenisWrapper>{children}</LenisWrapper>
       </body>
