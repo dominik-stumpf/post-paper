@@ -17,12 +17,12 @@ const config: Config = {
         mono: ['var(--mono)', ...defaultTheme.fontFamily.mono],
       },
       colors: {
-        primary: { ...violet, DEFAULT: violet['500'] },
-        fg: gray['100'],
-        'fg-dim': gray['200'],
-        bg: gray['950'],
-        surface: gray['800'],
-        line: gray['600'],
+        'primary-color': { ...violet, DEFAULT: violet['500'] },
+        'fg-color': gray['100'],
+        'fg-dim-color': gray['200'],
+        'bg-color': gray['950'],
+        'surface-color': gray['800'],
+        'line-color': gray['600'],
       },
       height: {
         header: 'var(--header-height)',
