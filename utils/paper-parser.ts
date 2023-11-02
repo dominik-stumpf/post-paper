@@ -3,7 +3,7 @@ import { visit, EXIT, SKIP } from 'unist-util-visit';
 type Root = import('mdast').Root;
 type Visitor = import('unist-util-visit').BuildVisitor<Root>;
 
-interface PaperCard {
+export interface PaperCardType {
   content: string;
   title: string;
 }
@@ -20,7 +20,7 @@ export class PaperParser {
 
   constructor(private readonly paper: string) {}
 
-  public parseCard(): PaperCard {
+  public parseCard(): PaperCardType {
     const mdastTree = fromMarkdown(this.paper.slice(0, 256));
     let title = '';
     let content = '';
@@ -83,7 +83,7 @@ export class PaperParser {
     return result;
   }
 
-  public validateParsedCard({ title, content }: PaperCard) {
+  public validateParsedCard({ title, content }: PaperCardType) {
     const validationPatterns: ValidationPattern[] = [
       {
         test: title.length >= this.minTitleLength,

@@ -1,22 +1,18 @@
 import Link from 'next/link';
 import { Avatar } from './avatar';
-import { PaperParser } from '@/utils/paper-parser';
+import { PaperCardType } from '@/utils/paper-parser';
 
-interface PaperCardProps {
-  data: Database['public']['Functions']['get_post_list']['Returns'][0];
+interface PaperCardProps extends GetPostList {
+  parsedCard: PaperCardType;
 }
 
 export async function PaperCard({
-  data: { created_at, avatar_url, name, id, truncated_paper_data },
+  created_at,
+  avatar_url,
+  name,
+  id,
+  parsedCard,
 }: PaperCardProps) {
-  const paperParser = new PaperParser(truncated_paper_data);
-  const parsedCard = paperParser.parseCard();
-  const { isPaperValid } = paperParser.validateParsedCard(parsedCard);
-
-  if (!isPaperValid) {
-    return null;
-  }
-
   const date = new Date(created_at).toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',

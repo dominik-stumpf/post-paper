@@ -1,6 +1,24 @@
 import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
 import { createClient } from '@supabase/supabase-js';
+import { PaperParser } from '@/utils/paper-parser';
+
+function RenderPaperItem({ post }: { post: GetPostList }) {
+  const paperParser = new PaperParser(post.truncated_paper_data);
+  const parsedCard = paperParser.parseCard();
+  const { isPaperValid } = paperParser.validateParsedCard(parsedCard);
+
+  if (!isPaperValid) {
+    return null;
+  }
+
+  return (
+    <>
+      <PaperCard {...post} parsedCard={parsedCard} />
+      {<hr className="border-line-color" />}
+    </>
+  );
+}
 
 export default async function Index() {
   const supabase = createClient<Database>(
@@ -15,9 +33,9 @@ export default async function Index() {
 
   return (
     <PageRoot>
-      <div className="grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 mx-auto">
+      <div className="grid max-w-2xl grid-cols-1 gap-x-8 gap-y-8 mx-auto">
         {posts?.map((post) => (
-          <PaperCard key={post.id} data={post} />
+          <RenderPaperItem post={post} key={post.id} />
         ))}
       </div>
     </PageRoot>
