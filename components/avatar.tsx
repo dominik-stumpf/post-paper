@@ -1,8 +1,31 @@
 interface AvatarProps {
   imageSrc?: string;
+  size?: 'lg' | 'base' | 'sm';
 }
 
-export function Avatar({ imageSrc }: AvatarProps) {
+export function Avatar({ imageSrc, size }: AvatarProps) {
+  let sizeNumber: number;
+
+  switch (size) {
+    case 'lg':
+      sizeNumber = 10;
+      break;
+
+    case 'base':
+      sizeNumber = 8;
+      break;
+
+    case 'sm':
+      sizeNumber = 6;
+      break;
+
+    default:
+      sizeNumber = 8;
+      break;
+  }
+
+  const sizeValue = `w-${sizeNumber} h-${sizeNumber}`;
+
   return (
     <img
       src={
@@ -12,7 +35,7 @@ export function Avatar({ imageSrc }: AvatarProps) {
         )}`
       }
       alt="avatar"
-      className="w-6 h-6 rounded-full aspect-square"
+      className={`rounded-full aspect-square ${sizeValue}`}
     />
   );
 }
