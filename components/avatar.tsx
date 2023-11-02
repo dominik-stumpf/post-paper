@@ -35,7 +35,7 @@ export function Avatar({ imageSrc, size }: AvatarProps) {
         )}`
       }
       alt="avatar"
-      className={`rounded-full aspect-square ${sizeValue}`}
+      className={`rounded-full aspect-square max-w-10 max-h-10 ${sizeValue}`}
     />
   );
 }

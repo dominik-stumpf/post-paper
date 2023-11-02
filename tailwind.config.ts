@@ -21,7 +21,7 @@ const config: Config = {
         'fg-dim-color': gray['300'],
         'bg-color': gray['950'],
         'surface-color': gray['800'],
-        'line-color': gray['600'],
+        'line-color': gray['700'],
       },
       height: {
         header: 'var(--header-height)',

@@ -4,6 +4,7 @@ import '@/types/validate-env-vars';
 import { Metadata } from 'next';
 import './globals.css';
 import { GeistSans, GeistMono } from 'geist/font';
+import { Footer } from '@/components/footer';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <Navbar />
         <LenisWrapper>{children}</LenisWrapper>
+        <Footer />
       </body>
     </html>
   );
