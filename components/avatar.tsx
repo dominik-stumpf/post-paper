@@ -12,7 +12,7 @@ export function Avatar({ imageSrc }: AvatarProps) {
         )}`
       }
       alt="avatar"
-      className="w-6 rounded-full aspect-square"
+      className="w-6 h-6 rounded-full aspect-square"
     />
   );
 }
