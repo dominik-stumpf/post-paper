@@ -12,7 +12,6 @@ import './editor.css';
 
 const customTheme = gruvboxDarkInit({
   settings: {
-    fontFamily: 'var(--mono)',
     background: 'black',
     selection: '#ffffff33',
   },
