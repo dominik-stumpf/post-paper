@@ -4,9 +4,6 @@ const nextConfig = {
   images: {
     domains: ['api.dicebear.com'],
   },
-  experimental: {
-    serverActions: true,
-  },
   webpack: (config, {isServer}) => {
     if (!isServer) {
       config.externals.push('sharp')

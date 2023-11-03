@@ -1,7 +1,7 @@
 import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar';
 import '@/types/validate-env-vars';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import './globals.css';
 import { GeistSans, GeistMono } from 'geist/font';
 import { Footer } from '@/components/footer';
@@ -16,8 +16,11 @@ export const metadata: Metadata = {
     follow: true,
     index: true,
   },
-  themeColor: '#ffffff',
   icons: '/favicon.svg',
+};
+
+export const viewPort: Viewport = {
+  themeColor: 'white',
 };
 
 export default function RootLayout({
