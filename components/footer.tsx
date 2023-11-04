@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BrandLogo } from './brand-logo';
 import { PageRoot } from './page-root';
+import { ModeToggle } from './mode-toggle';
 
 export function Footer() {
   return (
@@ -11,6 +12,7 @@ export function Footer() {
             <BrandLogo />
             <Link href="site-policy">Privacy policy</Link>
             <Link href="site-policy#terms">Terms of use</Link>
+            <ModeToggle />
           </div>
           <div>© 2023 PostPaper. All rights reserved.</div>
         </div>

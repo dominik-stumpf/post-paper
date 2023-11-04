@@ -1,5 +1,5 @@
 import { LenisWrapper } from '@/components/lenis-wrapper';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/navbar/navbar';
 import '@/types/validate-env-vars';
 import { Metadata, Viewport } from 'next';
 import './globals.css';
