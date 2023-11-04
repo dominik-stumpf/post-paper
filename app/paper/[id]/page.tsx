@@ -2,8 +2,7 @@ import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { PageRoot } from '@/components/page-root';
 import { RenderPaper } from '@/components/render-paper/render-paper';
-import { Avatar } from '@/components/ui/avatar';
-import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function Page({
