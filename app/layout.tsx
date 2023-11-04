@@ -6,6 +6,7 @@ import './globals.css';
 import { GeistSans, GeistMono } from 'geist/font';
 import { Footer } from '@/components/footer';
 import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn([
           'font-sans antialiased min-h-full bg-background text-foreground selection:bg-foreground selection:text-background accent-primary',
@@ -38,9 +39,11 @@ export default function RootLayout({
           GeistMono.variable,
         ])}
       >
-        <Navbar />
-        <LenisWrapper>{children}</LenisWrapper>
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          <LenisWrapper>{children}</LenisWrapper>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
