@@ -6,7 +6,7 @@ import type { ThemeProviderProps } from 'next-themes/dist/types';
 export function ThemeProvider({ children }: ThemeProviderProps) {
   return (
     <NextThemesProvider
-      attribute="class"
+      attribute="data-theme"
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
