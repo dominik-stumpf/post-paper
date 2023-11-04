@@ -24,7 +24,8 @@
         "noNonNullAssertion": "warn"
       },
       "a11y": {
-        "noSvgWithoutTitle": "warn"
+        "noSvgWithoutTitle": "warn",
+        "useButtonType": "warn"
       }
     }
   },

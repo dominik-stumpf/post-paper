@@ -4,7 +4,6 @@
 
 :root {
   --header-height: 4rem;
-  overflow-y: scroll;
 }
 
 .lenis.lenis-smooth {
@@ -13,10 +12,6 @@
 
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
 }
 
 .lenis.lenis-scrolling iframe {

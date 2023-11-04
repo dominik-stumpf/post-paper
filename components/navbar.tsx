@@ -8,6 +8,7 @@ import Edit3 from '@geist-ui/icons/edit3';
 import { Avatar } from './avatar';
 import { ReactNode } from 'react';
 import Menu from '@geist-ui/icons/menu';
+import { UserActions } from './user-actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +28,7 @@ export async function Navbar() {
   }).auth.getSession();
 
   return (
-    <header className="isolate flex justify-center w-full h-header sticky top-0 bg-black/25 backdrop-blur-lg backdrop-saturate-150 shadow-[inset_rgba(255_255_255_/_0.15)_0_-1px] z-40">
+    <header className="isolate flex justify-center w-full h-header sticky top-0 bg-black/25 backdrop-blur-lg backdrop-saturate-150 shadow-[inset_rgba(255_255_255_/_0.15)_0_-1px] z-30">
       <PageRoot onlyHorizontalBoundary>
         <div className="flex items-center justify-between w-full h-full py-3 text-base">
           <BrandLogo />
@@ -38,10 +39,12 @@ export async function Navbar() {
                   <Edit3 />
                   Write
                 </Link>
-                <Avatar
-                  imageSrc={session.user.user_metadata.avatar_url}
-                  size="base"
-                />
+                <UserActions>
+                  <Avatar
+                    imageSrc={session.user.user_metadata.avatar_url}
+                    size="base"
+                  />
+                </UserActions>
               </>
             ) : (
               <>

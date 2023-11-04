@@ -13,9 +13,11 @@ export function PageRoot({
 }: PageRootProps) {
   return (
     <div
-      className={`px-3 max-w-screen-lg w-full
-      ${!onlyHorizontalBoundary && 'py-16 min-h-remaining mx-auto'}
-      ${fullPage && 'h-remaining'}`}
+      className={`px-3 md:px-6 max-w-screen-lg w-full ${
+        !onlyHorizontalBoundary
+          ? 'py-4 md:py-8 lg:py-16 min-h-remaining mx-auto'
+          : ''
+      } ${fullPage ? 'h-remaining' : ''}`}
     >
       {children}
     </div>
