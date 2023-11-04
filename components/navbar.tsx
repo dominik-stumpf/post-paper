@@ -6,8 +6,8 @@ import { BrandLogo } from './brand-logo';
 import { Menu, PenSquare } from 'lucide-react';
 import { ReactNode } from 'react';
 import { UserActions } from './user-actions';
-import { ModeToggle } from './ui/mode-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { ModeToggle } from '@/components/ui/mode-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const dynamic = 'force-dynamic';
 
