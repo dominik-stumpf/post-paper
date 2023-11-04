@@ -5,6 +5,7 @@ import { Metadata, Viewport } from 'next';
 import './globals.css';
 import { GeistSans, GeistMono } from 'geist/font';
 import { Footer } from '@/components/footer';
+import { cn } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -31,7 +32,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-full bg-bg-color text-fg-color selection:bg-fg-color selection:text-bg-color accent-primary-color`}
+        className={cn([
+          'font-sans antialiased min-h-full bg-background text-foreground selection:bg-foreground selection:text-background accent-primary',
+          GeistSans.variable,
+          GeistMono.variable,
+        ])}
       >
         <Navbar />
         <LenisWrapper>{children}</LenisWrapper>

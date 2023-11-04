@@ -15,7 +15,7 @@ function RenderPaperItem({ post }: { post: GetPostList }) {
   return (
     <>
       <PaperCard {...post} parsedCard={parsedCard} />
-      {<hr className="border-line-color" />}
+      {<hr className="border-border" />}
     </>
   );
 }

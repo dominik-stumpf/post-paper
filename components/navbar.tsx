@@ -28,7 +28,10 @@ export async function Navbar() {
   }).auth.getSession();
 
   return (
-    <header className="isolate flex justify-center w-full h-header sticky top-0 bg-black/25 backdrop-blur-lg backdrop-saturate-150 shadow-[inset_rgba(255_255_255_/_0.15)_0_-1px] z-30">
+    <header
+      className="isolate flex justify-center w-full h-header sticky top-0 bg-background/25 backdrop-blur-lg backdrop-saturate-150 z-30"
+      style={{ boxShadow: 'inset 0 -1px hsl(var(--border))' }}
+    >
       <PageRoot onlyHorizontalBoundary>
         <div className="flex items-center justify-between w-full h-full py-3 text-base">
           <BrandLogo />

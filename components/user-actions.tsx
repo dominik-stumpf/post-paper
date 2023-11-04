@@ -25,7 +25,7 @@ export function UserActions({ children }: { children: ReactNode }) {
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="bg-bg-color p-4 z-40 border-line-color border"
+          className="bg-background p-4 z-40 border-border border"
           sideOffset={5}
         >
           <DropdownMenu.Item className="group leading-none flex items-center relative select-none outline-none">

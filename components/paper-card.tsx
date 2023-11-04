@@ -30,13 +30,13 @@ export async function PaperCard({
         </time>
         <Link
           href={'/'}
-          className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-fg-color hover:bg-bg-color"
+          className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-foreground hover:bg-background"
         >
           {'category'}
         </Link>
       </div>
       <div className="group relative">
-        <h2 className="mt-3 text-2xl tracking-tight font-semibold leading-6 text-fg-color group-hover:text-fg-dim-color line-clamp-2">
+        <h2 className="mt-3 text-2xl tracking-tight font-semibold leading-6 text-foreground group-hover:text-fg-dim-color line-clamp-2">
           <Link href={`/paper/${id}`}>
             <span className="absolute inset-0" />
             {title}
