@@ -72,7 +72,7 @@ export function UserActions({ session }: { session: Session | null }) {
           Login
         </Link>
       </Button>
-      <Button variant={'default'} asChild>
+      <Button variant={'default'} size="sm" asChild>
         <Link href="/signup">Signup</Link>
       </Button>
     </nav>
