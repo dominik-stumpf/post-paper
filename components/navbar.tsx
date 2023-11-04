@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { LogoutButton } from './logout-button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { PageRoot } from './page-root';
 import { BrandLogo } from './brand-logo';
-import Edit3 from '@geist-ui/icons/edit3';
+import { Menu, PenSquare } from 'lucide-react';
 import { Avatar } from './avatar';
 import { ReactNode } from 'react';
-import Menu from '@geist-ui/icons/menu';
 import { UserActions } from './user-actions';
 import { ModeToggle } from './ui/mode-toggle';
 
@@ -40,7 +38,7 @@ export async function Navbar() {
             {session?.user ? (
               <>
                 <Link href="/write" className="flex gap-2">
-                  <Edit3 />
+                  <PenSquare />
                   Write
                 </Link>
                 <UserActions>

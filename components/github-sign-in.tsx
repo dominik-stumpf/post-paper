@@ -1,7 +1,7 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Github from '@geist-ui/icons/github';
+import { Github } from 'lucide-react';
 
 export function GithubSignIn() {
   async function handleClick() {
