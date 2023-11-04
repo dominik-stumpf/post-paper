@@ -9,6 +9,7 @@ import { Avatar } from './avatar';
 import { ReactNode } from 'react';
 import Menu from '@geist-ui/icons/menu';
 import { UserActions } from './user-actions';
+import { ModeToggle } from './ui/mode-toggle';
 
 export const dynamic = 'force-dynamic';
 
@@ -60,6 +61,7 @@ export async function Navbar() {
                 <Link href="/signup">Signup</Link>
               </>
             )}
+            <ModeToggle />
           </NavbarActions>
           <MenuActions>
             <Menu className="pointer" />
