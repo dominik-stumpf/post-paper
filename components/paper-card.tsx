@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Avatar } from './avatar';
 import { PaperCardType } from '@/utils/paper-parser';
+import { AvatarImage, Avatar } from '@/components/ui/avatar';
 
 interface PaperCardProps extends GetPostList {
   parsedCard: PaperCardType;
@@ -47,7 +47,9 @@ export async function PaperCard({
         </p>
       </div>
       <div className="relative mt-8 flex items-center gap-x-4">
-        <Avatar imageSrc={avatar_url} size="lg" />
+        <Avatar>
+          <AvatarImage src={avatar_url} />
+        </Avatar>
         <div className="text-sm leading-6">
           <p className="font-semibold text-dim-foreground">
             <Link href={'/'}>

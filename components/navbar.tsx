@@ -4,10 +4,10 @@ import { cookies } from 'next/headers';
 import { PageRoot } from './page-root';
 import { BrandLogo } from './brand-logo';
 import { Menu, PenSquare } from 'lucide-react';
-import { Avatar } from './avatar';
 import { ReactNode } from 'react';
 import { UserActions } from './user-actions';
 import { ModeToggle } from './ui/mode-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,10 +42,10 @@ export async function Navbar() {
                   Write
                 </Link>
                 <UserActions>
-                  <Avatar
-                    imageSrc={session.user.user_metadata.avatar_url}
-                    size="base"
-                  />
+                  <Avatar>
+                    <AvatarImage src={session.user.user_metadata.avatar_url} />
+                    <AvatarFallback />
+                  </Avatar>
                 </UserActions>
               </>
             ) : (
