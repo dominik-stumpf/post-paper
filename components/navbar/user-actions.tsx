@@ -28,7 +28,7 @@ export function UserActions({ session }: { session: Session | null }) {
   if (session?.user) {
     return (
       <>
-        <div className="hidden md:block">
+        <div className="hidden gap-4 items-center md:flex">
           <Button asChild variant={'default'} size="sm">
             <Link href="/write" className="flex gap-2">
               <PenSquare className="w-4 h-4" />
