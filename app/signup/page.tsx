@@ -18,9 +18,9 @@ export default async function Login() {
 
   return (
     <PageRoot fullPage>
-      <div className="h-full flex items-center justify-center flex-col">
+      <div className="flex flex-col justify-center items-center h-full">
         <SignupForm />
-        <div className="h-header w-full" />
+        <div className="w-full h-header" />
       </div>
     </PageRoot>
   );

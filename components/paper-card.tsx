@@ -22,9 +22,9 @@ export async function PaperCard({
   return (
     <article
       key={id}
-      className="flex max-w-xl flex-col items-start justify-between"
+      className="flex flex-col justify-between items-start max-w-xl"
     >
-      <div className="flex items-center gap-x-4 text-xs">
+      <div className="flex gap-x-4 items-center text-xs">
         <time dateTime={created_at} className="text-dim-foreground">
           {date}
         </time>
@@ -35,18 +35,18 @@ export async function PaperCard({
           {'category'}
         </Link>
       </div>
-      <div className="group relative">
-        <h2 className="mt-3 text-2xl tracking-tight font-semibold leading-6 text-foreground group-hover:text-dim-foreground line-clamp-2">
+      <div className="relative group">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight leading-6 text-foreground group-hover:text-dim-foreground line-clamp-2">
           <Link href={`/paper/${id}`}>
             <span className="absolute inset-0" />
             {title}
           </Link>
         </h2>
-        <p className="mt-5 line-clamp-2 leading-6 text-dim-foreground text-base">
+        <p className="mt-5 text-base leading-6 line-clamp-2 text-dim-foreground">
           {content}
         </p>
       </div>
-      <div className="relative mt-8 flex items-center gap-x-4">
+      <div className="flex relative gap-x-4 items-center mt-8">
         <Avatar>
           <AvatarImage src={avatar_url} />
         </Avatar>

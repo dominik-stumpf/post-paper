@@ -35,7 +35,7 @@ export default function Page() {
 
   return (
     <form
-      className="w-full max-w-screen-2xl h-remaining mx-auto overflow-hidden grid grid-cols-2 gap-16"
+      className="grid overflow-hidden grid-cols-2 gap-16 mx-auto w-full max-w-screen-2xl h-remaining"
       onSubmit={handleSubmit}
     >
       <Editor
@@ -43,7 +43,7 @@ export default function Page() {
         setEditorContent={setEditorContent}
         setPositionOffset={setPositionOffset}
       />
-      <div className="h-remaining flex flex-col relative">
+      <div className="flex relative flex-col h-remaining">
         <Preview markdown={editorContent} positionOffset={positionOffset} />
         <button type="submit" className="">
           Post Paper

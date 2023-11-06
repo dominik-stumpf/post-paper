@@ -30,8 +30,8 @@ export default async function Page({
 
   return (
     <PageRoot>
-      <main className="max-w-prose mx-auto">
-        <div className="flex gap-4 mb-8 items-center">
+      <main className="mx-auto max-w-prose">
+        <div className="flex gap-4 items-center mb-8">
           <Avatar>
             <AvatarImage src={avatar_url} />
             <AvatarFallback />

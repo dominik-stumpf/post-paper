@@ -21,12 +21,12 @@ export async function Navbar() {
       style={{ boxShadow: 'inset 0 -1px hsl(var(--border))' }}
     >
       <PageRoot onlyHorizontalBoundary>
-        <div className="flex items-center justify-between w-full h-full py-3 text-base">
+        <div className="flex justify-between items-center py-3 w-full h-full text-base">
           <BrandLink />
-          <div className="flex items-center h-full gap-6">
+          <div className="flex gap-6 items-center h-full">
             <Button
               variant={'outline'}
-              className="flex gap-2 text-muted-foreground w-64 shrink justify-start font-normal"
+              className="flex gap-2 justify-start w-64 font-normal text-muted-foreground shrink"
               size="sm"
             >
               <Search className="w-4 h-4" />

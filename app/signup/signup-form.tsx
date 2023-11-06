@@ -46,7 +46,7 @@ export function SignupForm() {
 
   return (
     <div className="grid gap-2 w-full max-w-sm">
-      <div className="justify-self-center text-center mb-6 flex flex-col gap-8 items-center">
+      <div className="flex flex-col gap-8 justify-self-center items-center mb-6 text-center">
         <div className="w-16 h-16">
           <BrandLogo />
         </div>
@@ -55,7 +55,7 @@ export function SignupForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-x-6 gap-y-4"
+          className="grid grid-cols-2 gap-y-4 gap-x-6"
         >
           <FormField
             control={form.control}

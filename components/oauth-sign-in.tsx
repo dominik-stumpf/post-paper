@@ -44,7 +44,7 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   return (
     <Button
       variant={'outline'}
-      className="w-full flex gap-3"
+      className="flex gap-3 w-full"
       onClick={signInOauthUser}
       size="lg"
     >

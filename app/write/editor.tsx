@@ -62,7 +62,7 @@ function EditorComponent({
   }, [initialEditorContent, onUpdate]);
 
   return (
-    <div ref={editor} id="editor" className="text-lg h-remaining w-full" />
+    <div ref={editor} id="editor" className="w-full text-lg h-remaining" />
   );
 }
 

@@ -67,7 +67,7 @@ export function UserActions({ session }: { session: Session | null }) {
       <Button variant={'ghost'} asChild size="sm">
         <Link
           href="/login"
-          className="flex px-3 py-2 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+          className="flex py-2 px-3 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
         >
           Log in
         </Link>

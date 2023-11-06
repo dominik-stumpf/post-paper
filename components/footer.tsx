@@ -5,9 +5,9 @@ import { ModeToggle } from './mode-toggle';
 
 export function Footer() {
   return (
-    <footer className="w-full flex justify-center">
+    <footer className="flex justify-center w-full">
       <PageRoot onlyHorizontalBoundary>
-        <div className="w-full flex flex-col items-center gap-8 py-8">
+        <div className="flex flex-col gap-8 items-center py-8 w-full">
           <div className="flex gap-8 items-center">
             <BrandLink />
             <Link href="site-policy">Privacy Policy</Link>

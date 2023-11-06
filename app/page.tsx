@@ -33,7 +33,7 @@ export default async function Index() {
 
   return (
     <PageRoot>
-      <div className="grid max-w-2xl grid-cols-1 gap-x-8 gap-y-8 mx-auto">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
         {posts?.map((post) => (
           <RenderPaperItem post={post} key={post.id} />
         ))}
