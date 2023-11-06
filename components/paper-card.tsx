@@ -48,7 +48,7 @@ export async function PaperCard({
       </div>
       <div className="flex relative gap-x-4 items-center mt-8">
         <Avatar>
-          <AvatarImage src={avatar_url} />
+          <AvatarImage src={avatar_url} alt="Author profile picture" />
         </Avatar>
         <div className="text-sm leading-6">
           <p className="font-semibold text-dim-foreground">

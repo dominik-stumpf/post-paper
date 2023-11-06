@@ -33,7 +33,7 @@ export default async function Page({
       <main className="mx-auto max-w-prose">
         <div className="flex gap-4 items-center mb-8">
           <Avatar>
-            <AvatarImage src={avatar_url} />
+            <AvatarImage src={avatar_url} alt="Author profile picture" />
             <AvatarFallback />
           </Avatar>
           <div>{name}</div>
