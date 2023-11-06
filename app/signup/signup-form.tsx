@@ -16,10 +16,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Separator } from '@/components/ui/separator';
-import { Heading } from '@/components/typography/heading';
 import { BrandLogo } from '@/components/brand/brand-logo';
+import { OauthSignIn } from '@/components/oauth-sign-in';
+import { Heading } from '@/components/typography/heading';
+import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 
 const formSchema = z.object({

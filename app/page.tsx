@@ -1,7 +1,7 @@
 import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
-import { createClient } from '@supabase/supabase-js';
 import { PaperParser } from '@/utils/paper-parser';
+import { createClient } from '@supabase/supabase-js';
 
 function RenderPaperItem({ post }: { post: GetPostList }) {
   const paperParser = new PaperParser(post.truncated_paper_data);
