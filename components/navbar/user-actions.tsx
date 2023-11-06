@@ -15,6 +15,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Session } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export function UserActions({ session }: { session: Session | null }) {
   const router = useRouter();
@@ -69,7 +81,42 @@ export function UserActions({ session }: { session: Session | null }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <ActionMenu>a</ActionMenu>
+        <ActionMenu>
+          <SheetHeader>
+            <SheetTitle>{session.user.user_metadata.name}</SheetTitle>
+            <SheetDescription className="font-normal text-muted-foreground">
+              {session.user.email}
+            </SheetDescription>
+          </SheetHeader>
+          <SheetClose asChild>
+            <Button asChild variant={'default'} size="sm">
+              <Link href="/write" className="flex gap-2">
+                <PenSquare className="w-4 h-4" />
+                Write
+              </Link>
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button
+              className="flex justify-between"
+              disabled
+              variant={'outline'}
+            >
+              Profile
+              <User className="w-4 h-4" />
+            </Button>
+          </SheetClose>
+          <SheetClose asChild>
+            <Button
+              className="flex justify-between"
+              onClick={signOutUser}
+              variant={'outline'}
+            >
+              Log out
+              <LogOut className="w-4 h-4" />
+            </Button>
+          </SheetClose>
+        </ActionMenu>
       </>
     );
   }
@@ -80,7 +127,7 @@ export function UserActions({ session }: { session: Session | null }) {
         <Button variant={'ghost'} asChild size="sm">
           <Link
             href="/login"
-            className="flex px-3 py-2 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+            className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
           >
             Log in
           </Link>
@@ -89,17 +136,40 @@ export function UserActions({ session }: { session: Session | null }) {
           <Link href="/signup">Sign up</Link>
         </Button>
       </nav>
-      <ActionMenu>a</ActionMenu>
+      <ActionMenu>
+        <SheetClose asChild>
+          <Button variant={'ghost'} asChild size="sm">
+            <Link
+              href="/login"
+              className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+            >
+              Log in
+            </Link>
+          </Button>
+        </SheetClose>
+        <SheetClose asChild>
+          <Button variant={'outline'} size="sm" asChild>
+            <Link href="/signup">Sign up</Link>
+          </Button>
+        </SheetClose>
+      </ActionMenu>
     </>
   );
 }
 
 function ActionMenu({ children }: { children: ReactNode }) {
   return (
-    <div>
-      <Button className="md:hidden" variant={'ghost'} size={'icon'}>
-        <Menu />
-      </Button>
-    </div>
+    <Sheet>
+      <SheetTrigger asChild>
+        <div>
+          <Button className="md:hidden" variant={'ghost'} size={'icon'}>
+            <Menu />
+          </Button>
+        </div>
+      </SheetTrigger>
+      <SheetContent side="right" className="flex flex-col pt-8">
+        {children}
+      </SheetContent>
+    </Sheet>
   );
 }
