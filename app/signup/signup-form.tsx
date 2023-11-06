@@ -110,7 +110,7 @@ export function SignupForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2">
+          <Button type="submit" className="col-span-2 mt-2">
             Sign up with Email
           </Button>
         </form>
