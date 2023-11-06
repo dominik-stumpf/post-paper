@@ -11,7 +11,7 @@ import './globals.css';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'PostPaper',
-  description: 'Public posting webpage.',
+  description: 'Productivity-oriented posting platform.',
   applicationName: 'PostPaper',
   manifest: '/manifest.webmanifest',
   robots: {
