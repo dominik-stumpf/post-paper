@@ -2,7 +2,7 @@ import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import { PluggableList } from 'unified';
-import './classic-dark.css';
+import { CodeBlockStyle } from './code-block-style';
 
 interface RenderPaperProps {
   children: string;
@@ -15,12 +15,15 @@ export const remarkPlugins = [remarkGfm];
 
 export function RenderPaper({ children }: RenderPaperProps) {
   return (
-    <Markdown
-      className={className}
-      remarkPlugins={remarkPlugins}
-      rehypePlugins={rehypePlugins}
-    >
-      {children}
-    </Markdown>
+    <>
+      <Markdown
+        className={className}
+        remarkPlugins={remarkPlugins}
+        rehypePlugins={rehypePlugins}
+      >
+        {children}
+      </Markdown>
+      <CodeBlockStyle />
+    </>
   );
 }
