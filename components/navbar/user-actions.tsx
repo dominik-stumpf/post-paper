@@ -27,9 +27,9 @@ export function UserActions({ session }: { session: Session | null }) {
   if (session?.user) {
     return (
       <>
-        <Button asChild variant={'outline'}>
-          <Link href="/write" className="flex gap-3">
-            <PenSquare />
+        <Button asChild variant={'default'} size="sm">
+          <Link href="/write" className="flex gap-2">
+            <PenSquare className="w-4 h-4" />
             Write
           </Link>
         </Button>
@@ -43,7 +43,12 @@ export function UserActions({ session }: { session: Session | null }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>{session.user.email}</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <div>{session.user.user_metadata.name}</div>
+              <div className="font-normal text-muted-foreground">
+                {session.user.email}
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="flex justify-between" disabled>
               Profile
@@ -67,7 +72,7 @@ export function UserActions({ session }: { session: Session | null }) {
       <Button variant={'ghost'} asChild size="sm">
         <Link
           href="/login"
-          className="flex py-2 px-3 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+          className="flex px-3 py-2 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
         >
           Log in
         </Link>
