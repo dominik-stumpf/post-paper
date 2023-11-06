@@ -37,7 +37,10 @@ export function UserActions({ session }: { session: Session | null }) {
           <DropdownMenuTrigger asChild>
             <Button variant={'ghost'} size="icon" className="rounded-full">
               <Avatar>
-                <AvatarImage src={session.user.user_metadata.avatar_url} />
+                <AvatarImage
+                  src={session.user.user_metadata.avatar_url}
+                  alt="User profile picture"
+                />
                 <AvatarFallback />
               </Avatar>
             </Button>
