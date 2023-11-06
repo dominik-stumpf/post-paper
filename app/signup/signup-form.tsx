@@ -45,7 +45,7 @@ export function SignupForm() {
   }
 
   return (
-    <div className="grid gap-2 mt-8 w-full max-w-sm sm:mt-0">
+    <div className="grid gap-2 mt-4 w-full max-w-sm sm:mt-0">
       <div className="flex flex-col gap-8 justify-self-center items-center mb-6 text-center">
         <div className="w-16 h-16">
           <BrandLogo />
