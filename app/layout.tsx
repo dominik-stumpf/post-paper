@@ -18,11 +18,15 @@ export const metadata: Metadata = {
     follow: true,
     index: true,
   },
-  icons: '/favicon.svg',
+  icons: { icon: '/favicon.svg', apple: '/assets/icons/icon-128x128.png' },
 };
 
-export const viewPort: Viewport = {
-  themeColor: 'white',
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+  ],
+  colorScheme: 'dark light',
 };
 
 export default function RootLayout({
