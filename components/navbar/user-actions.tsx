@@ -64,16 +64,16 @@ export function UserActions({ session }: { session: Session | null }) {
 
   return (
     <nav className="space-x-3">
-      <Button variant={'outline'} asChild>
+      <Button variant={'ghost'} asChild size="sm">
         <Link
           href="/login"
           className="flex px-3 py-2 ml-auto no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
         >
-          Login
+          Log in
         </Link>
       </Button>
-      <Button variant={'default'} size="sm" asChild>
-        <Link href="/signup">Signup</Link>
+      <Button variant={'outline'} size="sm" asChild>
+        <Link href="/signup">Sign up</Link>
       </Button>
     </nav>
   );

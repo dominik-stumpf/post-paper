@@ -1,9 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { PageRoot } from '../page-root';
-import { BrandLogo } from '../brand-logo';
+import { BrandLink } from '@/components/brand/brand-link';
 import { Search } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { UserActions } from './user-actions';
 
@@ -23,12 +22,19 @@ export async function Navbar() {
     >
       <PageRoot onlyHorizontalBoundary>
         <div className="flex items-center justify-between w-full h-full py-3 text-base">
-          <BrandLogo />
+          <BrandLink />
           <div className="flex items-center h-full gap-6">
-            <Button size="icon" variant={'ghost'}>
-              <Search />
+            <Button
+              variant={'outline'}
+              className="flex gap-2 text-muted-foreground w-64 shrink justify-start font-normal"
+              size="sm"
+            >
+              <Search className="w-4 h-4" />
+              Search
+              <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+                /
+              </kbd>
             </Button>
-            <Separator orientation="vertical" />
             <UserActions session={session} />
           </div>
         </div>
