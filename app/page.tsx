@@ -1,5 +1,6 @@
 import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
+import { Heading } from '@/components/typography/heading';
 import { PaperParser } from '@/utils/paper-parser';
 import { createClient } from '@supabase/supabase-js';
 
@@ -34,6 +35,9 @@ export default async function Index() {
   return (
     <PageRoot>
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
+        <Heading variant={'h1'} className="justify-self-start mb-8">
+          Latest
+        </Heading>
         {posts?.map((post) => (
           <RenderPaperItem post={post} key={post.id} />
         ))}

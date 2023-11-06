@@ -4,6 +4,8 @@ import { PageRoot } from '@/components/page-root';
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createClient } from '@supabase/supabase-js';
+import { Link } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 export default async function Page({
   params: { id },
@@ -31,20 +33,29 @@ export default async function Page({
   return (
     <PageRoot>
       <main className="mx-auto max-w-prose">
-        <div className="flex gap-4 items-center mb-8">
-          <Avatar>
-            <AvatarImage src={avatar_url} alt="Author profile picture" />
-            <AvatarFallback />
-          </Avatar>
-          <div>{name}</div>
-          <time dateTime={post.created_at}>
-            {new Date(post.created_at).toLocaleString('en-US', {
-              month: 'short',
-              day: 'numeric',
-            })}
-          </time>
-          <LikeButton post_id={post.id} />
-          <CopyToClipboard copyHref>share link</CopyToClipboard>
+        <div className="flex gap-4 justify-between items-center mb-8">
+          <div className="grid grid-cols-[auto,1fr] gap-x-4 grid-rows-2 items-center">
+            <Avatar className="row-span-2">
+              <AvatarImage src={avatar_url} alt="Author profile picture" />
+              <AvatarFallback />
+            </Avatar>
+            <div className="font-bold">{name}</div>
+            <div className="flex gap-2 text-muted-foreground">
+              <div>Role title</div>/
+              <time dateTime={post.created_at}>
+                {new Date(post.created_at).toLocaleString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                })}
+              </time>
+            </div>
+          </div>
+          <div className="space-x-2">
+            <LikeButton post_id={post.id} />
+            <CopyToClipboard copyHref>
+              <Link className="w-4 h-4" />
+            </CopyToClipboard>
+          </div>
         </div>
         <RenderPaper>{post.paper_data}</RenderPaper>
       </main>

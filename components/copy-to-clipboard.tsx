@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
 
 interface CopyToClipboardProps {
   children: ReactNode;
@@ -24,8 +25,8 @@ export function CopyToClipboard({
   }, [copyContent, copyHref]);
 
   return (
-    <button type="button" onClick={copyToClipboard} className="select-none">
+    <Button onClick={copyToClipboard} className="select-none" variant={'ghost'}>
       {children}
-    </button>
+    </Button>
   );
 }

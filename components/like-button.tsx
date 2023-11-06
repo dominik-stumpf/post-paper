@@ -3,6 +3,8 @@
 import { useClientUser } from '@/hooks/use-client-user';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { ThumbsUp } from 'lucide-react';
 
 interface LikeButtonProps {
   post_id: string;
@@ -91,8 +93,8 @@ export function LikeButton({ post_id }: LikeButtonProps) {
   }, [lastSyncedIsLikedState, user, post_id, supabase]);
 
   return (
-    <button
-      type="button"
+    <Button
+      variant={'ghost'}
       onClick={() => {
         if (!user) {
           console.log('log in to like');
@@ -104,9 +106,11 @@ export function LikeButton({ post_id }: LikeButtonProps) {
         }
       }}
       disabled={like === null}
-      className={`${isLiked && 'text-cyan-300'} disabled:opacity-50`}
+      className={`${
+        isLiked && 'text-primary hover:text-primary'
+      } disabled:opacity-50 space-x-2`}
     >
-      Like {like === null ? '~' : like}
-    </button>
+      <ThumbsUp className="w-4 h-4" /> <span>{like === null ? '~' : like}</span>
+    </Button>
   );
 }
