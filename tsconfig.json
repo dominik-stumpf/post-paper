@@ -26,7 +26,7 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
+      ],
     }
   },
   "include": ["types/file-types.d.ts", "next-env.d.ts",

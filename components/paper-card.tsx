@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Avatar } from './avatar';
 import { PaperCardType } from '@/utils/paper-parser';
+import { AvatarImage, Avatar } from '@/components/ui/avatar';
 
 interface PaperCardProps extends GetPostList {
   parsedCard: PaperCardType;
@@ -22,40 +22,42 @@ export async function PaperCard({
   return (
     <article
       key={id}
-      className="flex max-w-xl flex-col items-start justify-between"
+      className="flex flex-col justify-between items-start max-w-xl"
     >
-      <div className="flex items-center gap-x-4 text-xs">
-        <time dateTime={created_at} className="text-fg-dim-color">
+      <div className="flex gap-x-4 items-center text-xs">
+        <time dateTime={created_at} className="text-dim-foreground">
           {date}
         </time>
         <Link
           href={'/'}
-          className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-fg-color hover:bg-bg-color"
+          className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-foreground hover:bg-background"
         >
           {'category'}
         </Link>
       </div>
-      <div className="group relative">
-        <h2 className="mt-3 text-2xl tracking-tight font-semibold leading-6 text-fg-color group-hover:text-fg-dim-color line-clamp-2">
+      <div className="relative group">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight leading-6 text-foreground group-hover:text-dim-foreground line-clamp-2">
           <Link href={`/paper/${id}`}>
             <span className="absolute inset-0" />
             {title}
           </Link>
         </h2>
-        <p className="mt-5 line-clamp-2 leading-6 text-fg-dim text-base">
+        <p className="mt-5 text-base leading-6 line-clamp-2 text-dim-foreground">
           {content}
         </p>
       </div>
-      <div className="relative mt-8 flex items-center gap-x-4">
-        <Avatar imageSrc={avatar_url} size="lg" />
+      <div className="flex relative gap-x-4 items-center mt-8">
+        <Avatar>
+          <AvatarImage src={avatar_url} />
+        </Avatar>
         <div className="text-sm leading-6">
-          <p className="font-semibold text-fg-dim">
+          <p className="font-semibold text-dim-foreground">
             <Link href={'/'}>
               <span className="absolute inset-0" />
               {name}
             </Link>
           </p>
-          <p className="text-fg-dim">{'Role title'}</p>
+          <p className="text-dim-foreground">{'Role title'}</p>
         </div>
       </div>
     </article>

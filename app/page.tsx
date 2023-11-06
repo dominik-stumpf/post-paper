@@ -1,7 +1,7 @@
 import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
-import { createClient } from '@supabase/supabase-js';
 import { PaperParser } from '@/utils/paper-parser';
+import { createClient } from '@supabase/supabase-js';
 
 function RenderPaperItem({ post }: { post: GetPostList }) {
   const paperParser = new PaperParser(post.truncated_paper_data);
@@ -15,7 +15,7 @@ function RenderPaperItem({ post }: { post: GetPostList }) {
   return (
     <>
       <PaperCard {...post} parsedCard={parsedCard} />
-      {<hr className="border-line-color" />}
+      {<hr className="border-border" />}
     </>
   );
 }
@@ -33,7 +33,7 @@ export default async function Index() {
 
   return (
     <PageRoot>
-      <div className="grid max-w-2xl grid-cols-1 gap-x-8 gap-y-8 mx-auto">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
         {posts?.map((post) => (
           <RenderPaperItem post={post} key={post.id} />
         ))}

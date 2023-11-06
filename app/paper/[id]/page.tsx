@@ -1,8 +1,8 @@
-import { Avatar } from '@/components/avatar';
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
 import { PageRoot } from '@/components/page-root';
 import { RenderPaper } from '@/components/render-paper/render-paper';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function Page({
@@ -30,9 +30,12 @@ export default async function Page({
 
   return (
     <PageRoot>
-      <main className="max-w-prose mx-auto">
-        <div className="flex gap-4 mb-8 items-center">
-          <Avatar imageSrc={avatar_url} />
+      <main className="mx-auto max-w-prose">
+        <div className="flex gap-4 items-center mb-8">
+          <Avatar>
+            <AvatarImage src={avatar_url} />
+            <AvatarFallback />
+          </Avatar>
           <div>{name}</div>
           <time dateTime={post.created_at}>
             {new Date(post.created_at).toLocaleString('en-US', {

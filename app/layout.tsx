@@ -1,10 +1,12 @@
+import { Footer } from '@/components/footer';
 import { LenisWrapper } from '@/components/lenis-wrapper';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/navbar/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
+import { cn } from '@/lib/utils';
 import '@/types/validate-env-vars';
+import { GeistMono, GeistSans } from 'geist/font';
 import { Metadata, Viewport } from 'next';
 import './globals.css';
-import { GeistSans, GeistMono } from 'geist/font';
-import { Footer } from '@/components/footer';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -29,13 +31,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} font-sans min-h-full bg-bg-color text-fg-color selection:bg-fg-color selection:text-bg-color accent-primary-color`}
+        className={cn([
+          'font-sans antialiased min-h-full bg-background text-foreground selection:bg-foreground selection:text-background accent-primary',
+          GeistSans.variable,
+          GeistMono.variable,
+        ])}
       >
-        <Navbar />
-        <LenisWrapper>{children}</LenisWrapper>
-        <Footer />
+        <ThemeProvider>
+          <Navbar />
+          <LenisWrapper>{children}</LenisWrapper>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
