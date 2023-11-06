@@ -78,7 +78,9 @@ export function LoginForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Log in with Email</Button>
+          <Button type="submit" className="mt-2">
+            Log in with Email
+          </Button>
         </form>
       </Form>
       <Separator className="my-4" />

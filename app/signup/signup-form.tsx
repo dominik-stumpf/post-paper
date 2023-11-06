@@ -45,7 +45,7 @@ export function SignupForm() {
   }
 
   return (
-    <div className="grid gap-2 w-full max-w-sm">
+    <div className="grid gap-2 mt-4 w-full max-w-sm sm:mt-0">
       <div className="flex flex-col gap-8 justify-self-center items-center mb-6 text-center">
         <div className="w-16 h-16">
           <BrandLogo />
@@ -118,11 +118,11 @@ export function SignupForm() {
       <Separator className="my-4" />
       <OauthSignIn provider="github" />
       <OauthSignIn provider="google" />
-      <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-2">
+      {/* <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-2">
         By joining, you agree to our{' '}
         <Link href="site-policy#terms">Terms of Service</Link> and{' '}
         <Link href="site-policy">Privacy Policy</Link>.
-      </div>{' '}
+      </div>{' '} */}
       <Button variant={'link'} asChild>
         <Link href="/login">Already have an account? Log in</Link>
       </Button>
