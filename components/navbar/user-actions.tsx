@@ -134,6 +134,7 @@ export function UserActions({ session }: { session: Session | null }) {
         </Button>
       </nav>
       <ActionMenu>
+        <span className="h-2" />
         <SheetClose asChild>
           <Button variant={'ghost'} asChild size="sm">
             <Link
@@ -164,7 +165,7 @@ function ActionMenu({ children }: { children: ReactNode }) {
           </Button>
         </div>
       </SheetTrigger>
-      <SheetContent side="right" className="flex flex-col pt-8">
+      <SheetContent side="right" className="flex flex-col">
         {children}
       </SheetContent>
     </Sheet>
