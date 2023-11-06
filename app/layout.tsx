@@ -10,9 +10,9 @@ import './globals.css';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
-  title: 'POSTPAPER',
+  title: 'PostPaper',
   description: 'Public posting webpage.',
-  applicationName: 'POSTPAPER',
+  applicationName: 'PostPaper',
   manifest: '/manifest.webmanifest',
   robots: {
     follow: true,
