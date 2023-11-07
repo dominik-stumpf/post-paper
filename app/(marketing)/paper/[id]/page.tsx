@@ -51,9 +51,7 @@ export default async function Page({
           </div>
           <div className="space-x-2">
             <LikeButton post_id={post.id} />
-            <CopyToClipboard copyHref>
-              <Link className="w-4 h-4" />
-            </CopyToClipboard>
+            <CopyToClipboard copyHref />
           </div>
         </div>
         <RenderPaper>{post.paper_data}</RenderPaper>
