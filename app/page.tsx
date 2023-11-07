@@ -7,11 +7,11 @@ import { createClient } from '@supabase/supabase-js';
 function RenderPaperItem({ post }: { post: GetPostList }) {
   const paperParser = new PaperParser(post.truncated_paper_data);
   const parsedCard = paperParser.parseCard();
-  const { isPaperValid } = paperParser.validateParsedCard(parsedCard);
+  // const { isPaperValid } = paperParser.validateParsedCard(parsedCard);
 
-  if (!isPaperValid) {
-    return null;
-  }
+  // if (!isPaperValid) {
+  //   return null;
+  // }
 
   return (
     <>
@@ -30,7 +30,7 @@ export default async function Index() {
   const { data: posts } = await supabase
     .rpc('get_post_list')
     .order('created_at', { ascending: false })
-    .range(0, 10);
+    .range(0, 7);
 
   return (
     <PageRoot>
