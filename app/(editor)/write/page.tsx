@@ -7,9 +7,11 @@ import initialMarkdown from './react-hooks-post.md';
 
 import { Preview } from './preview';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
+  const { toast } = useToast();
   const [editorContent, setEditorContent] = useState(initialMarkdown);
   const [positionOffset, setPositionOffset] = useState(0);
 
@@ -28,9 +30,23 @@ export default function Page() {
       return;
     }
 
-    await supabase.from('posts').insert({
+    const { error } = await supabase.from('posts').insert({
       paper_data: editorContent,
       user_id: session.user.id,
+    });
+
+    if (error) {
+      toast({
+        title: "Paper couldn't be created",
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Created new paper',
+      description: "View it in the latest feed, don't forget to refresh page.",
     });
   }
 
