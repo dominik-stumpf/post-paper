@@ -1,7 +1,8 @@
+import { Footer } from '@/components/footer';
 import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
 import { Heading } from '@/components/typography/heading';
-import { PaperParser } from '@/utils/paper-parser';
+import { PaperParser } from '@/lib/paper-parser';
 import { createClient } from '@supabase/supabase-js';
 
 function RenderPaperItem({ post }: { post: GetPostList }) {
@@ -33,15 +34,18 @@ export default async function Index() {
     .range(0, 7);
 
   return (
-    <PageRoot>
-      <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
-        <Heading variant={'h1'} className="justify-self-start mb-8">
-          Latest
-        </Heading>
-        {posts?.map((post) => (
-          <RenderPaperItem post={post} key={post.id} />
-        ))}
-      </div>
-    </PageRoot>
+    <>
+      <PageRoot>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
+          <Heading variant={'h1'} className="justify-self-start mb-8">
+            Latest
+          </Heading>
+          {posts?.map((post) => (
+            <RenderPaperItem post={post} key={post.id} />
+          ))}
+        </div>
+      </PageRoot>
+      <Footer />
+    </>
   );
 }
