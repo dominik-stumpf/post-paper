@@ -29,7 +29,7 @@ export function UserActions({ session }: { session: Session | null }) {
   const router = useRouter();
 
   async function signOutUser() {
-    await fetch('/auth/sign-out', { method: 'POST' });
+    await fetch('/api/auth/sign-out', { method: 'POST' });
     router.refresh();
     router.push('/login');
   }

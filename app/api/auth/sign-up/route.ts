@@ -22,7 +22,7 @@ export async function POST(request: Request) {
           Math.random() * 100000,
         )}`,
       },
-      emailRedirectTo: `${requestUrl.origin}/auth/callback`,
+      emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
     },
   });
 
