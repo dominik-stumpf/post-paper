@@ -2,7 +2,8 @@ import Markdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import { PluggableList } from 'unified';
-import { CodeBlockStyle } from './code-block-style';
+import '@/styles/classic-dark.css';
+import '@/styles/classic-light.css';
 
 interface RenderPaperProps {
   children: string;
@@ -23,7 +24,6 @@ export function RenderPaper({ children }: RenderPaperProps) {
       >
         {children}
       </Markdown>
-      <CodeBlockStyle />
     </>
   );
 }
