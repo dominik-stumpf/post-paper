@@ -5,6 +5,8 @@ import { Provider } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
 import Github from '/public/assets/svg/github.svg';
 import Google from '/public/assets/svg/google.svg';
+import { useRouter } from 'next/navigation';
+import { useToast } from './ui/use-toast';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
@@ -26,10 +28,13 @@ const supportedProviderData: Record<SupportedProvider, ProviderData> = {
 
 export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   const { Icon, providerName } = supportedProviderData[provider];
+  const router = useRouter();
+  const { toast } = useToast();
+
   async function signInOauthUser() {
     const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error, data } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: `${requestUrl.origin}/api/auth/callback`,
@@ -38,7 +43,18 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
 
     if (error) {
       console.error(error);
+      toast({
+        variant: 'destructive',
+        description: error.message,
+        title: 'Failed to authenticate.',
+      });
+      return;
     }
+
+    toast({
+      title: 'Successfully authenticated',
+    });
+    router.refresh();
   }
 
   return (

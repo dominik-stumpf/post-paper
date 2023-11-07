@@ -49,21 +49,6 @@ export function LoginForm() {
       email,
       password,
     });
-    // const { error, data } = await supabase.auth.signUp({
-    //   email,
-    //   password,
-    //   options: {
-    //     data: {
-    //       name: name,
-    //       avatar_url: `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${Math.round(
-    //         Math.random() * 100000,
-    //       )}`,
-    //     },
-    //     emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
-    //   },
-    // });
-
-    console.log(data);
 
     if (error) {
       console.error(error);
@@ -76,8 +61,7 @@ export function LoginForm() {
     }
 
     toast({
-      title: 'Success',
-      description: 'Authenticated successfully.',
+      title: 'Successfully authenticated',
     });
 
     router.refresh();
