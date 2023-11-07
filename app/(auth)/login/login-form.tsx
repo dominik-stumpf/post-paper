@@ -20,6 +20,9 @@ import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string(),
@@ -27,6 +30,8 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,8 +40,48 @@ export function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // const name = [values.firstName, values.lastName].join(' ');
+    const { email, password } = values;
+    const supabase = createClientComponentClient<Database>();
+
+    const { error, data } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    // const { error, data } = await supabase.auth.signUp({
+    //   email,
+    //   password,
+    //   options: {
+    //     data: {
+    //       name: name,
+    //       avatar_url: `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${Math.round(
+    //         Math.random() * 100000,
+    //       )}`,
+    //     },
+    //     emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+    //   },
+    // });
+
+    console.log(data);
+
+    if (error) {
+      console.error(error);
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Success',
+      description: 'Authenticated successfully.',
+    });
+
+    router.refresh();
+    router.replace('/');
   }
 
   return (

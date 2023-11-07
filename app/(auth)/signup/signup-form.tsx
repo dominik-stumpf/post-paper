@@ -15,12 +15,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
 import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   email: z.string(),
@@ -30,6 +31,7 @@ const formSchema = z.object({
 });
 
 export function SignupForm() {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,8 +42,52 @@ export function SignupForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const name = [values.firstName, values.lastName].join(' ');
+    const { email, password } = values;
+    const requestUrl = document.location;
+    const supabase = createClientComponentClient<Database>();
+
+    const { error, data } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name: name,
+          avatar_url: `https://api.dicebear.com/7.x/notionists-neutral/svg?seed=${Math.round(
+            Math.random() * 100000,
+          )}`,
+        },
+        emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+      },
+    });
+
+    console.log(data);
+    const identities = data.user?.identities;
+
+    if (identities && identities.length === 0) {
+      toast({
+        title: 'Error',
+        description: 'User already exist',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (error) {
+      console.error(error);
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Check your email',
+      description: 'We sent you an email verification.',
+    });
   }
 
   return (
@@ -118,14 +164,14 @@ export function SignupForm() {
       <Separator className="my-4" />
       <OauthSignIn provider="github" />
       <OauthSignIn provider="google" />
-      {/* <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-2">
+      <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-4">
         By joining, you agree to our{' '}
         <Link href="site-policy#terms">Terms of Service</Link> and{' '}
         <Link href="site-policy">Privacy Policy</Link>.
-      </div>{' '} */}
-      <Button variant={'link'} asChild>
+      </div>
+      {/* <Button variant={'link'} asChild>
         <Link href="/login">Already have an account? Log in</Link>
-      </Button>
+      </Button> */}
     </div>
   );
 }
