@@ -33,7 +33,7 @@ export async function Navbar() {
                 <Search className="w-4 h-4" />
               </div>
               Search
-              <kbd className="hidden lg:inline-flex ml-auto pointer-events-none h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground">
+              <kbd className="hidden lg:inline-flex ml-auto pointer-events-none h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-xs font-medium text-foreground">
                 /
               </kbd>
             </Button>
