@@ -6,6 +6,7 @@ import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
 
 import { Preview } from './preview';
+import { Button } from '@/components/ui/button';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -45,9 +46,9 @@ export default function Page() {
       />
       <div className="flex relative flex-col h-remaining">
         <Preview markdown={editorContent} positionOffset={positionOffset} />
-        <button type="submit" className="">
+        <Button type="submit" variant={'outline'} className="mt-4">
           Post Paper
-        </button>
+        </Button>
       </div>
     </form>
   );
