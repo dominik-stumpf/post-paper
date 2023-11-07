@@ -5,7 +5,6 @@ import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createClient } from '@supabase/supabase-js';
 import { Link } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 
 export default async function Page({
   params: { id },

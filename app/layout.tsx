@@ -1,12 +1,11 @@
-import { Footer } from '@/components/footer';
 import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
+import '@/styles/globals.css';
 import '@/types/validate-env-vars';
 import { GeistMono, GeistSans } from 'geist/font';
 import { Metadata, Viewport } from 'next';
-import './globals.css';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -46,7 +45,6 @@ export default function RootLayout({
         <ThemeProvider>
           <Navbar />
           <LenisWrapper>{children}</LenisWrapper>
-          <Footer />
         </ThemeProvider>
       </body>
     </html>

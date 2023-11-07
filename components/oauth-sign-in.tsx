@@ -32,7 +32,7 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${requestUrl.origin}/auth/callback`,
+        redirectTo: `${requestUrl.origin}/api/auth/callback`,
       },
     });
 

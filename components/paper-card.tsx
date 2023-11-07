@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PaperCardType } from '@/utils/paper-parser';
+import { PaperCardType } from '@/lib/paper-parser';
 import { AvatarImage, Avatar } from '@/components/ui/avatar';
 
 interface PaperCardProps extends GetPostList {

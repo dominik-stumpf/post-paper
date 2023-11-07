@@ -29,7 +29,7 @@ export function UserActions({ session }: { session: Session | null }) {
   const router = useRouter();
 
   async function signOutUser() {
-    await fetch('/auth/sign-out', { method: 'POST' });
+    await fetch('/api/auth/sign-out', { method: 'POST' });
     router.refresh();
     router.push('/login');
   }
@@ -124,7 +124,7 @@ export function UserActions({ session }: { session: Session | null }) {
         <Button variant={'ghost'} asChild size="sm">
           <Link
             href="/login"
-            className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+            className="flex py-2 px-3 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
           >
             Log in
           </Link>
@@ -139,7 +139,7 @@ export function UserActions({ session }: { session: Session | null }) {
           <Button variant={'ghost'} asChild size="sm">
             <Link
               href="/login"
-              className="flex px-3 py-2 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+              className="flex py-2 px-3 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
             >
               Log in
             </Link>
