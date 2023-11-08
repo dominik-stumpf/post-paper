@@ -12,7 +12,7 @@ export function BrandLogo() {
         <title>Brand logo background circle</title>
         <circle cx="50%" cy="50%" r="48%" />
       </svg>
-      <Feather className="inset-0 w-full h-full fill-foreground stroke-background stroke-[0.6rem] absolute invert" />
+      <Feather className="inset-0 w-full h-full fill-background stroke-foreground stroke-[0.6rem] absolute" />
     </div>
   );
 }
