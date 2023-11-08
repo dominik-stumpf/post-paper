@@ -28,6 +28,7 @@ export async function Navbar() {
               variant={'outline'}
               className="flex gap-2 justify-start w-64 min-w-0 font-normal truncate text-muted-foreground"
               size="sm"
+              disabled
             >
               <div>
                 <Search className="w-4 h-4" />
