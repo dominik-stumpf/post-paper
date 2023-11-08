@@ -36,7 +36,7 @@ export default async function Index() {
   return (
     <>
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 mx-auto max-w-2xl">
-        <Heading variant={'h1'} className="justify-self-start mb-8">
+        <Heading variant={'h1'} className="justify-self-start mb-2">
           Latest
         </Heading>
         {posts?.map((post) => (

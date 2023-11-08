@@ -9,7 +9,9 @@ export function BrandLink() {
         <div className="w-7 h-7">
           <BrandLogo />
         </div>
-        <span className="text-xl font-bold tracking-tighter">PostPaper</span>
+        <span className="text-xl font-bold tracking-tighter text-foreground">
+          PostPaper
+        </span>
       </Link>
     </Button>
   );
