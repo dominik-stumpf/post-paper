@@ -158,9 +158,9 @@ export function UserActions({ session }: { session: Session | null }) {
 function ActionMenu({ children }: { children: ReactNode }) {
   return (
     <Sheet>
-      <SheetTrigger asChild>
+      <SheetTrigger asChild className="md:hidden">
         <div>
-          <Button className="md:hidden" variant={'ghost'} size={'icon'}>
+          <Button variant={'ghost'} size={'icon'}>
             <Menu />
           </Button>
         </div>
