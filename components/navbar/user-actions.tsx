@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import { LogOut, PenSquare, User, Menu } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,6 +24,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 
 export function UserActions({ session }: { session: Session | null }) {
   const router = useRouter();
@@ -158,12 +159,14 @@ export function UserActions({ session }: { session: Session | null }) {
 function ActionMenu({ children }: { children: ReactNode }) {
   return (
     <Sheet>
-      <SheetTrigger asChild className="md:hidden">
-        <div>
-          <Button variant={'ghost'} size={'icon'}>
-            <Menu />
-          </Button>
-        </div>
+      <SheetTrigger
+        className={cn(
+          buttonVariants({ size: 'icon', variant: 'ghost' }),
+          'md:hidden',
+        )}
+        title="open user actions sheet"
+      >
+        <Menu />
       </SheetTrigger>
       <SheetContent side="right" className="flex flex-col">
         {children}
