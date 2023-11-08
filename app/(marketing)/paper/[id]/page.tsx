@@ -31,8 +31,8 @@ export default async function Page({
 
   return (
     <main className="mx-auto max-w-prose">
-      <div className="flex gap-4 justify-between items-center mb-8">
-        <div className="grid grid-cols-[auto,1fr] gap-x-4 grid-rows-2 items-center">
+      <div className="flex gap-4 flex-wrap justify-between items-center mb-8">
+        <div className="grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 items-center">
           <Avatar className="row-span-2">
             <AvatarImage src={avatar_url} alt="Author profile picture" />
             <AvatarFallback />
