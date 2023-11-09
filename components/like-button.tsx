@@ -5,7 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThumbsUp } from 'lucide-react';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 interface LikeButtonProps {
   post_id: string;
