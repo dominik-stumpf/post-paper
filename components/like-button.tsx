@@ -5,6 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ThumbsUp } from 'lucide-react';
+import { useToast } from './ui/use-toast';
 
 interface LikeButtonProps {
   post_id: string;
@@ -13,6 +14,7 @@ interface LikeButtonProps {
 const throttleTimeoutMs = 300;
 
 export function LikeButton({ post_id }: LikeButtonProps) {
+  const { toast } = useToast();
   const [like, setLike] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState(false);
   const initialLikeCount = useRef<number | null>(null);
@@ -97,7 +99,7 @@ export function LikeButton({ post_id }: LikeButtonProps) {
       variant={'ghost'}
       onClick={() => {
         if (!user) {
-          console.log('log in to like');
+          toast({ title: 'Log in to like this post.' });
           return;
         }
         setIsLiked((prev) => !prev);
