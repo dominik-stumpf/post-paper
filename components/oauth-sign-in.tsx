@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import Github from '/public/assets/svg/github.svg';
 import Google from '/public/assets/svg/google.svg';
 import { useRouter } from 'next/navigation';
-import { useToast } from './ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
@@ -38,6 +38,13 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
       provider,
       options: {
         redirectTo: `${requestUrl.origin}/api/auth/callback`,
+        queryParams:
+          provider === 'google'
+            ? {
+                access_type: 'offline',
+                prompt: 'consent',
+              }
+            : {},
       },
     });
 
