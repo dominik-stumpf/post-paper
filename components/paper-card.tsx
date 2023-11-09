@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { PaperCardType } from '@/lib/paper-parser';
 import { AvatarImage, Avatar } from '@/components/ui/avatar';
+import { formatPostDate } from '@/lib/timestamp-formatter';
 
 interface PaperCardProps extends GetPostList {
   parsedCard: PaperCardType;
@@ -13,10 +14,7 @@ export async function PaperCard({
   id,
   parsedCard,
 }: PaperCardProps) {
-  const date = new Date(created_at).toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
+  const date = formatPostDate(created_at);
   const { title, content } = parsedCard;
 
   return (

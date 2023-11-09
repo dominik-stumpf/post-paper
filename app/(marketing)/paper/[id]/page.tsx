@@ -3,6 +3,7 @@ import { LikeButton } from '@/components/like-button';
 import { PageRoot } from '@/components/page-root';
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { formatPostDate } from '@/lib/timestamp-formatter';
 import { createClient } from '@supabase/supabase-js';
 import { Link } from 'lucide-react';
 
@@ -41,10 +42,7 @@ export default async function Page({
           <div className="flex gap-2 text-muted-foreground">
             <div>Role title</div>/
             <time dateTime={post.created_at}>
-              {new Date(post.created_at).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-              })}
+              {formatPostDate(post.created_at)}
             </time>
           </div>
         </div>
