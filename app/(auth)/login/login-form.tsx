@@ -60,10 +60,6 @@ export function LoginForm() {
       return;
     }
 
-    toast({
-      title: 'Successfully authenticated',
-    });
-
     router.refresh();
     router.replace('/');
   }

@@ -58,9 +58,6 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
       return;
     }
 
-    toast({
-      title: 'Successfully authenticated',
-    });
     router.refresh();
   }
 
