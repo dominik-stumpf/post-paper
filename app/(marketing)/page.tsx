@@ -5,6 +5,8 @@ import { Heading } from '@/components/typography/heading';
 import { PaperParser } from '@/lib/paper-parser';
 import { createClient } from '@supabase/supabase-js';
 
+export const revalidate = 1800;
+
 function RenderPaperItem({ post }: { post: GetPostList }) {
   const paperParser = new PaperParser(post.truncated_paper_data);
   const parsedCard = paperParser.parseCard();
