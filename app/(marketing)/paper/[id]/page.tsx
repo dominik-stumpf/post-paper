@@ -1,11 +1,10 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
-import { PageRoot } from '@/components/page-root';
+
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatPostDate } from '@/lib/timestamp-formatter';
 import { createClient } from '@supabase/supabase-js';
-import { Link } from 'lucide-react';
 
 export default async function Page({
   params: { id },

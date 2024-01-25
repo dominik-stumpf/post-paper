@@ -4,6 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { BrandLogo } from '@/components/brand/brand-logo';
+import { OauthSignIn } from '@/components/oauth-sign-in';
+import { Heading } from '@/components/typography/heading';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -15,13 +18,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { BrandLogo } from '@/components/brand/brand-logo';
-import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useToast } from '@/components/ui/use-toast';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.string(),

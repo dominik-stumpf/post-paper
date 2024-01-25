@@ -1,5 +1,3 @@
-import { Footer } from '@/components/footer';
-import { PageRoot } from '@/components/page-root';
 import { PaperCard } from '@/components/paper-card';
 import { Heading } from '@/components/typography/heading';
 import { PaperParser } from '@/lib/paper-parser';

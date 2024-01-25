@@ -5,9 +5,9 @@ import { FormEvent, useState } from 'react';
 import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
 
-import { Preview } from './preview';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { Preview } from './preview';
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();

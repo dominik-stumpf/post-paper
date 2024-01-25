@@ -19,9 +19,9 @@ import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
-import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useToast } from '@/components/ui/use-toast';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
