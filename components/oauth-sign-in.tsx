@@ -5,8 +5,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Provider } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
-import Github from '/public/assets/svg/github.svg';
-import Google from '/public/assets/svg/google.svg';
+import { Github, Google } from './icons';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
