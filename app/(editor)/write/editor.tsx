@@ -14,6 +14,7 @@ const customTheme = gruvboxDarkInit({
   settings: {
     background: 'black',
     selection: '#ffffff33',
+    fontFamily: 'var(--font-geist-mono)',
   },
 });
 
