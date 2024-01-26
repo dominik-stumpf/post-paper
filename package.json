@@ -26,8 +26,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "apply-ci": "biome check --apply-unsafe app && biome format --write app",
+    "next-lint": "next lint",
+    "prepare": "husky install",
+    "apply-ci": "prettier --write . && biome check --apply-unsafe . && biome format --write .",
     "gen-types": "source .env.local && npx supabase gen types typescript --project-id ${PROJECT_ID} > database.types.ts"
   },
   "dependencies": {
