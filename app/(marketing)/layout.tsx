@@ -1,5 +1,5 @@
 import { Footer } from '@/components/footer';
-import { PageRoot } from '@/components/page-root';
+import { PageMargin } from '@/components/page-margin';
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface MarketingLayoutProps {
 export default function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <>
-      <PageRoot>{children}</PageRoot>
+      <PageMargin verticalMargin>{children}</PageMargin>
       <Footer />
     </>
   );

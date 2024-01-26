@@ -1,5 +1,5 @@
 import { Footer } from '@/components/footer';
-import { PageRoot } from '@/components/page-root';
+import { PageMargin } from '@/components/page-margin';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -17,14 +17,15 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
   if (session) {
     redirect('/');
   }
+
   return (
     <>
-      <PageRoot>
-        <div className="flex h-full flex-col items-center justify-center">
+      <PageMargin className="flex h-remaining flex-col" verticalMargin>
+        <div className="flex grow flex-col items-center justify-center">
           {children}
-          <div className="h-header w-full" />
         </div>
-      </PageRoot>
+        <div className="h-header w-full" />
+      </PageMargin>
       <Footer />
     </>
   );

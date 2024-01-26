@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -138,7 +137,6 @@ export function SignupForm() {
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
-                <FormDescription>Your email won't be shared</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -57,6 +57,10 @@
   }
 }
 
+:root {
+  --header-height: 4rem;
+}
+
 .dark video,
 .dark img {
   filter: brightness(0.8) contrast(1.2);

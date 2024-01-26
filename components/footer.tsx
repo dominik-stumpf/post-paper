@@ -1,12 +1,12 @@
 import { BrandLink } from '@/components/brand/brand-link';
 import Link from 'next/link';
 import { ModeToggle } from './mode-toggle';
-import { PageRoot } from './page-root';
+import { PageMargin } from './page-margin';
 
 export function Footer() {
   return (
     <footer className="flex w-full justify-center">
-      <PageRoot onlyHorizontalBoundary>
+      <PageMargin>
         <div className="flex w-full flex-col items-center gap-4 py-8 lg:gap-6">
           <div className="flex flex-wrap items-center gap-4 md:gap-8">
             <BrandLink />
@@ -18,7 +18,7 @@ export function Footer() {
             © 2023 PostPaper. All rights reserved.
           </div>
         </div>
-      </PageRoot>
+      </PageMargin>
     </footer>
   );
 }
