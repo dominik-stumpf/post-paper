@@ -14,12 +14,14 @@ export const metadata: Metadata = {
   title: 'PostPaper',
   description: 'Productivity-oriented posting platform.',
   applicationName: 'PostPaper',
-  manifest: '/manifest.webmanifest',
-  robots: {
-    follow: true,
-    index: true,
-  },
   icons: { icon: '/favicon.svg', apple: '/assets/icons/icon-128x128.png' },
+  creator: 'Dominik Stumpf',
+  authors: [
+    {
+      name: 'Dominik Stumpf',
+      url: 'https://dominikstumpf.com',
+    },
+  ],
 };
 
 export const viewport: Viewport = {

@@ -4,7 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Search } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { UserActions } from './user-actions';
-import { PageMargin } from '../page-margin';
+import { PageMargin } from '@/components/page-margin';
 
 export const dynamic = 'force-dynamic';
 
