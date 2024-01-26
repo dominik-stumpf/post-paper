@@ -20,9 +20,9 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <>
       <PageRoot>
-        <div className="flex flex-col justify-center items-center h-full">
+        <div className="flex h-full flex-col items-center justify-center">
           {children}
-          <div className="w-full h-header" />
+          <div className="h-header w-full" />
         </div>
       </PageRoot>
       <Footer />

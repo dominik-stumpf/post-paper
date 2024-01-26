@@ -1,4 +1,4 @@
-import { Database as DatabaseType } from '@/database.types';
+import type { Database as DatabaseType } from '@/database.types';
 
 declare global {
   type Database = DatabaseType;

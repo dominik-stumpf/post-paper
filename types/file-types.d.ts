@@ -1,6 +1,6 @@
 declare module '*.md';
 declare module '*.svg' {
-  import React from 'react';
+  import type React from 'react';
 
   const content: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 

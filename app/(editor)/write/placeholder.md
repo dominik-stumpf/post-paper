@@ -8,11 +8,11 @@
 
 ## Overview
 
-* Follows [CommonMark](https://commonmark.org)
-* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual React elements instead of using `dangerouslySetInnerHTML`
-* Lets you define your own components (to render `MyHeading` instead of `'h1'`)
-* Has a lot of plugins
+- Follows [CommonMark](https://commonmark.org)
+- Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+- Renders actual React elements instead of using `dangerouslySetInnerHTML`
+- Lets you define your own components (to render `MyHeading` instead of `'h1'`)
+- Has a lot of plugins
 
 ## Contents
 
@@ -26,26 +26,26 @@ Here is an example of a plugin to highlight code:
 [`rehype-highlight`](https://github.com/rehypejs/rehype-highlight).
 
 ```js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
+import React from "react";
+import ReactDOM from "react-dom";
+import Markdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 
 const markdown = `
 # Your markdown here
-`
+`;
 
 ReactDOM.render(
   <Markdown rehypePlugins={[rehypeHighlight]}>{markdown}</Markdown>,
-  document.querySelector('#content')
-)
+  document.querySelector("#content"),
+);
 ```
 
 Pretty neat, eh?
 
 ## GitHub flavored markdown (GFM)
 
-For GFM, you can *also* use a plugin:
+For GFM, you can _also_ use a plugin:
 [`remark-gfm`](https://github.com/remarkjs/react-markdown#use).
 It adds support for GitHub-specific extensions to the language:
 tables, strikethrough, tasklists, and literal URLs.
@@ -118,7 +118,7 @@ main();
 
 ## Quick guide
 
-> Note: 
+> Note:
 > After finishing a symbol like `>` or `#` hit space to finalize it.
 > Use `Shift+Enter` (line break) where you want new line, but don't want to exit the text context (e.g. blockquote)
 

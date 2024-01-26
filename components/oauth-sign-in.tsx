@@ -1,12 +1,12 @@
 'use client';
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Provider } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Provider } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 import Github from '/public/assets/svg/github.svg';
 import Google from '/public/assets/svg/google.svg';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
@@ -34,7 +34,7 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   async function signInOauthUser() {
     const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
-    const { error, data } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: `${requestUrl.origin}/api/auth/callback`,
@@ -64,11 +64,11 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   return (
     <Button
       variant={'outline'}
-      className="flex gap-3 w-full"
+      className="flex w-full gap-3"
       onClick={signInOauthUser}
       size="lg"
     >
-      <Icon className="w-5 h-5 dark:invert" />
+      <Icon className="h-5 w-5 dark:invert" />
       Continue with {providerName}
     </Button>
   );

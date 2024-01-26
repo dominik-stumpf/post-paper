@@ -91,9 +91,9 @@ export function SignupForm() {
   }
 
   return (
-    <div className="grid gap-2 w-full max-w-sm">
-      <div className="flex flex-col gap-8 justify-self-center items-center pt-2 mb-6 text-center md:pt-0">
-        <div className="w-16 h-16">
+    <div className="grid w-full max-w-sm gap-2">
+      <div className="mb-6 flex flex-col items-center gap-8 justify-self-center pt-2 text-center md:pt-0">
+        <div className="h-16 w-16">
           <BrandLogo />
         </div>
         <Heading variant={'h2'}>Sign up to PostPaper</Heading>
@@ -101,7 +101,7 @@ export function SignupForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-y-4 gap-x-6"
+          className="grid grid-cols-2 gap-x-6 gap-y-4"
         >
           <FormField
             control={form.control}
@@ -164,7 +164,7 @@ export function SignupForm() {
       <Separator className="my-4" />
       <OauthSignIn provider="github" />
       <OauthSignIn provider="google" />
-      <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-4">
+      <div className="mt-4 max-w-[24ch] justify-self-center text-center text-muted-foreground">
         By joining, you agree to our{' '}
         <Link href="site-policy#terms">Terms of Service</Link> and{' '}
         <Link href="site-policy">Privacy Policy</Link>.

@@ -45,7 +45,7 @@ export function LoginForm() {
     const { email, password } = values;
     const supabase = createClientComponentClient<Database>();
 
-    const { error, data } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -65,9 +65,9 @@ export function LoginForm() {
   }
 
   return (
-    <div className="grid gap-2 w-full max-w-sm">
-      <div className="flex flex-col gap-8 justify-self-center items-center pt-2 mb-6 text-center md:pt-0">
-        <div className="w-16 h-16">
+    <div className="grid w-full max-w-sm gap-2">
+      <div className="mb-6 flex flex-col items-center gap-8 justify-self-center pt-2 text-center md:pt-0">
+        <div className="h-16 w-16">
           <BrandLogo />
         </div>
         <Heading variant={'h2'}>Log in to PostPaper</Heading>
@@ -75,7 +75,7 @@ export function LoginForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-y-4 gap-x-6"
+          className="grid gap-x-6 gap-y-4"
         >
           <FormField
             control={form.control}

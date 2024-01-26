@@ -11,7 +11,7 @@ Hello! This little side project of mine is a posting platform where you can edit
 
 Thank you to:
 
-* [shadcn](https://github.com/shadcn) - guidances 👑
-* [geist](https://vercel.com/font) - fontface
-* [lucide](https://lucide.dev/) - icons
-* [svgrepo](https://www.svgrepo.com/) - additional svgs
+- [shadcn](https://github.com/shadcn) - guidances 👑
+- [geist](https://vercel.com/font) - fontface
+- [lucide](https://lucide.dev/) - icons
+- [svgrepo](https://www.svgrepo.com/) - additional svgs

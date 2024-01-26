@@ -5,8 +5,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import '@/types/validate-env-vars';
-import { GeistMono, GeistSans } from 'geist/font';
-import { Metadata, Viewport } from 'next';
+import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
+import type { Metadata, Viewport } from 'next';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn([
-          'font-sans antialiased min-h-full bg-background text-foreground selection:bg-foreground selection:text-background accent-primary',
+          'min-h-full bg-background font-sans text-foreground antialiased accent-primary selection:bg-foreground selection:text-background',
           GeistSans.variable,
           GeistMono.variable,
         ])}

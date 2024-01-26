@@ -1,6 +1,6 @@
+import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
-import typography from '@tailwindcss/typography';
 
 const remaining = 'calc(100vh - var(--header-height))';
 const config: Config = {

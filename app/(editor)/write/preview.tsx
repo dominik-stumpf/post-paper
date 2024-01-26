@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
+import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { PreviewRenderer } from './preview-renderer';
 
 type HastVisitor = BuildVisitor<HastRoot>;
@@ -60,7 +60,10 @@ function processMdToHast(md: string) {
 export function Preview({
   markdown,
   positionOffset,
-}: { markdown: string; positionOffset: number }) {
+}: {
+  markdown: string;
+  positionOffset: number;
+}) {
   const [hast, setHast] = useState<HastNodes>();
 
   useEffect(() => {
@@ -68,7 +71,7 @@ export function Preview({
   }, [markdown, positionOffset]);
 
   return (
-    <div className={`overflow-y-scroll h-full ${className}`}>
+    <div className={`h-full overflow-y-scroll ${className}`}>
       {hast && <PreviewRenderer>{hast}</PreviewRenderer>}
     </div>
   );

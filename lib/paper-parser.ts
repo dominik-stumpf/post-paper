@@ -1,5 +1,5 @@
 import { fromMarkdown } from 'mdast-util-from-markdown';
-import { visit, EXIT, SKIP } from 'unist-util-visit';
+import { visit } from 'unist-util-visit';
 type Root = import('mdast').Root;
 type Visitor = import('unist-util-visit').BuildVisitor<Root>;
 
@@ -18,6 +18,7 @@ export class PaperParser {
     isPaperBetweenLengthMargins: false,
   };
 
+  // biome-ignore lint/nursery/noEmptyBlockStatements: <explanation>
   constructor(private readonly paper: string) {}
 
   public parseCard(): PaperCardType {

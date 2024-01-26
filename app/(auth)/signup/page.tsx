@@ -1,5 +1,5 @@
 import { SignupForm } from './signup-form';
 
-export default async function Login() {
+export default function Login() {
   return <SignupForm />;
 }

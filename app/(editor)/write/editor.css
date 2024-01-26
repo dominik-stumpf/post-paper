@@ -12,7 +12,7 @@
 }
 
 #editor .cm-vim-panel {
-  @apply text-white font-bold bg-black/80
+  @apply bg-black/80 font-bold text-white;
 }
 
 #editor .cm-editor {

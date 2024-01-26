@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check, Link } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface CopyToClipboardProps {
   copyContent?: string;
@@ -45,9 +45,9 @@ export function CopyToClipboard({
       size="icon"
     >
       {showCheckMark ? (
-        <Check className="w-4 h-4" />
+        <Check className="h-4 w-4" />
       ) : (
-        <Link className="w-4 h-4" />
+        <Link className="h-4 w-4" />
       )}
     </Button>
   );

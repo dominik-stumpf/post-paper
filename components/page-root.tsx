@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface PageRootProps {
   children: ReactNode;
@@ -13,9 +13,9 @@ export function PageRoot({
 }: PageRootProps) {
   return (
     <div
-      className={`px-3 md:px-6 max-w-screen-lg w-full ${
+      className={`w-full max-w-screen-lg px-3 md:px-6 ${
         !onlyHorizontalBoundary
-          ? 'py-4 mx-auto md:py-8 lg:py-16 min-h-remaining'
+          ? 'mx-auto min-h-remaining py-4 md:py-8 lg:py-16'
           : ''
       } ${fullPage ? 'h-auto md:h-remaining' : ''}`}
     >

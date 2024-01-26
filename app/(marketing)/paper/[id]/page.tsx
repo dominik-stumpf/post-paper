@@ -8,7 +8,9 @@ import { createClient } from '@supabase/supabase-js';
 
 export default async function Page({
   params: { id },
-}: { params: { id: number } }) {
+}: {
+  params: { id: number };
+}) {
   const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -31,8 +33,8 @@ export default async function Page({
 
   return (
     <main className="mx-auto max-w-prose">
-      <div className="flex gap-4 flex-wrap justify-between items-center mb-8">
-        <div className="grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 items-center">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="grid grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-4">
           <Avatar className="row-span-2">
             <AvatarImage src={avatar_url} alt="Author profile picture" />
             <AvatarFallback />

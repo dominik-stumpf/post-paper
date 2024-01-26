@@ -1,7 +1,7 @@
 'use client';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { FormEvent, useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { Editor } from './editor';
 import initialMarkdown from './react-hooks-post.md';
 
@@ -52,7 +52,7 @@ export default function Page() {
 
   return (
     <form
-      className="grid overflow-hidden grid-cols-2 gap-16 mx-auto w-full max-w-screen-2xl h-remaining"
+      className="mx-auto grid h-remaining w-full max-w-screen-2xl grid-cols-2 gap-16 overflow-hidden"
       onSubmit={handleSubmit}
     >
       <Editor
@@ -60,7 +60,7 @@ export default function Page() {
         setEditorContent={setEditorContent}
         setPositionOffset={setPositionOffset}
       />
-      <div className="flex relative flex-col h-remaining">
+      <div className="relative flex h-remaining flex-col">
         <Preview markdown={editorContent} positionOffset={positionOffset} />
         <Button type="submit" variant={'outline'} className="mt-4">
           Post Paper

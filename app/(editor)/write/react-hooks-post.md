@@ -13,7 +13,7 @@ React provides a plethora of built-in Hooks, including `useState`, `useEffect`, 
 The `useState` Hook is your gateway to adding state to functional components. Let's dive into a basic example using TypeScript:
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Counter = () => {
   const [count, setCount] = useState(0);
@@ -34,7 +34,7 @@ In this code snippet, we've imported the `useState` Hook and used it to declare 
 The `useEffect` Hook opens the door to handling side effects in your components. Check out this example in TypeScript:
 
 ```tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -60,7 +60,7 @@ In this scenario, we're utilizing `useEffect` to create a timer that increments 
 While the built-in Hooks are a powerhouse, don't forget that you can also create your own custom Hooks. They allow you to encapsulate and reuse stateful logic across different components. Here's a simple custom Hook as an example:
 
 ```tsx
-import { useState } from 'react';
+import { useState } from "react";
 
 function useToggle(initialState: boolean) {
   const [state, setState] = useState(initialState);
@@ -81,7 +81,7 @@ const App = () => {
 
   return (
     <div>
-      <p>The light is {isOn ? 'on' : 'off'}</p>
+      <p>The light is {isOn ? "on" : "off"}</p>
       <button onClick={toggleIsOn}>Toggle</button>
     </div>
   );
@@ -90,19 +90,18 @@ const App = () => {
 
 ## A Handy Reference to React Hooks
 
-| Hook Name      | Description                                                                                   | Use Case                                |
-| ---------------|-----------------------------------------------------------------------------------------------| ----------------------------------------|
-| `useState`     | Adds state to functional components, making it possible to manage and update component state. | Managing and displaying component state. |
-| `useEffect`    | Enables side effects like data fetching, DOM manipulation, and more in functional components. | Handling asynchronous tasks and side effects. |
-| `useContext`   | Accesses the context for data that can be shared across the component tree.                  | Sharing data between components.          |
-| `useRef`       | Creates mutable references to DOM elements or values that persist across renders.           | Managing DOM elements and values.        |
-| `useReducer`   | Manages more complex state logic by using a reducer function and an initial state.           | Handling complex state transitions.      |
-| `useMemo`      | Memoizes the result of a function to optimize performance.                                    | Optimizing expensive calculations.       |
-| `useCallback`  | Memoizes callbacks to avoid unnecessary re-renders.                                         | Optimizing callback functions.           |
-| `useHistory`   | Provides access to the browser's history object.                                            | Handling client-side routing.           |
+| Hook Name     | Description                                                                                   | Use Case                                      |
+| ------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `useState`    | Adds state to functional components, making it possible to manage and update component state. | Managing and displaying component state.      |
+| `useEffect`   | Enables side effects like data fetching, DOM manipulation, and more in functional components. | Handling asynchronous tasks and side effects. |
+| `useContext`  | Accesses the context for data that can be shared across the component tree.                   | Sharing data between components.              |
+| `useRef`      | Creates mutable references to DOM elements or values that persist across renders.             | Managing DOM elements and values.             |
+| `useReducer`  | Manages more complex state logic by using a reducer function and an initial state.            | Handling complex state transitions.           |
+| `useMemo`     | Memoizes the result of a function to optimize performance.                                    | Optimizing expensive calculations.            |
+| `useCallback` | Memoizes callbacks to avoid unnecessary re-renders.                                           | Optimizing callback functions.                |
+| `useHistory`  | Provides access to the browser's history object.                                              | Handling client-side routing.                 |
 
 These are just a few of the built-in Hooks available in React. Each Hook serves a specific purpose, empowering you to build versatile and efficient applications.
-
 
 ## The Road Ahead
 
