@@ -46,12 +46,14 @@ export function markHastOffset(offset: number, hast: HastNodes) {
 
 function processMdToHast(md: string) {
   const processor = unified()
+    // @ts-ignore
     .use(remarkParse)
     .use(remarkPlugins)
     .use(remarkRehype)
     .use(rehypePlugins);
 
   const mdastTree = processor.parse(md);
+  // @ts-ignore
   const hastTree: HastNodes = processor.runSync(mdastTree, md);
 
   return hastTree;
