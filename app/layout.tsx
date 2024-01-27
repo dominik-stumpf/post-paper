@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
-import '@/types/validate-env-vars';
+import '@/lib/validate-env-vars';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
