@@ -2,11 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { signUpSchema } from '@/lib/validators/user';
+import type * as z from 'zod';
 
-import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Heading } from '@/components/typography/heading';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -20,28 +19,26 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+import { Toggle } from '@/components/ui/toggle';
+import { cn } from '@/lib/utils';
 
-const formSchema = z.object({
-  email: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  password: z.string(),
-});
-
-export function SignupForm() {
+export function SignUpForm() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       firstName: '',
       lastName: '',
       password: '',
     },
+    mode: 'onTouched',
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const name = [values.firstName, values.lastName].join(' ');
     const { email, password } = values;
     const requestUrl = document.location;
@@ -61,7 +58,6 @@ export function SignupForm() {
       },
     });
 
-    console.log(data);
     const identities = data.user?.identities;
 
     if (identities && identities.length === 0) {
@@ -90,17 +86,18 @@ export function SignupForm() {
   }
 
   return (
-    <div className="grid w-full max-w-sm gap-2">
-      <div className="mb-6 flex flex-col items-center gap-8 justify-self-center pt-2 text-center md:pt-0">
-        <div className="h-16 w-16">
-          <BrandLogo />
-        </div>
-        <Heading variant={'h2'}>Sign up to PostPaper</Heading>
-      </div>
+    <div className="flex flex-col gap-3">
+      <OauthSignIn provider="github" />
+      <OauthSignIn provider="google" />
+      <Separator className="relative my-6">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4 text-sm">
+          OR
+        </span>
+      </Separator>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-x-6 gap-y-4"
+          className="grid grid-cols-2 gap-x-6 gap-y-3"
         >
           <FormField
             control={form.control}
@@ -109,7 +106,7 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" placeholder="John" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,7 +119,7 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" placeholder="Doe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,7 +132,11 @@ export function SignupForm() {
               <FormItem className="col-span-2">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" {...field} />
+                  <Input
+                    placeholder="name@example.com"
+                    type="email"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -147,29 +148,46 @@ export function SignupForm() {
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      placeholder={'••••••••'}
+                      type={passwordVisible ? 'text' : 'password'}
+                      {...field}
+                      className={cn(
+                        'relative placeholder:py-2 placeholder:text-4xl',
+                        passwordVisible
+                          ? 'placeholder:translate-y-2'
+                          : 'text-4xl',
+                      )}
+                    />
+                  </FormControl>
+
+                  <Toggle
+                    className="absolute right-2 top-1/2 h-6 -translate-y-1/2"
+                    size="sm"
+                    variant="outline"
+                    pressed={passwordVisible}
+                    onPressedChange={(pressed) => {
+                      setPasswordVisible(pressed);
+                    }}
+                  >
+                    {passwordVisible ? (
+                      <Eye className="size-4" />
+                    ) : (
+                      <EyeOff className="size-4" />
+                    )}
+                  </Toggle>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2 mt-2">
+          <Button type="submit" className="col-span-2 mt-6">
             Sign up with Email
           </Button>
         </form>
       </Form>
-      <Separator className="my-4" />
-      <OauthSignIn provider="github" />
-      <OauthSignIn provider="google" />
-      <div className="mt-4 max-w-[24ch] justify-self-center text-center text-muted-foreground">
-        By joining, you agree to our{' '}
-        <Link href="site-policy#terms">Terms of Service</Link> and{' '}
-        <Link href="site-policy">Privacy Policy</Link>.
-      </div>
-      {/* <Button variant={'link'} asChild>
-        <Link href="/login">Already have an account? Log in</Link>
-      </Button> */}
     </div>
   );
 }
