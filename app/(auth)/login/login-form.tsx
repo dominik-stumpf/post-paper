@@ -15,10 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Heading } from '@/components/typography/heading';
-import { Anchor } from '@/components/ui/anchor';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -65,17 +62,18 @@ export function LoginForm() {
   }
 
   return (
-    <div className="grid w-full max-w-sm gap-2">
-      <div className="mb-6 flex flex-col items-center gap-8 justify-self-center pt-2 text-center md:pt-0">
-        <div className="h-16 w-16">
-          <BrandLogo />
-        </div>
-        <Heading variant={'h2'}>Log in to PostPaper</Heading>
-      </div>
+    <div className="flex w-full flex-col gap-3">
+      <OauthSignIn provider="github" />
+      <OauthSignIn provider="google" />
+      <Separator className="relative my-6">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4 text-sm">
+          OR
+        </span>
+      </Separator>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-x-6 gap-y-4"
+          className="grid gap-x-6 gap-y-3"
         >
           <FormField
             control={form.control}
@@ -108,12 +106,6 @@ export function LoginForm() {
           </Button>
         </form>
       </Form>
-      <Separator className="my-4" />
-      <OauthSignIn provider="github" />
-      <OauthSignIn provider="google" />
-      <p className="text-dim-foreground">
-        New to PostPaper? <Anchor href="/signup">Create an account</Anchor>
-      </p>
     </div>
   );
 }

@@ -65,7 +65,7 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   return (
     <Button
       variant={'outline'}
-      className=""
+      className="space-x-3"
       loading={loading}
       onClick={() => {
         setLoading(true);

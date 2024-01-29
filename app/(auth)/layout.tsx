@@ -1,4 +1,3 @@
-import { Footer } from '@/components/footer';
 import { PageMargin } from '@/components/page-margin';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -23,7 +22,6 @@ export default async function AuthLayout({ children }: AuthLayoutProps) {
       <PageMargin className="flex min-h-remaining flex-col items-center">
         {children}
       </PageMargin>
-      <Footer />
     </>
   );
 }
