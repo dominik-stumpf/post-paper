@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { signUpSchema } from '@/lib/validators/user';
+import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import type * as z from 'zod';
 
 import { OauthSignIn } from '@/components/oauth-sign-in';
@@ -19,13 +19,38 @@ import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
+
+function CriteriaIndicator({
+  children,
+  isCriteriaMet,
+}: {
+  children: ReactNode;
+  isCriteriaMet: boolean;
+}) {
+  return (
+    <li
+      className={cn(
+        'text-muted-foreground',
+        isCriteriaMet && 'text-success-foreground',
+      )}
+    >
+      {children}
+    </li>
+  );
+}
 
 export function SignUpForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordCriterias, setPasswordCriterias] = useState(
+    validatePassword(''),
+  );
+  const [openPasswordCriterias, setOpenPasswordCriterias] = useState(false);
+
   const { toast } = useToast();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
@@ -37,6 +62,17 @@ export function SignUpForm() {
     },
     mode: 'onTouched',
   });
+
+  useEffect(() => {
+    const { unsubscribe } = form.watch(({ password }) => {
+      if (password === undefined) {
+        return;
+      }
+      setPasswordCriterias(validatePassword(password));
+    });
+
+    return () => unsubscribe();
+  }, [form.watch]);
 
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const name = [values.firstName, values.lastName].join(' ');
@@ -151,6 +187,9 @@ export function SignUpForm() {
                 <div className="relative">
                   <FormControl>
                     <Input
+                      onFocus={() => {
+                        setOpenPasswordCriterias(true);
+                      }}
                       placeholder={'••••••••'}
                       type={passwordVisible ? 'text' : 'password'}
                       {...field}
@@ -180,6 +219,37 @@ export function SignUpForm() {
                   </Toggle>
                 </div>
                 <FormMessage />
+                <Collapsible open={openPasswordCriterias} className="pt-2">
+                  <CollapsibleContent asChild>
+                    <ul>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasNumber}
+                      >
+                        Number
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasSymbol}
+                      >
+                        Symbol (eg. !%.?/#&)
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasLowerCase}
+                      >
+                        Lower case letter
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasUpperCase}
+                      >
+                        Upper case letter
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.isLongEnough}
+                      >
+                        At least 8 characters
+                      </CriteriaIndicator>
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
               </FormItem>
             )}
           />

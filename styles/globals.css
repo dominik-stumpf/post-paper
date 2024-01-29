@@ -20,6 +20,8 @@
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 90.2%;
     --destructive-foreground: 0 73% 50%;
+    --success: 136 84.2% 90.2%;
+    --success-foreground: 136 73% 50%;
     --border: 0 0% 80.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
@@ -43,8 +45,10 @@
     --muted-foreground: 0 0% 43.9%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 10.6%;
-    --destructive-foreground: 0 73% 50%;
+    --destructive: 0 62.8% 8.6%;
+    --destructive-foreground: 0 73% 45%;
+    --success: 136 62.8% 8.6%;
+    --success-foreground: 136 73% 45%;
     --border: 0 0% 20.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
