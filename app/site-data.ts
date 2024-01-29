@@ -1,3 +1,4 @@
 export const links = {
-  github: 'https://github.com/dominik-stumpf/post-paper',
+  postPaperGithub: 'https://github.com/dominik-stumpf/post-paper',
+  postPaper: 'https://post-paper.vercel.app',
 } as const;

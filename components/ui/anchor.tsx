@@ -9,6 +9,7 @@ const anchorVariants = cva('underline text-foreground scroll-smooth', {
     variant: {
       default: 'text-foreground hover:text-foreground/80',
       dim: 'text-dim-foreground hover:text-dim-foreground/80',
+      loud: 'no-underline font-medium text-foreground hover:text-foreground/80',
     },
   },
   defaultVariants: {

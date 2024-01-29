@@ -115,12 +115,21 @@ export function SignUpForm() {
       });
     }
 
-    return toast({
-      title: 'Finish verification process',
-      description:
-        'We sent you an email verification link, be sure to check spam too.',
-      variant: 'success',
-    });
+    if (data.session) {
+      return toast({
+        title: 'Successfully authenticated',
+        description: '',
+        variant: 'success',
+      });
+    }
+
+    // TODO: uncomment when email stmp server is present
+    // return toast({
+    //   title: 'Finish verification process',
+    //   description:
+    //     'We sent you an email verification link, be sure to check spam too.',
+    //   variant: 'success',
+    // });
   }
 
   return (

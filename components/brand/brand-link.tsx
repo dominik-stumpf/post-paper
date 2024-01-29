@@ -1,22 +1,19 @@
 import { Anchor } from '@/components/ui/anchor';
-import { Button } from '@/components/ui/button';
 import { BrandLogo } from './brand-logo';
+import { cn } from '@/lib/utils';
 
-export function BrandLink() {
+export function BrandLink({ className }: { className?: string }) {
   return (
-    <Button
-      asChild
-      variant={'ghost'}
-      className="p-0 hover:border-transparent hover:bg-transparent"
+    <Anchor
+      href="/"
+      className={cn('flex items-center gap-2 no-underline', className)}
     >
-      <Anchor href="/" className="flex items-center gap-2 no-underline">
-        <div className="h-7 w-7">
-          <BrandLogo />
-        </div>
-        <span className="text-xl font-bold tracking-tighter text-foreground">
-          PostPaper
-        </span>
-      </Anchor>
-    </Button>
+      <div className="h-7 w-7">
+        <BrandLogo />
+      </div>
+      <span className="text-xl font-bold tracking-tighter text-foreground">
+        PostPaper
+      </span>
+    </Anchor>
   );
 }
