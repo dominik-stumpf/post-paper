@@ -21,8 +21,8 @@ import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Anchor } from '@/components/ui/anchor';
 
 const formSchema = z.object({
   email: z.string(),
@@ -111,9 +111,9 @@ export function LoginForm() {
       <Separator className="my-4" />
       <OauthSignIn provider="github" />
       <OauthSignIn provider="google" />
-      <Button variant={'link'} asChild>
-        <Link href="/signup">New to PostPaper? Create an account</Link>
-      </Button>
+      <p className="text-dim-foreground">
+        New to PostPaper? <Anchor href="/signup">Create an account</Anchor>
+      </p>
     </div>
   );
 }

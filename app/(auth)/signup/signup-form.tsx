@@ -50,8 +50,8 @@ export function SignUpForm() {
     validatePassword(''),
   );
   const [openPasswordCriterias, setOpenPasswordCriterias] = useState(false);
-
   const { toast } = useToast();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -94,31 +94,31 @@ export function SignUpForm() {
       },
     });
 
-    const identities = data.user?.identities;
-
-    if (identities && identities.length === 0) {
-      toast({
-        title: 'Error',
-        description: 'User already exist',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (error) {
-      console.error(error);
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    toast({
-      title: 'Check your email',
-      description: 'We sent you an email verification.',
-    });
+    //   const identities = data.user?.identities;
+    //
+    //   if (identities && identities.length === 0) {
+    //     toast({
+    //       title: 'Error',
+    //       description: 'User already exist',
+    //       variant: 'destructive',
+    //     });
+    //     return;
+    //   }
+    //
+    //   if (error) {
+    //     console.error(error);
+    //     toast({
+    //       title: 'Error',
+    //       description: error.message,
+    //       variant: 'destructive',
+    //     });
+    //     return;
+    //   }
+    //
+    //   toast({
+    //     title: 'Check your email',
+    //     description: 'We sent you an email verification.',
+    //   });
   }
 
   return (
