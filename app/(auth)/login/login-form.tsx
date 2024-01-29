@@ -18,11 +18,11 @@ import { Input } from '@/components/ui/input';
 import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Heading } from '@/components/typography/heading';
+import { Anchor } from '@/components/ui/anchor';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-import { Anchor } from '@/components/ui/anchor';
 
 const formSchema = z.object({
   email: z.string(),

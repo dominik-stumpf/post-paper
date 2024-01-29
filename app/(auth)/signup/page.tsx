@@ -1,7 +1,7 @@
 import { BrandLogo } from '@/components/brand/brand-logo';
-import { SignUpForm } from './signup-form';
 import { Heading } from '@/components/typography/heading';
 import { Anchor } from '@/components/ui/anchor';
+import { SignUpForm } from './signup-form';
 
 export default function SignUp() {
   return (

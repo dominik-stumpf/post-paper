@@ -1,8 +1,8 @@
 import { PaperCard } from '@/components/paper-card';
 import { Heading } from '@/components/typography/heading';
 import { PaperParser } from '@/lib/paper-parser';
-import { createClient } from '@supabase/supabase-js';
 import { env } from '@/validate-env-vars.mjs';
+import { createClient } from '@supabase/supabase-js';
 
 export const revalidate = 1800;
 

@@ -1,10 +1,10 @@
 import { BrandLink } from '@/components/brand/brand-link';
+import { PageMargin } from '@/components/page-margin';
 import { Button } from '@/components/ui/button';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Search } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { UserActions } from './user-actions';
-import { PageMargin } from '@/components/page-margin';
 
 export const dynamic = 'force-dynamic';
 

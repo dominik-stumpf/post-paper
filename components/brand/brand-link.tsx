@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Anchor } from '@/components/ui/anchor';
+import { Button } from '@/components/ui/button';
 import { BrandLogo } from './brand-logo';
 
 export function BrandLink() {

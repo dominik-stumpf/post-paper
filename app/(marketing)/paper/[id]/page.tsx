@@ -1,9 +1,9 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
-import { env } from '@/validate-env-vars.mjs';
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatPostDate } from '@/lib/timestamp-formatter';
+import { env } from '@/validate-env-vars.mjs';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function Page({

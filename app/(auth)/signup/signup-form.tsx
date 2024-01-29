@@ -1,12 +1,13 @@
 'use client';
 
+import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import type * as z from 'zod';
 
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import {
   Form,
   FormControl,
@@ -17,13 +18,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/components/ui/use-toast';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { type ReactNode, useEffect, useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
+import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Eye, EyeOff } from 'lucide-react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 function CriteriaIndicator({
   children,
