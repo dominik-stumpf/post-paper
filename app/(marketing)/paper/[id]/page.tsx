@@ -1,6 +1,6 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
-
+import { env } from '@/validate-env-vars.mjs';
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatPostDate } from '@/lib/timestamp-formatter';
@@ -12,8 +12,8 @@ export default async function Page({
   params: { id: number };
 }) {
   const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
 
   const { data: post } = await supabase

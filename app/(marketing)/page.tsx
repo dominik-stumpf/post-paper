@@ -2,6 +2,7 @@ import { PaperCard } from '@/components/paper-card';
 import { Heading } from '@/components/typography/heading';
 import { PaperParser } from '@/lib/paper-parser';
 import { createClient } from '@supabase/supabase-js';
+import { env } from '@/validate-env-vars.mjs';
 
 export const revalidate = 1800;
 
@@ -24,8 +25,8 @@ function RenderPaperItem({ post }: { post: GetPostList }) {
 
 export default async function Index() {
   const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
 
   const { data: posts } = await supabase
