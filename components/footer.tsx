@@ -30,7 +30,7 @@ export function Footer() {
             </Anchor>
           </div>
           <Separator className="col-span-2 mt-4" />
-          <div className="col-span-2 flex items-center gap-4 justify-self-center md:col-span-1 md:col-start-2 md:justify-self-end">
+          <div className="col-span-2 flex items-center gap-6 justify-self-center md:col-span-1 md:col-start-2 md:justify-self-end">
             <Anchor external href={links.postPaperGithub} variant="dim">
               <Github />
             </Anchor>
