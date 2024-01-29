@@ -22,8 +22,8 @@ import { Toggle } from '@/components/ui/toggle';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Eye, EyeOff } from 'lucide-react';
 import { type ReactNode, useEffect, useState } from 'react';
+import { CheckCircle, Circle, Eye, EyeOff } from 'lucide-react';
 
 function CriteriaIndicator({
   children,
@@ -35,11 +35,16 @@ function CriteriaIndicator({
   return (
     <li
       className={cn(
-        'text-muted-foreground',
+        'flex items-center gap-2 text-muted-foreground transition-colors',
         isCriteriaMet && 'text-success-foreground',
       )}
     >
-      {children}
+      {isCriteriaMet ? (
+        <CheckCircle className="size-4" />
+      ) : (
+        <Circle className="size-4" />
+      )}
+      <span>{children}</span>
     </li>
   );
 }
@@ -50,6 +55,7 @@ export function SignUpForm() {
     validatePassword(''),
   );
   const [openPasswordCriterias, setOpenPasswordCriterias] = useState(false);
+  const [credentialLoading, setCredentialLoading] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -80,6 +86,8 @@ export function SignUpForm() {
     const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
 
+    setCredentialLoading(true);
+
     const { error, data } = await supabase.auth.signUp({
       email,
       password,
@@ -94,31 +102,25 @@ export function SignUpForm() {
       },
     });
 
-    //   const identities = data.user?.identities;
-    //
-    //   if (identities && identities.length === 0) {
-    //     toast({
-    //       title: 'Error',
-    //       description: 'User already exist',
-    //       variant: 'destructive',
-    //     });
-    //     return;
-    //   }
-    //
-    //   if (error) {
-    //     console.error(error);
-    //     toast({
-    //       title: 'Error',
-    //       description: error.message,
-    //       variant: 'destructive',
-    //     });
-    //     return;
-    //   }
-    //
-    //   toast({
-    //     title: 'Check your email',
-    //     description: 'We sent you an email verification.',
-    //   });
+    setCredentialLoading(false);
+
+    console.log(error, data);
+
+    if (error) {
+      console.error(error);
+      return toast({
+        title: 'Failed to sign up',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
+
+    return toast({
+      title: 'Finish verification process',
+      description:
+        'We sent you an email verification link, be sure to check spam too.',
+      variant: 'success',
+    });
   }
 
   return (
@@ -221,7 +223,7 @@ export function SignUpForm() {
                 <FormMessage />
                 <Collapsible open={openPasswordCriterias} className="pt-2">
                   <CollapsibleContent asChild>
-                    <ul>
+                    <ul className="space-y-1">
                       <CriteriaIndicator
                         isCriteriaMet={passwordCriterias.hasNumber}
                       >
@@ -253,7 +255,12 @@ export function SignUpForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2 mt-6">
+          <Button
+            type="submit"
+            className="col-span-2 mt-6"
+            disabled={!form.formState.isValid}
+            loading={credentialLoading}
+          >
             Sign up with Email
           </Button>
         </form>

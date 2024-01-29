@@ -46,9 +46,9 @@
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 8.6%;
-    --destructive-foreground: 0 73% 45%;
-    --success: 136 62.8% 8.6%;
-    --success-foreground: 136 73% 45%;
+    --destructive-foreground: 0 88% 55%;
+    --success: 136 62.8% 6.6%;
+    --success-foreground: 136 73% 55%;
     --border: 0 0% 20.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
