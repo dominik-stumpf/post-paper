@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
-import GithubIcon from '@/public/assets/svg/github.svg';
-import GoogleIcon from '@/public/assets/svg/google.svg';
+import GithubIcon from '@/public/assets/vectors/github.svg';
+import GoogleIcon from '@/public/assets/vectors/google.svg';
 import Image, { type StaticImageData } from 'next/image';
 
 function IconTemplate({

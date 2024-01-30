@@ -4,12 +4,13 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import Link from 'next/link';
 import { forwardRef } from 'react';
 
-const anchorVariants = cva('underline text-foreground', {
+const anchorVariants = cva('', {
   variants: {
     variant: {
-      default: 'text-foreground hover:text-foreground/80',
-      dim: 'text-dim-foreground hover:text-dim-foreground/80',
-      loud: 'no-underline font-medium text-foreground hover:text-foreground/80',
+      default: 'text-foreground hover:text-foreground/80 underline ',
+      dim: 'text-dim-foreground hover:text-dim-foreground/80 underline ',
+      loud: 'font-medium text-foreground hover:text-foreground/80',
+      empty: '',
     },
   },
   defaultVariants: {

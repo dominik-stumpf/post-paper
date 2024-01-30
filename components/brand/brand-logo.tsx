@@ -7,7 +7,7 @@ export function BrandLogo() {
         viewBox="0 0 100 100"
         className="absolute inset-0 fill-foreground"
       >
-        <title>Brand logo background circle</title>
+        <title>background circle</title>
         <circle cx="50%" cy="50%" r="48%" />
       </svg>
       <svg

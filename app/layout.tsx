@@ -7,13 +7,19 @@ import '@/styles/globals.css';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
+import { getValidIconPath } from './icon';
 
 export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'PostPaper',
   description: 'Productivity-oriented posting platform.',
   applicationName: 'PostPaper',
-  icons: { icon: '/favicon.svg', apple: '/assets/icons/icon-128x128.png' },
+  icons: {
+    icon: '/assets/vectors/brand-logo.svg',
+    shortcut: getValidIconPath(48),
+    apple: getValidIconPath(192),
+  },
   creator: 'Dominik Stumpf',
   authors: [
     {

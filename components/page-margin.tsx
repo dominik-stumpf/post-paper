@@ -14,7 +14,7 @@ export function PageMargin({
     <div
       className={cn(
         'mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8',
-        verticalMargin && 'py-4 md:py-8 lg:py-16',
+        verticalMargin && 'py-8 lg:py-16',
         className,
       )}
     >
