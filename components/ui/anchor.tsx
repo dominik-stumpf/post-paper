@@ -9,7 +9,7 @@ const anchorVariants = cva('', {
     variant: {
       default: 'text-foreground hover:text-foreground/80 underline ',
       dim: 'text-dim-foreground hover:text-dim-foreground/80 underline ',
-      loud: 'font-medium text-foreground hover:text-foreground/80',
+      loud: 'font-semibold text-foreground hover:text-foreground/80',
       empty: '',
     },
   },
