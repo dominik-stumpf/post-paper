@@ -205,12 +205,7 @@ export function SignUpForm() {
                       placeholder={'••••••••'}
                       type={passwordVisible ? 'text' : 'password'}
                       {...field}
-                      className={cn(
-                        'relative placeholder:py-2 placeholder:text-4xl',
-                        passwordVisible
-                          ? 'placeholder:translate-y-2'
-                          : 'text-4xl',
-                      )}
+                      className="relative"
                     />
                   </FormControl>
 
