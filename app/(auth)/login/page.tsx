@@ -10,7 +10,7 @@ export default function Login() {
         <div className="h-16 w-16">
           <BrandLogo />
         </div>
-        <Heading variant={'h2'}>Sign up to PostPaper</Heading>
+        <Heading variant={'h2'}>Log in to PostPaper</Heading>
         <LoginForm />
         <p className="text-dim-foreground">
           New to PostPaper? <Anchor href="/signup">Create an account</Anchor>
