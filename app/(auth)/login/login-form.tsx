@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import type * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,45 +20,49 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+import { useState } from 'react';
+import { signInSchema } from '@/lib/validators/user';
 
 export function LoginForm() {
+  const [credentialLoading, setCredentialLoading] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
       password: '',
     },
+    mode: 'onTouched',
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // const name = [values.firstName, values.lastName].join(' ');
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
+    setCredentialLoading(true);
+
     const { email, password } = values;
     const supabase = createClientComponentClient<Database>();
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
+    setCredentialLoading(false);
+
     if (error) {
-      console.error(error);
       toast({
-        title: 'Error',
+        title: 'Failed to authenticate',
         description: error.message,
         variant: 'destructive',
       });
       return;
     }
 
-    router.refresh();
-    router.replace('/');
+    if (data.session) {
+      router.replace('/');
+      router.refresh();
+    }
   }
 
   return (
@@ -101,7 +105,8 @@ export function LoginForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="mt-2">
+
+          <Button type="submit" className="mt-6" loading={credentialLoading}>
             Log in with Email
           </Button>
         </form>

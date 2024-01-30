@@ -83,7 +83,7 @@ export function SignUpForm() {
   async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const name = [values.firstName, values.lastName].join(' ');
     const { email, password } = values;
-    const requestUrl = document.location;
+    // const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
 
     setCredentialLoading(true);
@@ -98,16 +98,13 @@ export function SignUpForm() {
             Math.random() * 100000,
           )}`,
         },
-        emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+        // emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
       },
     });
 
     setCredentialLoading(false);
 
-    console.log(error, data);
-
     if (error) {
-      console.error(error);
       return toast({
         title: 'Failed to sign up',
         description: error.message,

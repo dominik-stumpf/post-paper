@@ -54,7 +54,7 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
       toast({
         variant: 'destructive',
         description: error.message,
-        title: 'Failed to authenticate.',
+        title: 'Failed to authenticate',
       });
       return;
     }

@@ -31,8 +31,8 @@ export function UserActions({ session }: { session: Session | null }) {
 
   async function signOutUser() {
     await fetch('/api/auth/sign-out', { method: 'POST' });
-    router.refresh();
     router.push('/login');
+    router.refresh();
   }
 
   if (session?.user) {
