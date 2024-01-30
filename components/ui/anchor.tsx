@@ -4,7 +4,7 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import Link from 'next/link';
 import { forwardRef } from 'react';
 
-const anchorVariants = cva('underline text-foreground scroll-smooth', {
+const anchorVariants = cva('underline text-foreground', {
   variants: {
     variant: {
       default: 'text-foreground hover:text-foreground/80',
