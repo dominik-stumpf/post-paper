@@ -4,6 +4,7 @@ import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
+import { useRouter } from 'next/navigation';
 
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Button } from '@/components/ui/button';
@@ -57,14 +58,15 @@ export function SignUpForm() {
   const [openPasswordCriterias, setOpenPasswordCriterias] = useState(false);
   const [credentialLoading, setCredentialLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: '',
-      firstName: '',
-      lastName: '',
-      password: '',
+      email: 'gj0wj5g234j@gwoij.aijo',
+      firstName: 'testing',
+      lastName: 'someone',
+      password: 'a1U.j023jj',
     },
     mode: 'onTouched',
   });
@@ -102,10 +104,9 @@ export function SignUpForm() {
       },
     });
 
-    setCredentialLoading(false);
-
     if (error) {
-      return toast({
+      setCredentialLoading(false);
+      toast({
         title: 'Failed to sign up',
         description: error.message,
         variant: 'destructive',
@@ -113,11 +114,14 @@ export function SignUpForm() {
     }
 
     if (data.session) {
-      return toast({
-        title: 'Successfully authenticated',
+      toast({
+        title: 'Successfully signed up',
         description: '',
         variant: 'success',
       });
+      console.log('redirecting');
+      router.replace('/');
+      router.refresh();
     }
 
     // TODO: uncomment when email stmp server is present

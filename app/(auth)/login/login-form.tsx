@@ -48,9 +48,8 @@ export function LoginForm() {
       password,
     });
 
-    setCredentialLoading(false);
-
     if (error) {
+      setCredentialLoading(false);
       toast({
         title: 'Failed to authenticate',
         description: error.message,

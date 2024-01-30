@@ -10,12 +10,8 @@ import { Github, Google } from './icons';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
-interface ProviderData {
-  providerName: string;
-  Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-}
 
-const supportedProviderData: Record<SupportedProvider, ProviderData> = {
+const supportedProviderData = {
   github: {
     providerName: 'GitHub',
     Icon: Github,
@@ -24,7 +20,7 @@ const supportedProviderData: Record<SupportedProvider, ProviderData> = {
     providerName: 'Google',
     Icon: Google,
   },
-};
+} satisfies Record<SupportedProvider, object>;
 
 export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   const { Icon, providerName } = supportedProviderData[provider];
@@ -39,18 +35,10 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
       provider,
       options: {
         redirectTo: `${requestUrl.origin}/api/auth/callback`,
-        queryParams:
-          provider === 'google'
-            ? {
-                access_type: 'offline',
-                prompt: 'consent',
-              }
-            : {},
       },
     });
 
     if (error) {
-      console.error(error);
       toast({
         variant: 'destructive',
         description: error.message,
