@@ -63,10 +63,10 @@ export function SignUpForm() {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      email: 'gj0wj5g234j@gwoij.aijo',
-      firstName: 'testing',
-      lastName: 'someone',
-      password: 'a1U.j023jj',
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
     },
     mode: 'onTouched',
   });
