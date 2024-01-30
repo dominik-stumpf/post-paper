@@ -65,7 +65,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <div className="space-x-3">
+          <div className="flex items-center gap-3">
             <Loader2 className="inline animate-spin" />
             <span>{children}</span>
           </div>
