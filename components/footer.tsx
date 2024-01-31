@@ -1,9 +1,9 @@
 import { ThemeToggle } from './theme-toggle';
 import { PageMargin } from './page-margin';
 import { Separator } from '@/components/ui/separator';
-import { links } from '@/app/site-data';
+import { links } from '@/site-config/site-general';
 import { Anchor } from '@/components/ui/anchor';
-import { BrandLink } from './brand/brand-link';
+import { BrandLink } from '@/components/brand/brand-link';
 
 export function Footer() {
   return (
