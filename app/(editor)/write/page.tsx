@@ -3,11 +3,10 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { type FormEvent, useState } from 'react';
 import { Editor } from './editor';
-import initialMarkdown from './react-hooks-post.md';
-
-import { Button } from '@/components/ui/button';
+import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
 import { useToast } from '@/components/ui/use-toast';
-import { Preview } from './preview';
+
+const initialMarkdown = reactHooksPost;
 
 export default function Page() {
   const supabase = createClientComponentClient<Database>();
@@ -50,22 +49,23 @@ export default function Page() {
     });
   }
 
-  return (
-    <form
-      className="mx-auto grid h-remaining w-full max-w-screen-2xl grid-cols-2 gap-16 overflow-hidden"
-      onSubmit={handleSubmit}
-    >
-      <Editor
-        initialEditorContent={initialMarkdown}
-        setEditorContent={setEditorContent}
-        setPositionOffset={setPositionOffset}
-      />
-      <div className="relative flex h-remaining flex-col">
-        <Preview markdown={editorContent} positionOffset={positionOffset} />
-        <Button type="submit" variant={'outline'} className="mt-4">
-          Post Paper
-        </Button>
-      </div>
-    </form>
-  );
+  return <Editor />;
+  // return (
+  //   <form
+  //     className="mx-auto grid h-remaining w-full max-w-screen-2xl grid-cols-2 gap-16 overflow-hidden"
+  //     onSubmit={handleSubmit}
+  //   >
+  //     <Editor
+  //       initialEditorContent={initialMarkdown}
+  //       setEditorContent={setEditorContent}
+  //       setPositionOffset={setPositionOffset}
+  //     />
+  //     <div className="relative flex h-remaining flex-col">
+  //       <Preview markdown={editorContent} positionOffset={positionOffset} />
+  //       <Button type="submit" variant={'outline'} className="mt-4">
+  //         Post Paper
+  //       </Button>
+  //     </div>
+  //   </form>
+  // );
 }

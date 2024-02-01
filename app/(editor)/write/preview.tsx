@@ -10,6 +10,7 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { PreviewRenderer } from './preview-renderer';
+import remarkFrontMatter from 'remark-frontmatter';
 
 type HastVisitor = BuildVisitor<HastRoot>;
 
@@ -49,6 +50,10 @@ function processMdToHast(md: string) {
     // @ts-ignore
     .use(remarkParse)
     .use(remarkPlugins)
+    .use(remarkFrontMatter, ['yaml'])
+    .use(() => (tree) => {
+      console.dir(tree);
+    })
     .use(remarkRehype)
     .use(rehypePlugins);
 

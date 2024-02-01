@@ -1,6 +1,6 @@
 #editor ::selection {
-  color: unset;
-  background-color: unset;
+  /* color: inherit; */
+  background-color: white;
 }
 
 #editor ::-webkit-scrollbar-thumb {

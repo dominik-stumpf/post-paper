@@ -1,70 +1,111 @@
 'use client';
 
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { languages } from '@codemirror/language-data';
-import { EditorState } from '@codemirror/state';
-import { EditorView, placeholder } from '@codemirror/view';
 import { vim } from '@replit/codemirror-vim';
-import { gruvboxDarkInit } from '@uiw/codemirror-theme-gruvbox-dark';
 import { minimalSetup } from 'codemirror';
-import { memo, useEffect, useRef } from 'react';
-import './editor.css';
+import { EditorState } from '@codemirror/state';
+import { placeholder, EditorView } from '@codemirror/view';
+import { useEffect, useRef } from 'react';
+import { languages } from '@codemirror/language-data';
 
-const customTheme = gruvboxDarkInit({
-  settings: {
-    background: 'black',
-    selection: '#ffffff33',
-    fontFamily: 'var(--font-geist-mono)',
-  },
-});
+const markdownDocument = `
+# your **starter** markdown file
 
-interface EditorProps {
-  initialEditorContent: string;
-  setEditorContent: (editorContent: string) => void;
-  setPositionOffset: (positionOffset: number) => void;
+about the *italics* and **bold**
+
+\`\`\`rust
+fn main() {
+    println!("Hello, world!");
 }
+\`\`\`
 
-function EditorComponent({
-  initialEditorContent,
-  setEditorContent,
-  setPositionOffset,
-}: EditorProps) {
-  const editor = useRef<HTMLDivElement>(null);
-
-  const onUpdate = EditorView.updateListener.of((v) => {
-    setEditorContent(v.state.doc.toString());
-    setPositionOffset(v.view.state.selection.ranges[0].from);
-  });
+\`\`\`tsx
+export function Editor() {
+  const editorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!editor.current) return;
+    if (editorRef.current === null) {
+      return;
+    }
 
-    const startState = EditorState.create({
-      doc: initialEditorContent,
+    const state = EditorState.create({
+      doc: markdownDocument,
       extensions: [
-        placeholder('Enter some markdown...'),
-        minimalSetup,
-        EditorView.lineWrapping,
-        customTheme,
         vim({ status: true }),
-        markdown({ base: markdownLanguage, codeLanguages: languages }),
-        onUpdate,
+        minimalSetup,
+        markdown(),
+        placeholder('Enter some markdown...'),
+        EditorView.lineWrapping,
+        EditorView.theme({}, { dark: true }),
       ],
     });
 
-    const view = new EditorView({
-      state: startState,
-      parent: editor.current,
+    const editor = new EditorView({
+      parent: editorRef.current,
+      state,
     });
 
     return () => {
-      view.destroy();
+      editor.destroy();
     };
-  }, [initialEditorContent, onUpdate]);
+  }, []);
 
   return (
-    <div ref={editor} id="editor" className="h-remaining w-full text-lg" />
+    <div
+      ref={editorRef}
+      id="editor"
+      className="selection:bg-[unset] selection:text-[unset]"
+    />
   );
 }
+\`\`\`
 
-export const Editor = memo(EditorComponent);
+[link](https://example.com)
+
+pararaphs
+
+- unordered
+- lists
+
+1. ordered
+2. lists
+`.trim();
+
+export function Editor() {
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (editorRef.current === null) {
+      return;
+    }
+
+    const state = EditorState.create({
+      doc: markdownDocument,
+      extensions: [
+        vim({ status: true }),
+        minimalSetup,
+        markdown({ base: markdownLanguage, codeLanguages: languages }),
+        placeholder('Enter some markdown...'),
+        EditorView.lineWrapping,
+        EditorView.theme({}, { dark: true }),
+      ],
+    });
+
+    const editor = new EditorView({
+      parent: editorRef.current,
+      state,
+    });
+
+    return () => {
+      editor.destroy();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={editorRef}
+      id="editor"
+      className="selection:bg-[inherit] selection:text-[inherit]"
+    />
+  );
+}

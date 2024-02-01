@@ -13,41 +13,6 @@ export function validatePassword(password: string) {
     hasNumber: numberRegex.test(password),
     hasSymbol: symbolRegex.test(password),
   };
-
-  // if (value.length < 8) {
-  //   ctx.addIssue({
-  //     code: z.ZodIssueCode.custom,
-  //     message: 'Password must be at least 8 charaters long',
-  //   });
-  // }
-  //
-  // if (!upperCaseRegex.test(value)) {
-  //   ctx.addIssue({
-  //     code: z.ZodIssueCode.custom,
-  //     message: 'Password must contain at least 1 upper case letter',
-  //   });
-  // }
-  //
-  // if (!lowerCaseRegex.test(value)) {
-  //   ctx.addIssue({
-  //     code: z.ZodIssueCode.custom,
-  //     message: 'Password must contain at least 1 lower case letter',
-  //   });
-  // }
-  //
-  // if (!numberRegex.test(value)) {
-  //   ctx.addIssue({
-  //     code: z.ZodIssueCode.custom,
-  //     message: 'Password must contain at least 1 number',
-  //   });
-  // }
-  //
-  // if (!symbolRegex.test(value)) {
-  //   ctx.addIssue({
-  //     code: z.ZodIssueCode.custom,
-  //     message: 'Password must contain at least 1 symbol',
-  //   });
-  // }
 }
 
 export const signUpSchema = z.object({

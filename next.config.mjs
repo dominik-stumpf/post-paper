@@ -9,10 +9,12 @@ const nextConfig = {
     if (!isServer) {
       config.externals.push('sharp');
     }
+
     config.module.rules.push({
       test: /\.md$/,
-      use: 'raw-loader',
+      type: 'asset/source',
     });
+
     return config;
   },
 };
