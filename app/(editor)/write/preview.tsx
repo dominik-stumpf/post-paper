@@ -11,6 +11,7 @@ import { unified } from 'unified';
 import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { PreviewRenderer } from './preview-renderer';
 import remarkFrontMatter from 'remark-frontmatter';
+import { cn } from '@/lib/utils';
 
 type HastVisitor = BuildVisitor<HastRoot>;
 
@@ -82,7 +83,7 @@ export function Preview({
   }
 
   return (
-    <article className={`h-full overflow-y-scroll ${className}`}>
+    <article className={cn('mx-auto', className)}>
       {<PreviewRenderer>{hast}</PreviewRenderer>}
     </article>
   );
