@@ -19,5 +19,10 @@
 }
 
 #editor .cm-fat-cursor {
-  @apply bg-amber-600 text-black;
+  @apply bg-foreground;
+  color: hsl(var(--background)) !important;
+}
+
+#editor .cm-cursor {
+  @apply border-l-[2.5px] border-foreground;
 }

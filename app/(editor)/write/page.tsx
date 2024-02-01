@@ -2,7 +2,7 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { type FormEvent, useState } from 'react';
-import { Editor } from './editor';
+import { EditorMemo } from './editor';
 import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -49,7 +49,7 @@ export default function Page() {
     });
   }
 
-  return <Editor />;
+  return <EditorMemo />;
   // return (
   //   <form
   //     className="mx-auto grid h-remaining w-full max-w-screen-2xl grid-cols-2 gap-16 overflow-hidden"

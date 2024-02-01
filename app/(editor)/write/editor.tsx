@@ -5,25 +5,36 @@ import { vim } from '@replit/codemirror-vim';
 import { minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { languages } from '@codemirror/language-data';
 import '@/styles/editor.css';
-import { gruvboxDarkInit } from '@uiw/codemirror-theme-gruvbox-dark';
+import {
+  gruvboxDarkInit,
+  gruvboxLightInit,
+} from '@uiw/codemirror-theme-gruvbox-dark';
 import markdownDocument from '@/public/markdown/react-hooks-post.md';
+import { useTheme } from 'next-themes';
 
-const customTheme = gruvboxDarkInit({
+const lightTheme = gruvboxLightInit({
   settings: {
-    background: 'black',
-    selection: '#ffffff33',
+    background: 'var(--background)',
     fontFamily: 'var(--font-geist-mono)',
   },
 });
 
-export function Editor() {
+const darkTheme = gruvboxDarkInit({
+  settings: {
+    background: 'var(--background)',
+    fontFamily: 'var(--font-geist-mono)',
+  },
+});
+
+function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
-    if (editorRef.current === null) {
+    if (editorRef.current === null || resolvedTheme === undefined) {
       return;
     }
 
@@ -35,7 +46,7 @@ export function Editor() {
         markdown({ base: markdownLanguage, codeLanguages: languages }),
         placeholder('Enter some markdown...'),
         EditorView.lineWrapping,
-        customTheme,
+        resolvedTheme === 'dark' ? darkTheme : lightTheme,
       ],
     });
 
@@ -47,7 +58,9 @@ export function Editor() {
     return () => {
       editor.destroy();
     };
-  }, []);
+  }, [resolvedTheme]);
 
   return <div ref={editorRef} id="editor" />;
 }
+
+export const EditorMemo = memo(Editor);
