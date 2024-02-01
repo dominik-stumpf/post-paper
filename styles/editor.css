@@ -1,14 +1,5 @@
-#editor ::selection {
-  /* color: inherit; */
-  background-color: white;
-}
-
-#editor ::-webkit-scrollbar-thumb {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-transparent;
+#editor {
+  @apply h-remaining w-full overflow-hidden text-lg selection:bg-[inherit] selection:text-[inherit];
 }
 
 #editor .cm-vim-panel {
@@ -28,5 +19,5 @@
 }
 
 #editor .cm-fat-cursor {
-  @apply bg-transparent ring-1 ring-white;
+  @apply bg-amber-600 text-black;
 }

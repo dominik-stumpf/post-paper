@@ -7,69 +7,17 @@ import { EditorState } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
 import { useEffect, useRef } from 'react';
 import { languages } from '@codemirror/language-data';
+import '@/styles/editor.css';
+import { gruvboxDarkInit } from '@uiw/codemirror-theme-gruvbox-dark';
+import markdownDocument from '@/public/markdown/react-hooks-post.md';
 
-const markdownDocument = `
-# your **starter** markdown file
-
-about the *italics* and **bold**
-
-\`\`\`rust
-fn main() {
-    println!("Hello, world!");
-}
-\`\`\`
-
-\`\`\`tsx
-export function Editor() {
-  const editorRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (editorRef.current === null) {
-      return;
-    }
-
-    const state = EditorState.create({
-      doc: markdownDocument,
-      extensions: [
-        vim({ status: true }),
-        minimalSetup,
-        markdown(),
-        placeholder('Enter some markdown...'),
-        EditorView.lineWrapping,
-        EditorView.theme({}, { dark: true }),
-      ],
-    });
-
-    const editor = new EditorView({
-      parent: editorRef.current,
-      state,
-    });
-
-    return () => {
-      editor.destroy();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={editorRef}
-      id="editor"
-      className="selection:bg-[unset] selection:text-[unset]"
-    />
-  );
-}
-\`\`\`
-
-[link](https://example.com)
-
-pararaphs
-
-- unordered
-- lists
-
-1. ordered
-2. lists
-`.trim();
+const customTheme = gruvboxDarkInit({
+  settings: {
+    background: 'black',
+    selection: '#ffffff33',
+    fontFamily: 'var(--font-geist-mono)',
+  },
+});
 
 export function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
@@ -87,7 +35,7 @@ export function Editor() {
         markdown({ base: markdownLanguage, codeLanguages: languages }),
         placeholder('Enter some markdown...'),
         EditorView.lineWrapping,
-        EditorView.theme({}, { dark: true }),
+        customTheme,
       ],
     });
 
@@ -101,11 +49,5 @@ export function Editor() {
     };
   }, []);
 
-  return (
-    <div
-      ref={editorRef}
-      id="editor"
-      className="selection:bg-[inherit] selection:text-[inherit]"
-    />
-  );
+  return <div ref={editorRef} id="editor" />;
 }
