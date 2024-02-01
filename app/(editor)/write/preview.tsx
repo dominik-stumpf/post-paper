@@ -77,9 +77,13 @@ export function Preview({
     setHast(markHastOffset(positionOffset, processMdToHast(markdown)));
   }, [markdown, positionOffset]);
 
+  if (hast === undefined) {
+    return null;
+  }
+
   return (
-    <div className={`h-full overflow-y-scroll ${className}`}>
-      {hast && <PreviewRenderer>{hast}</PreviewRenderer>}
-    </div>
+    <article className={`h-full overflow-y-scroll ${className}`}>
+      {<PreviewRenderer>{hast}</PreviewRenderer>}
+    </article>
   );
 }

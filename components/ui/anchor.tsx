@@ -4,19 +4,22 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import Link from 'next/link';
 import { forwardRef } from 'react';
 
-const anchorVariants = cva('', {
-  variants: {
-    variant: {
-      default: 'text-foreground hover:text-foreground/80 underline ',
-      dim: 'text-dim-foreground hover:text-dim-foreground/80 underline ',
-      loud: 'font-semibold text-foreground hover:text-foreground/80',
-      empty: '',
+const anchorVariants = cva(
+  'ring-offset-background rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4',
+  {
+    variants: {
+      variant: {
+        default: 'text-foreground hover:text-foreground/80 underline',
+        dim: 'text-dim-foreground hover:text-dim-foreground/80 underline ',
+        loud: 'font-semibold text-foreground hover:text-foreground/80',
+        empty: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
+);
 
 export interface AnchorProps
   extends React.ComponentProps<typeof Link>,

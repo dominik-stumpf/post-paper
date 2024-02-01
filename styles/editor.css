@@ -1,7 +1,6 @@
-#editor {
-  @apply h-remaining w-full overflow-hidden text-lg selection:bg-[inherit] selection:text-[inherit];
+#editor ::selection {
+  @apply bg-[inherit] text-[inherit];
 }
-
 #editor .cm-vim-panel {
   @apply bg-black/80 font-bold text-white;
 }
@@ -25,4 +24,21 @@
 
 #editor .cm-cursor {
   @apply border-l-[2.5px] border-foreground;
+}
+
+#editor .cm-selectionBackground {
+  background: hsl(var(--foreground)) !important;
+  opacity: 0.1;
+}
+
+#editor .cm-focused .cm-selectionBackground {
+  opacity: 0.12;
+}
+
+#editor .cm-selectionLayer :first-child {
+  @apply rounded-l;
+}
+
+#editor .cm-selectionLayer :last-child {
+  @apply rounded-r;
 }

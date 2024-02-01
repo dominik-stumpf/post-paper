@@ -22,7 +22,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
+        mono: ['var(--font-mono)'],
       },
       colors: {
         border: 'hsl(var(--border))',

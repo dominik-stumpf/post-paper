@@ -5,7 +5,7 @@ import { vim } from '@replit/codemirror-vim';
 import { minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { languages } from '@codemirror/language-data';
 import '@/styles/editor.css';
 import {
@@ -17,20 +17,21 @@ import { useTheme } from 'next-themes';
 
 const lightTheme = gruvboxLightInit({
   settings: {
-    background: 'var(--background)',
-    fontFamily: 'var(--font-geist-mono)',
+    background: 'unset',
+    fontFamily: 'var(--font-mono)',
   },
 });
 
 const darkTheme = gruvboxDarkInit({
   settings: {
-    background: 'var(--background)',
-    fontFamily: 'var(--font-geist-mono)',
+    background: 'unset',
+    fontFamily: 'var(--font-mono)',
   },
 });
 
 function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
+  const [isEditorLoaded, setIsEditorLoaded] = useState(false);
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -55,12 +56,32 @@ function Editor() {
       state,
     });
 
+    setIsEditorLoaded(true);
+
     return () => {
       editor.destroy();
+      setIsEditorLoaded(false);
     };
   }, [resolvedTheme]);
 
-  return <div ref={editorRef} id="editor" />;
+  useEffect(() => {
+    if (isEditorLoaded === false) {
+      return;
+    }
+    const content = document.querySelector('.cm-content');
+    if (content === null) {
+      return;
+    }
+    content.ariaLabel = 'article in markdown';
+  }, [isEditorLoaded]);
+
+  return (
+    <div
+      ref={editorRef}
+      id="editor"
+      className="h-full max-h-remaining w-full overflow-hidden text-base"
+    />
+  );
 }
 
 export const EditorMemo = memo(Editor);

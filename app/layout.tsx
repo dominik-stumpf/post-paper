@@ -4,10 +4,15 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
-import { GeistMono } from 'geist/font/mono';
+import { JetBrains_Mono } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
 import { getValidIconPath } from './icon';
+
+const JetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+});
 
 export const dynamic = 'force-dynamic';
 
@@ -48,7 +53,7 @@ export default function RootLayout({
         className={cn([
           'min-h-screen bg-background font-sans text-foreground antialiased accent-primary selection:bg-foreground selection:text-background',
           GeistSans.variable,
-          GeistMono.variable,
+          JetBrainsMono.variable,
         ])}
       >
         <ThemeProvider>

@@ -200,6 +200,7 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
       tagName,
       {
         className: isActive ? 'bg-white/10' : undefined,
+        tabIndex: -1,
         ref: elementRef,
         ...rest,
       },
