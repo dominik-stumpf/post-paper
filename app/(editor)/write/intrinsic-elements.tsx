@@ -193,7 +193,13 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
 
     useEffect(() => {
       if (!isActive || elementRef.current === null) return;
-      elementRef.current.scrollIntoView({ behavior: 'instant' });
+
+      window.scrollBy({
+        top: elementRef.current.getBoundingClientRect().top - 64,
+        // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
+        // @ts-expect-error: only chromium based browsers have this property
+        behavior: window.chrome ? 'instant' : 'smooth',
+      });
     }, [isActive]);
 
     return createElement(

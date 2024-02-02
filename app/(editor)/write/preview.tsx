@@ -12,11 +12,10 @@ import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { PreviewRenderer } from './preview-renderer';
 import remarkFrontMatter from 'remark-frontmatter';
 import { cn } from '@/lib/utils';
+import { useEditorStore } from './editor-store';
 
 type HastVisitor = BuildVisitor<HastRoot>;
-
 export const offsetId = 'offset-position-active';
-
 export function markHastOffset(offset: number, hast: HastNodes) {
   visit(hast, transform);
 
@@ -52,9 +51,9 @@ function processMdToHast(md: string) {
     .use(remarkParse)
     .use(remarkPlugins)
     .use(remarkFrontMatter, ['yaml'])
-    .use(() => (tree) => {
-      console.dir(tree);
-    })
+    // .use(() => (tree) => {
+    //   console.dir(tree);
+    // })
     .use(remarkRehype)
     .use(rehypePlugins);
 
@@ -65,18 +64,14 @@ function processMdToHast(md: string) {
   return hastTree;
 }
 
-export function Preview({
-  markdown,
-  positionOffset,
-}: {
-  markdown: string;
-  positionOffset: number;
-}) {
+export function Preview() {
   const [hast, setHast] = useState<HastNodes>();
+  const editorContent = useEditorStore((state) => state.editorContent);
+  const positionOffset = useEditorStore((state) => state.positionOffset);
 
   useEffect(() => {
-    setHast(markHastOffset(positionOffset, processMdToHast(markdown)));
-  }, [markdown, positionOffset]);
+    setHast(markHastOffset(positionOffset, processMdToHast(editorContent)));
+  }, [editorContent, positionOffset]);
 
   if (hast === undefined) {
     return null;

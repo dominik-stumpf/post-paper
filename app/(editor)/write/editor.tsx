@@ -12,8 +12,8 @@ import {
   gruvboxDarkInit,
   gruvboxLightInit,
 } from '@uiw/codemirror-theme-gruvbox-dark';
-import markdownDocument from '@/public/markdown/react-hooks-post.md';
 import { useTheme } from 'next-themes';
+import { useEditorStore } from './editor-store';
 
 const lightTheme = gruvboxLightInit({
   settings: {
@@ -29,10 +29,20 @@ const darkTheme = gruvboxDarkInit({
   },
 });
 
-function Editor() {
+export function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
   const [isEditorLoaded, setIsEditorLoaded] = useState(false);
   const { resolvedTheme } = useTheme();
+  const setEditorContent = useEditorStore((state) => state.setEditorContent);
+  const setPositionOffset = useEditorStore((state) => state.setPositionOffset);
+  const initialEditorContent = useEditorStore(
+    (state) => state.initialEditorContent,
+  );
+
+  const updateEditorStore = EditorView.updateListener.of((v) => {
+    setEditorContent(v.state.doc.toString());
+    setPositionOffset(v.view.state.selection.ranges[0].from);
+  });
 
   useEffect(() => {
     if (editorRef.current === null || resolvedTheme === undefined) {
@@ -40,7 +50,7 @@ function Editor() {
     }
 
     const state = EditorState.create({
-      doc: markdownDocument,
+      doc: initialEditorContent,
       extensions: [
         vim({ status: true }),
         minimalSetup,
@@ -48,6 +58,7 @@ function Editor() {
         placeholder('Enter some markdown...'),
         EditorView.lineWrapping,
         resolvedTheme === 'dark' ? darkTheme : lightTheme,
+        updateEditorStore,
       ],
     });
 
@@ -62,7 +73,7 @@ function Editor() {
       editor.destroy();
       setIsEditorLoaded(false);
     };
-  }, [resolvedTheme]);
+  }, [resolvedTheme, updateEditorStore, initialEditorContent]);
 
   useEffect(() => {
     if (isEditorLoaded === false) {
