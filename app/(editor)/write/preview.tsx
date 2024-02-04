@@ -7,12 +7,11 @@ import {
   type BuildVisitor,
   CONTINUE,
   EXIT,
+  SKIP,
   visit,
 } from 'unist-util-visit';
 import {
-  Fragment,
   type ReactElement,
-  createElement,
   useCallback,
   useEffect,
   useState,
@@ -21,14 +20,17 @@ import {
   useMemo,
 } from 'react';
 
-import rehypeReact, { type Options as RehypeReactOptions } from 'rehype-react';
+import rehypeReact from 'rehype-react';
 import remarkParse from 'remark-parse';
 import remarkToRehype from 'remark-rehype';
 import { unified } from 'unified';
 import rehypeHighlight from 'rehype-highlight';
 import remarkFrontMatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import * as prod from 'react/jsx-runtime';
 
+// @ts-expect-error: the react types are missing.
+const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
 type HastVisitor = BuildVisitor<HastRoot>;
 
 export const offsetId = 'offset-position-active';
@@ -40,23 +42,23 @@ export function rehypeMarkPositionOffset(offset: number) {
     const startOffset = node.position?.start.offset;
     const endOffset = node.position?.end.offset;
 
-    // node.properties = {
-    //   'data-offset-start': startOffset,
-    //   'data-offset-end': endOffset,
-    // };
-    //
-    // return SKIP;
+    if (typeof startOffset !== 'number' || typeof endOffset !== 'number') {
+      return SKIP;
+    }
 
     node.properties = {};
-    if (
-      typeof startOffset === 'number' &&
-      typeof endOffset === 'number' &&
-      startOffset <= offset &&
-      offset <= endOffset
-    ) {
+
+    if (endOffset + 1 === offset) {
       node.properties.id = offsetId;
       return EXIT;
     }
+
+    if (startOffset <= offset && offset <= endOffset) {
+      node.properties.id = offsetId;
+      return EXIT;
+    }
+
+    return SKIP;
   }
 
   return () => (tree: HastRoot) => visit(tree, transform);
@@ -69,41 +71,36 @@ export const useMdRenderer = () => {
   const updateThrottleMs = 32;
   const isThrottling = useRef(false);
 
-  const setMarkdownSource = useCallback((source: string) => {
-    const startTime = performance.now();
-    unified()
-      .use(remarkParse, {})
-      .use([remarkGfm, remarkFrontMatter])
-      .use(remarkToRehype, {})
-      .use(rehypeHighlight)
-      .use(rehypeReact, {
-        createElement,
-        Fragment,
-      } as RehypeReactOptions<typeof createElement>)
-      .process(source)
-      .then((vfile) => {
-        const renderTime = performance.now() - startTime;
-        console.log('parsing time:', Math.round(renderTime));
-        setReactContent(vfile.result as ReactElement);
-      })
-      .catch(() => {
-        console.error('failed to parse markdown');
-      });
-  }, []);
+  const setMarkdownSource = useCallback(
+    (source: string) => {
+      const startTime = performance.now();
+      unified()
+        .use(remarkParse, {})
+        .use([remarkGfm, remarkFrontMatter])
+        .use(remarkToRehype, {})
+        .use(rehypeHighlight)
+        .use(rehypeMarkPositionOffset(positionOffset))
+        .use(rehypeReact, production)
+        .process(source)
+        .then((vfile) => {
+          const renderTime = performance.now() - startTime;
+          console.log('parsing time:', Math.round(renderTime));
+          setReactContent(vfile.result as ReactElement);
+        })
+        .catch(() => {
+          console.error('failed to parse markdown');
+        });
+    },
+    [positionOffset],
+  );
 
   useEffect(() => {
-    // setMarkdownSource(editorContent);
-    const truncatedContent = editorContent.slice(
-      Math.max(0, positionOffset - 2048),
-      positionOffset + 2048,
-    );
-
     let id: number | undefined;
     if (!isThrottling.current) {
       isThrottling.current = true;
       id = window.setTimeout(() => {
         isThrottling.current = false;
-        setMarkdownSource(truncatedContent);
+        setMarkdownSource(editorContent);
       }, updateThrottleMs);
     }
 
@@ -111,7 +108,7 @@ export const useMdRenderer = () => {
       isThrottling.current = false;
       clearTimeout(id);
     };
-  }, [editorContent, positionOffset, setMarkdownSource]);
+  }, [editorContent, setMarkdownSource]);
 
   return reactContent;
 };
@@ -134,27 +131,12 @@ function useScrollHandler(
 
     for (let i = root.children.length - 1; i >= 0; i -= 1) {
       const childElement = root.children[i];
-
-      // const offsetEnd = Number(childElement.getAttribute('data-offset-end'));
-      //
-      // if (offsetEnd > positionOffset) {
-      //   continue;
-      // }
-      //
-      // const offsetStart = Number(
-      //   childElement.getAttribute('data-offset-start'),
-      // );
-      //
-      // if (offsetStart > positionOffset) {
-      //   continue;
-      // }
-
       if (childElement.id !== offsetId) {
         continue;
       }
 
       target = childElement;
-      target.classList.add('bg-emerald-900');
+      target.classList.add('bg-emerald-900', 'ring', 'ring-emerald-500');
 
       window.scrollBy({
         top: target.getBoundingClientRect().top - 64,
@@ -169,9 +151,9 @@ function useScrollHandler(
       if (target === undefined) {
         return;
       }
-      target.classList.remove('bg-emerald-900');
+      target.classList.remove('bg-emerald-900', 'ring', 'ring-emerald-500');
     };
-  }, [reactContent, documentRef, isChrome]);
+  }, [documentRef, isChrome, reactContent, positionOffset]);
 }
 
 export function Preview() {
