@@ -75,9 +75,9 @@ export const useMdRenderer = () => {
     (source: string) => {
       const startTime = performance.now();
       unified()
-        .use(remarkParse, {})
+        .use(remarkParse)
         .use([remarkGfm, remarkFrontMatter])
-        .use(remarkToRehype, {})
+        .use(remarkToRehype)
         .use(rehypeHighlight)
         .use(rehypeMarkPositionOffset(positionOffset))
         .use(rehypeReact, production)
