@@ -29,8 +29,8 @@ export default function Page() {
   // const { toast } = useToast();
 
   return (
-    <div className="relative min-h-[140dvh] w-full">
-      <output className="pointer-events-none w-full select-none">
+    <div className="relative min-h-[300dvh] w-full">
+      <output className="w-full">
         <PageMargin verticalMargin className="mb-[35dvh]">
           <Preview />
         </PageMargin>

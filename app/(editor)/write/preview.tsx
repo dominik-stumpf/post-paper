@@ -1,67 +1,14 @@
 import { className } from '@/components/render-paper/render-paper';
 import { cn } from '@/lib/utils';
 import { useEditorStore } from './editor-store';
-// import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
-// import { useEffect, useRef, useState } from 'react';
-// import remarkFrontMatter from 'remark-frontmatter';
-// import remarkParse from 'remark-parse';
-// import remarkRehype from 'remark-rehype';
-// import { unified } from 'unified';
-// import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
-// import { Remark } from 'react-remark';
-//
-// type HastVisitor = BuildVisitor<HastRoot>;
-// export const offsetId = 'offset-position-active';
-// export function markHastOffset(offset: number, hast: HastNodes) {
-//   visit(hast, transform);
-//
-//   function transform(
-//     ...[node, _index, _parent]: Parameters<HastVisitor>
-//   ): ReturnType<HastVisitor> {
-//     if (node.type !== 'element') return CONTINUE;
-//
-//     const startOffset = node.position?.start.offset;
-//     const endOffset = node.position?.end.offset;
-//
-//     node.properties = {};
-//     if (
-//       typeof startOffset === 'number' &&
-//       typeof endOffset === 'number' &&
-//       startOffset <= offset &&
-//       offset <= endOffset
-//     ) {
-//       node.properties.id = offsetId;
-//       // console.log(node);
-//       // return EXIT;
-//     }
-//
-//     return SKIP;
-//   }
-//
-//   return hast;
-// }
-// export const rehypePlugins = [rehypeHighlight];
-// export const remarkPlugins = [remarkGfm];
 
-// function processMdToHast(md: string) {
-//   const processor = unified()
-//     // @ts-ignore
-//     .use(remarkParse)
-//     .use([])
-//     .use(remarkFrontMatter, ['yaml'])
-//     // .use(() => (tree) => {
-//     //   console.dir(tree);
-//     // })
-//     .use(remarkRehype)
-//     .use([]);
-//
-//   const mdastTree = processor.parse(md);
-//   // @ts-ignore
-//   const hastTree: HastNodes = processor.runSync(mdastTree, md);
-//
-//   return hastTree;
-// }
-
+import type { Root as HastRoot } from 'hast';
+import {
+  type BuildVisitor,
+  CONTINUE,
+  EXIT,
+  visit,
+} from 'unist-util-visit';
 import {
   Fragment,
   type ReactElement,
@@ -70,6 +17,8 @@ import {
   useEffect,
   useState,
   useRef,
+  type RefObject,
+  useMemo,
 } from 'react';
 
 import rehypeReact, { type Options as RehypeReactOptions } from 'rehype-react';
@@ -80,12 +29,44 @@ import rehypeHighlight from 'rehype-highlight';
 import remarkFrontMatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
 
-export const useRemark = () => {
+type HastVisitor = BuildVisitor<HastRoot>;
+
+export const offsetId = 'offset-position-active';
+
+export function rehypeMarkPositionOffset(offset: number) {
+  function transform(...[node, _index, _parent]: Parameters<HastVisitor>) {
+    if (node.type !== 'element') return CONTINUE;
+
+    const startOffset = node.position?.start.offset;
+    const endOffset = node.position?.end.offset;
+
+    // node.properties = {
+    //   'data-offset-start': startOffset,
+    //   'data-offset-end': endOffset,
+    // };
+    //
+    // return SKIP;
+
+    node.properties = {};
+    if (
+      typeof startOffset === 'number' &&
+      typeof endOffset === 'number' &&
+      startOffset <= offset &&
+      offset <= endOffset
+    ) {
+      node.properties.id = offsetId;
+      return EXIT;
+    }
+  }
+
+  return () => (tree: HastRoot) => visit(tree, transform);
+}
+
+export const useMdRenderer = () => {
   const [reactContent, setReactContent] = useState<ReactElement | null>(null);
   const editorContent = useEditorStore((state) => state.editorContent);
   const positionOffset = useEditorStore((state) => state.positionOffset);
   const updateThrottleMs = 32;
-  // const maxRenderFrequencyMs = 1000;
   const isThrottling = useRef(false);
 
   const setMarkdownSource = useCallback((source: string) => {
@@ -119,13 +100,12 @@ export const useRemark = () => {
 
     let id: number | undefined;
     if (!isThrottling.current) {
+      isThrottling.current = true;
       id = window.setTimeout(() => {
         isThrottling.current = false;
         setMarkdownSource(truncatedContent);
       }, updateThrottleMs);
     }
-
-    isThrottling.current = true;
 
     return () => {
       isThrottling.current = false;
@@ -136,11 +116,74 @@ export const useRemark = () => {
   return reactContent;
 };
 
-export function Preview() {
+function useScrollHandler(
+  documentRef: RefObject<HTMLElement>,
+  reactContent: ReactElement | null,
+) {
   const positionOffset = useEditorStore((state) => state.positionOffset);
-  const reactContent = useRemark();
+  // @ts-expect-error: only chromium based browsers have this property
+  const isChrome = useMemo(() => window.chrome, []);
 
-  return <article className={cn('mx-auto', className)}>{reactContent}</article>;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (documentRef.current === null) {
+      return;
+    }
+    const root = documentRef.current;
+    let target: Element | undefined;
+
+    for (let i = root.children.length - 1; i >= 0; i -= 1) {
+      const childElement = root.children[i];
+
+      // const offsetEnd = Number(childElement.getAttribute('data-offset-end'));
+      //
+      // if (offsetEnd > positionOffset) {
+      //   continue;
+      // }
+      //
+      // const offsetStart = Number(
+      //   childElement.getAttribute('data-offset-start'),
+      // );
+      //
+      // if (offsetStart > positionOffset) {
+      //   continue;
+      // }
+
+      if (childElement.id !== offsetId) {
+        continue;
+      }
+
+      target = childElement;
+      target.classList.add('bg-emerald-900');
+
+      window.scrollBy({
+        top: target.getBoundingClientRect().top - 64,
+        // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
+        behavior: isChrome ? 'instant' : 'smooth',
+      });
+
+      break;
+    }
+
+    return () => {
+      if (target === undefined) {
+        return;
+      }
+      target.classList.remove('bg-emerald-900');
+    };
+  }, [reactContent, documentRef, isChrome]);
+}
+
+export function Preview() {
+  const reactContent = useMdRenderer();
+  const documentRef = useRef<HTMLElement>(null);
+  useScrollHandler(documentRef, reactContent);
+
+  return (
+    <article className={cn('mx-auto', className)} ref={documentRef}>
+      {reactContent}
+    </article>
+  );
 }
 
 // function useMarkdownWorker() {
