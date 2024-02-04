@@ -12,7 +12,7 @@ interface EditorState {
 export const useEditorStore = create<EditorState>()((set) => ({
   positionOffset: 0,
   editorContent: '',
-  initialEditorContent: reactHooksPost,
+  initialEditorContent: (reactHooksPost as string).repeat(10),
   setEditorContent: (to: string) => set(() => ({ editorContent: to })),
   setPositionOffset: (to: number) => set(() => ({ positionOffset: to })),
 }));

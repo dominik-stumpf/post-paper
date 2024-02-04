@@ -3,12 +3,13 @@ import { toJsxRuntime } from 'hast-util-to-jsx-runtime';
 // @ts-expect-error: untyped.
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { intrinsicElements } from './intrinsic-elements';
+import { memo } from 'react';
 
 interface PreviewRendererProps {
   children: HastNodes;
 }
 
-export function PreviewRenderer({ children }: PreviewRendererProps) {
+function Component({ children }: PreviewRendererProps) {
   return toJsxRuntime(children, {
     Fragment,
     jsx,
@@ -19,3 +20,5 @@ export function PreviewRenderer({ children }: PreviewRendererProps) {
     passNode: true,
   });
 }
+
+export const PreviewRenderer = memo(Component);

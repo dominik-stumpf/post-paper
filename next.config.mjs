@@ -10,6 +10,13 @@ const nextConfig = {
       config.externals.push('sharp');
     }
 
+    // config.module.rules.push({
+    //   test: /\.worker\.ts$/,
+    //   resolve: {
+    //     conditionNames: ['worker'],
+    //   },
+    // });
+
     config.module.rules.push({
       test: /\.md$/,
       type: 'asset/source',

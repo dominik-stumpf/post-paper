@@ -1,6 +1,7 @@
 import type { Components } from 'hast-util-to-jsx-runtime';
 import { createElement, useEffect, useRef } from 'react';
 import { offsetId } from './preview';
+import { memo } from 'react';
 
 // generated from type: JSX.IntrinsicElements
 const elementTagNames = [
@@ -191,6 +192,8 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
     const isActive = node?.properties.id === offsetId;
     const elementRef = useRef<Element>(null);
 
+    console.log('node render');
+
     useEffect(() => {
       if (!isActive || elementRef.current === null) return;
 
@@ -215,5 +218,5 @@ for (let i = 0; i < elementTagNames.length; i += 1) {
   };
 
   // @ts-expect-error complex union
-  intrinsicElements[tagName] = component;
+  intrinsicElements[tagName] = memo(component);
 }
