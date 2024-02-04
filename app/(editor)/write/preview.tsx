@@ -84,7 +84,7 @@ export const useRemark = () => {
   const [reactContent, setReactContent] = useState<ReactElement | null>(null);
   const editorContent = useEditorStore((state) => state.editorContent);
   const positionOffset = useEditorStore((state) => state.positionOffset);
-  const updateThrottleMs = 40;
+  const updateThrottleMs = 32;
   // const maxRenderFrequencyMs = 1000;
   const isThrottling = useRef(false);
 
