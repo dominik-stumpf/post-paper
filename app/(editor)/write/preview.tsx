@@ -2,14 +2,8 @@ import { className } from '@/components/render-paper/render-paper';
 import { cn } from '@/lib/utils';
 import { useEditorStore } from './editor-store';
 
-import type { Root as HastRoot } from 'hast';
-import {
-  type BuildVisitor,
-  CONTINUE,
-  EXIT,
-  SKIP,
-  visit,
-} from 'unist-util-visit';
+import type { Root as HastRoot, Nodes as HastNodes } from 'hast';
+import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import {
   type ReactElement,
   useCallback,
@@ -20,22 +14,27 @@ import {
   useMemo,
 } from 'react';
 
-import rehypeReact from 'rehype-react';
 import remarkParse from 'remark-parse';
 import remarkToRehype from 'remark-rehype';
 import { unified } from 'unified';
 import rehypeHighlight from 'rehype-highlight';
 import remarkFrontMatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
-import * as prod from 'react/jsx-runtime';
-
 // @ts-expect-error: the react types are missing.
-const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
+import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
+import { toJsxRuntime, type Components } from 'hast-util-to-jsx-runtime';
+
+const components: Partial<Components> = {
+  a: (props) => <a tabIndex={-1} {...props} />,
+};
+
+const production = { Fragment, jsx, jsxs, components };
+
 type HastVisitor = BuildVisitor<HastRoot>;
 
 export const offsetId = 'offset-position-active';
 
-export function rehypeMarkPositionOffset(offset: number) {
+export function rehypeMarkPositionOffset(offset: number, hast: HastNodes) {
   function transform(...[node, _index, _parent]: Parameters<HastVisitor>) {
     if (node.type !== 'element') return CONTINUE;
 
@@ -48,51 +47,57 @@ export function rehypeMarkPositionOffset(offset: number) {
 
     node.properties = {};
 
-    if (endOffset + 1 === offset) {
-      node.properties.id = offsetId;
-      return EXIT;
-    }
-
     if (startOffset <= offset && offset <= endOffset) {
       node.properties.id = offsetId;
-      return EXIT;
+    }
+
+    if (endOffset + 1 === offset) {
+      node.properties.id = offsetId;
     }
 
     return SKIP;
   }
 
-  return () => (tree: HastRoot) => visit(tree, transform);
+  // return () => (tree: HastRoot) => visit(tree, transform);
+  visit(hast, transform);
+  return hast;
 }
 
 export const useMdRenderer = () => {
-  const [reactContent, setReactContent] = useState<ReactElement | null>(null);
+  const [reactContent, setReactContent] = useState<ReactElement>();
+  const [hast, setHast] = useState<HastNodes>();
   const editorContent = useEditorStore((state) => state.editorContent);
   const positionOffset = useEditorStore((state) => state.positionOffset);
-  const updateThrottleMs = 32;
+  const updateThrottleMs = 0;
   const isThrottling = useRef(false);
 
-  const setMarkdownSource = useCallback(
-    (source: string) => {
-      const startTime = performance.now();
-      unified()
-        .use(remarkParse)
-        .use([remarkGfm, remarkFrontMatter])
-        .use(remarkToRehype)
-        .use(rehypeHighlight)
-        .use(rehypeMarkPositionOffset(positionOffset))
-        .use(rehypeReact, production)
-        .process(source)
-        .then((vfile) => {
-          const renderTime = performance.now() - startTime;
-          console.log('parsing time:', Math.round(renderTime));
-          setReactContent(vfile.result as ReactElement);
-        })
-        .catch(() => {
-          console.error('failed to parse markdown');
-        });
-    },
-    [positionOffset],
-  );
+  const parseMarkdown = useCallback(async (source: string) => {
+    const startTime = performance.now();
+    const processor = unified()
+      .use(remarkParse)
+      .use([remarkGfm, remarkFrontMatter])
+      .use(remarkToRehype)
+      .use(rehypeHighlight);
+
+    const newMdast = processor.parse(source);
+    const newHast = await processor.run(newMdast, source);
+    setHast(newHast);
+    const renderTime = performance.now() - startTime;
+    console.log('md to hast parsing time:', Math.round(renderTime));
+  }, []);
+
+  useEffect(() => {
+    if (hast === undefined) {
+      return;
+    }
+
+    const startTime = performance.now();
+    const markedHast = rehypeMarkPositionOffset(positionOffset, hast);
+    const newReactContent = toJsxRuntime(markedHast, production);
+    setReactContent(newReactContent);
+    const renderTime = performance.now() - startTime;
+    console.log('mark + hast to jsx parsing time:', Math.round(renderTime));
+  }, [hast, positionOffset]);
 
   useEffect(() => {
     let id: number | undefined;
@@ -100,7 +105,7 @@ export const useMdRenderer = () => {
       isThrottling.current = true;
       id = window.setTimeout(() => {
         isThrottling.current = false;
-        setMarkdownSource(editorContent);
+        parseMarkdown(editorContent);
       }, updateThrottleMs);
     }
 
@@ -108,14 +113,14 @@ export const useMdRenderer = () => {
       isThrottling.current = false;
       clearTimeout(id);
     };
-  }, [editorContent, setMarkdownSource]);
+  }, [editorContent, parseMarkdown]);
 
   return reactContent;
 };
 
 function useScrollHandler(
   documentRef: RefObject<HTMLElement>,
-  reactContent: ReactElement | null,
+  reactContent?: ReactElement,
 ) {
   const positionOffset = useEditorStore((state) => state.positionOffset);
   // @ts-expect-error: only chromium based browsers have this property
@@ -162,7 +167,7 @@ export function Preview() {
   useScrollHandler(documentRef, reactContent);
 
   return (
-    <article className={cn('mx-auto', className)} ref={documentRef}>
+    <article className={cn('mx-auto break-words', className)} ref={documentRef}>
       {reactContent}
     </article>
   );

@@ -29,7 +29,7 @@ export default function Page() {
   // const { toast } = useToast();
 
   return (
-    <div className="relative min-h-[300dvh] w-full">
+    <div className="relative mb-[120dvh] min-h-[120dvh] w-full">
       <output className="w-full">
         <PageMargin verticalMargin className="mb-[35dvh]">
           <Preview />
