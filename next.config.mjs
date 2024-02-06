@@ -8,14 +8,14 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.externals.push('sharp');
-    }
 
-    // config.module.rules.push({
-    //   test: /\.worker\.ts$/,
-    //   resolve: {
-    //     conditionNames: ['worker'],
-    //   },
-    // });
+      config.module.rules.push({
+        test: /\.worker\.ts$/,
+        resolve: {
+          conditionNames: ['worker'],
+        },
+      });
+    }
 
     config.module.rules.push({
       test: /\.md$/,
