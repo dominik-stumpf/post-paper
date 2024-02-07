@@ -229,7 +229,7 @@ function useMarkdownParserWorker() {
 
     worker.current = new Worker(
       // new URL('@/markdown-parser.worker', import.meta.url),
-      '/worker/main.js',
+      '/worker/markdown-parser.worker.js',
       { type: 'module' },
     );
 

@@ -1,5 +1,5 @@
 [package]
-name = "markdown-parser"
+name = "markdown-parser-rs"
 version = "0.1.0"
 edition = "2021"
 authors = ["Dominik Stumpf <s.dominik.work@gmail.com>"]

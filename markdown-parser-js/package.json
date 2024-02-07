@@ -1,18 +1,20 @@
 {
-  "name": "markdown-parser-worker",
+  "name": "markdown-parser-js",
   "version": "1.0.0",
-  "source": "src/index.ts",
+  "source": "src/markdown-parser.worker.ts",
   "context": "web-worker",
   "browserslist": "> 0.25%",
-  "engines": {
-    "browsers": "> 0.25%"
-  },
   "@parcel/resolver-default": {
     "packageExports": true
+  },
+  "scripts": {
+    "build": "parcel build --dist-dir ../public/worker",
+    "watch": "parcel watch --dist-dir ../public/worker"
   },
   "dependencies": {
     "@swc/helpers": "^0.5.6",
     "hast": "^1.0.0",
+    "parcel": "^2.11.0",
     "rehype-highlight": "^7.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
@@ -23,5 +25,8 @@
     "unist-util-visit": "^5.0.0",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
   }
 }
