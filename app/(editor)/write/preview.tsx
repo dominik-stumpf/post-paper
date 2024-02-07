@@ -1,3 +1,5 @@
+'use-client';
+
 import { className } from '@/components/render-paper/render-paper';
 import { cn } from '@/lib/utils';
 import { useEditorStore } from './editor-store';
@@ -9,7 +11,6 @@ import {
   useState,
   useRef,
   type RefObject,
-  useMemo,
 } from 'react';
 
 // import remarkParse from 'remark-parse';
@@ -138,8 +139,6 @@ function useScrollHandler(
   reactContent?: ReactElement,
 ) {
   // const positionOffset = useEditorStore((state) => state.positionOffset);
-  // @ts-expect-error: only chromium based browsers have this property
-  const isChrome = useMemo(() => window.chrome, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -183,7 +182,8 @@ function useScrollHandler(
       window.scrollBy({
         top: target.getBoundingClientRect().top - 64,
         // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
-        behavior: isChrome ? 'instant' : 'smooth',
+        // @ts-expect-error: only chromium based browsers have this property
+        behavior: window.chrome ? 'instant' : 'smooth',
       });
 
       break;
@@ -195,7 +195,7 @@ function useScrollHandler(
       }
       target.classList.remove('bg-emerald-900', 'ring', 'ring-emerald-500');
     };
-  }, [documentRef, isChrome, reactContent, positionOffset]);
+  }, [documentRef, reactContent, positionOffset]);
 }
 
 export function Preview() {
@@ -220,21 +220,25 @@ function useMarkdownParserWorker() {
   const positionOffsetBeforeRender = useRef(0);
   const lastEditorContent = useRef(editorContent);
 
-  const onWorkerMessage = (event: { data: HastNodes }) => {
-    setHast(event.data);
-  };
   const worker = useRef<Worker>();
 
   useEffect(() => {
+    const onWorkerMessage = (event: { data: HastNodes }) => {
+      setHast(event.data);
+    };
+
     worker.current = new Worker(
-      new URL('./markdown-parser.worker', import.meta.url),
+      // new URL('@/markdown-parser.worker', import.meta.url),
+      '/worker/main.js',
+      { type: 'module' },
     );
+
     worker.current.addEventListener('message', onWorkerMessage);
 
     return () => {
       worker.current?.terminate();
     };
-  }, [onWorkerMessage]);
+  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
