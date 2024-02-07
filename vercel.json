@@ -1,0 +1,3 @@
+{
+  "buildCommand": "cd markdown-parser-js bun run build && cd .. && bun next build"
+}
