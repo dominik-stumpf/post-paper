@@ -8,17 +8,7 @@ Hello! This little side project of mine is a posting platform where you can edit
 
 ## Build commands
 
-**markdown-parser-rs (not finished)**
-
-```bash
-wasm-pack build --target web
-```
-
-**markdown-parser-js**
-
-```bash
-bun run build
-```
+See `/build-project.sh`
 
 ## Credits & references
 
