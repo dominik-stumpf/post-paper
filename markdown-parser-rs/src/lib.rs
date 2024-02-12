@@ -30,7 +30,7 @@ pub fn md_to_hast(source: &str) -> JsValue {
         ..ParseOptions::gfm()
     };
 
-    let hast = markdown::md_to_hast(source, &markdown_options);
+    let hast = markdown::md_to_hast(source, &markdown_options).unwrap();
     let hast_serialized = to_string(&hast);
 
     JsValue::from_str(&hast_serialized.unwrap())
