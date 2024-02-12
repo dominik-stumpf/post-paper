@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:wasm": "cd markdown-parser-rs && $HOME/.cargo/bin/wasm-pack build --target web",
     "start": "next start",
     "next-lint": "next lint",
     "prepare": "husky install",

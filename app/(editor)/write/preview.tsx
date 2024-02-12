@@ -1,10 +1,5 @@
 'use-client';
 
-import remarkParse from 'remark-parse';
-import remarkToRehype from 'remark-rehype';
-import { unified } from 'unified';
-import remarkFrontMatter from 'remark-frontmatter';
-import remarkGfm from 'remark-gfm';
 
 import { className } from '@/components/render-paper/render-paper';
 import { cn } from '@/lib/utils';
@@ -228,17 +223,17 @@ function useMarkdownParserWorker() {
 
   const worker = useRef<Worker>();
 
-  useEffect(() => {
-    const processor = unified()
-      .use(remarkParse)
-      .use([remarkGfm, remarkFrontMatter])
-      .use(remarkToRehype);
-    // .use(rehypeHighlight, { detect: true });
-
-    const newMdast = processor.parse(editorContent);
-    const newHast = processor.runSync(newMdast, editorContent);
-    console.log('js:', newHast);
-  }, [editorContent]);
+  // useEffect(() => {
+  //   const processor = unified()
+  //     .use(remarkParse)
+  //     .use([remarkGfm, remarkFrontMatter])
+  //     .use(remarkToRehype);
+  //   // .use(rehypeHighlight, { detect: true });
+  //
+  //   const newMdast = processor.parse(editorContent);
+  //   const newHast = processor.runSync(newMdast, editorContent);
+  //   console.log('js:', newHast);
+  // }, [editorContent]);
 
   useEffect(() => {
     const onWorkerMessage = (event: { data: HastNodes }) => {
