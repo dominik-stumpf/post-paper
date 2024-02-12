@@ -1,4 +1,5 @@
 use markdown::{Constructs, Options, ParseOptions};
+use serde_json::to_string;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -19,9 +20,18 @@ pub fn md_to_html(source: &str) -> JsValue {
     JsValue::from_str(&html.unwrap())
 }
 
-// #[wasm_bindgen]
-// pub fn md_to_mdast(source: &str) -> JsValue {
-//     let html = markdown::to_html_with_options(source, &markdown::Options::gfm());
-//
-//     JsValue::from_str(&html.unwrap())
-// }
+#[wasm_bindgen]
+pub fn md_to_hast(source: &str) -> JsValue {
+    let markdown_options = ParseOptions {
+        constructs: Constructs {
+            frontmatter: true,
+            ..Constructs::gfm()
+        },
+        ..ParseOptions::gfm()
+    };
+
+    let hast = markdown::md_to_hast(source, &markdown_options);
+    let hast_serialized = to_string(&hast);
+
+    JsValue::from_str(&hast_serialized.unwrap())
+}

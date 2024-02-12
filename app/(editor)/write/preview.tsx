@@ -1,5 +1,11 @@
 'use-client';
 
+import remarkParse from 'remark-parse';
+import remarkToRehype from 'remark-rehype';
+import { unified } from 'unified';
+import remarkFrontMatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
+
 import { className } from '@/components/render-paper/render-paper';
 import { cn } from '@/lib/utils';
 import { useEditorStore } from './editor-store';
@@ -223,16 +229,31 @@ function useMarkdownParserWorker() {
   const worker = useRef<Worker>();
 
   useEffect(() => {
+    const processor = unified()
+      .use(remarkParse)
+      .use([remarkGfm, remarkFrontMatter])
+      .use(remarkToRehype);
+    // .use(rehypeHighlight, { detect: true });
+
+    const newMdast = processor.parse(editorContent);
+    const newHast = processor.runSync(newMdast, editorContent);
+    console.log('js:', newHast);
+  }, [editorContent]);
+
+  useEffect(() => {
     const onWorkerMessage = (event: { data: HastNodes }) => {
       setHast(event.data);
     };
 
-    worker.current = new Worker(
-      // new URL('@/markdown-parser.worker', import.meta.url),
-      '/worker/markdown-parser.worker.js',
-      { type: 'module' },
-    );
+    // const url = '/worker/markdown-parser.worker.js';
+    // const url = new URL(
+    //   '@/public/worker/markdown-parser.worker.js',
+    //   import.meta.url,
+    // );
 
+    worker.current = new Worker(
+      new URL('./markdown-parser.worker', import.meta.url),
+    );
     worker.current.addEventListener('message', onWorkerMessage);
 
     return () => {
