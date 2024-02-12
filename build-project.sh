@@ -10,5 +10,5 @@ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -y
 echo "compiling rust to wasm"
 bun run build:wasm
 
-echo "build nextjs"
+echo "building nextjs"
 bun run build
