@@ -1,7 +1,12 @@
 import { create } from 'zustand';
 import reactHooksPost from '@/public/markdown/react-hooks-post.md';
 
-interface EditorState {
+export enum EditorLayout {
+  Horizontal = 'horizontal layout',
+  Vertical = 'vertical layout',
+}
+
+export interface EditorState {
   initialEditorContent: string;
   editorContent: string;
   setEditorContent: (to: string) => void;
@@ -13,6 +18,8 @@ interface EditorState {
   setIsVimModeActive: (to: boolean) => void;
   isPreviewEnabled: boolean;
   setIsPreviewEnabled: (to: boolean) => void;
+  editorLayout: EditorLayout;
+  setEditorLayout: (to: EditorLayout) => void;
 }
 
 export const useEditorStore = create<EditorState>()((set) => ({
@@ -27,4 +34,6 @@ export const useEditorStore = create<EditorState>()((set) => ({
   setIsVimModeActive: (to: boolean) => set(() => ({ isVimModeActive: to })),
   isPreviewEnabled: true,
   setIsPreviewEnabled: (to: boolean) => set(() => ({ isPreviewEnabled: to })),
+  editorLayout: EditorLayout.Horizontal,
+  setEditorLayout: (to: EditorLayout) => set(() => ({ editorLayout: to })),
 }));

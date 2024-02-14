@@ -63,7 +63,7 @@
 
 :root {
   --header-height: 4rem;
-  --header-offset: 0rem;
+  --header-offset: 0;
 }
 
 .dark video,
