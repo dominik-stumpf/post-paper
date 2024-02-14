@@ -4,16 +4,16 @@ import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { WorkerMessage, activeElementId } from './constants';
 
 type HastVisitor = BuildVisitor<HastRoot>;
-const renderTimes: number[] = [];
-const renderTimesSize = 8;
-
-function arithmeticMean(numbers: number[]) {
-  return (
-    numbers.reduce((acc, number) => {
-      return acc + number;
-    }, 0) / numbers.length
-  );
-}
+// const renderTimes: number[] = [];
+// const renderTimesSize = 8;
+//
+// function arithmeticMean(numbers: number[]) {
+//   return (
+//     numbers.reduce((acc, number) => {
+//       return acc + number;
+//     }, 0) / numbers.length
+//   );
+// }
 
 self.addEventListener('message', async ({ data }) => {
   const { type } = data;
