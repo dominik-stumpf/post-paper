@@ -5,7 +5,7 @@ import { vim } from '@replit/codemirror-vim';
 import { minimalSetup } from 'codemirror';
 import { EditorState } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState, useCallback } from 'react';
 import { languages } from '@codemirror/language-data';
 import '@/styles/editor.css';
 import {
@@ -31,18 +31,35 @@ const darkTheme = gruvboxDarkInit({
 
 export function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
-  const [isEditorLoaded, setIsEditorLoaded] = useState(false);
   const { resolvedTheme } = useTheme();
   const setEditorContent = useEditorStore((state) => state.setEditorContent);
   const setPositionOffset = useEditorStore((state) => state.setPositionOffset);
+  const [editorView, setEditorView] = useState<EditorView>();
   const initialEditorContent = useEditorStore(
     (state) => state.initialEditorContent,
   );
 
-  const updateEditorStore = EditorView.updateListener.of((v) => {
-    setEditorContent(v.state.doc.toString());
-    setPositionOffset(v.view.state.selection.ranges[0].from);
-  });
+  const setIsEditorFocused = useEditorStore(
+    (state) => state.setIsEditorFocused,
+  );
+
+  const updateEditorStore = useCallback(
+    () =>
+      EditorView.updateListener.of((v) => {
+        setEditorContent(v.state.doc.toString());
+        setPositionOffset(v.view.state.selection.ranges[0].from);
+      }),
+    [setEditorContent, setPositionOffset],
+  );
+
+  const updateFocus = useCallback(
+    () =>
+      EditorView.focusChangeEffect.of((_, isFocused) => {
+        setIsEditorFocused(isFocused);
+        return null;
+      }),
+    [setIsEditorFocused],
+  );
 
   useEffect(() => {
     if (editorRef.current === null || resolvedTheme === undefined) {
@@ -58,33 +75,30 @@ export function Editor() {
         placeholder('Enter some markdown...'),
         EditorView.lineWrapping,
         resolvedTheme === 'dark' ? darkTheme : lightTheme,
-        updateEditorStore,
+        updateEditorStore(),
+        updateFocus(),
       ],
     });
 
-    const editor = new EditorView({
+    const view = new EditorView({
       parent: editorRef.current,
       state,
     });
-
-    setIsEditorLoaded(true);
+    setEditorView(view);
 
     return () => {
-      editor.destroy();
-      setIsEditorLoaded(false);
+      view.destroy();
+      setEditorView(undefined);
     };
-  }, [resolvedTheme, updateEditorStore, initialEditorContent]);
+  }, [resolvedTheme, updateEditorStore, initialEditorContent, updateFocus]);
 
   useEffect(() => {
-    if (isEditorLoaded === false) {
+    if (editorView === undefined) {
       return;
     }
-    const content = document.querySelector('.cm-content');
-    if (content === null) {
-      return;
-    }
-    content.ariaLabel = 'article in markdown';
-  }, [isEditorLoaded]);
+    editorView.focus();
+    editorView.contentDOM.ariaLabel = 'article in markdown';
+  }, [editorView]);
 
   return (
     <div
