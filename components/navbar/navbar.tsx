@@ -17,7 +17,7 @@ export async function Navbar() {
 
   return (
     <header
-      className="sticky top-0 isolate z-30 flex h-header w-full justify-center bg-background/25 backdrop-blur-lg backdrop-saturate-150"
+      className="sticky top-0 isolate z-30 flex h-header w-full translate-y-[var(--header-offset)] justify-center bg-background/25 backdrop-blur-lg backdrop-saturate-150 transition-transform"
       style={{ boxShadow: 'inset 0 -1px hsl(var(--border))' }}
     >
       <PageMargin className="flex h-full w-full items-center justify-between gap-4 py-3 text-base">

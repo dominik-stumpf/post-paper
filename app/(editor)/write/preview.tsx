@@ -49,7 +49,7 @@ function useScrollHandler(
       );
 
       window.scrollBy({
-        top: target.current.getBoundingClientRect().top - 64,
+        top: target.current.getBoundingClientRect().top - 32,
         // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
         // @ts-expect-error: only chromium based browsers have this property
         behavior: window.chrome ? 'instant' : 'smooth',
