@@ -14,61 +14,42 @@ import {
 // @ts-expect-error: the react types are missing.
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { toJsxRuntime, type Components } from 'hast-util-to-jsx-runtime';
+import { WorkerMessage, activeElementId } from './constants';
 
 const components: Partial<Components> = {
   a: (props) => <a tabIndex={-1} {...props} />,
 };
-
 const production = { Fragment, jsx, jsxs, components };
 
 function useScrollHandler(
-  documentRef: RefObject<HTMLElement>,
-  positionOffset: number,
-  reactContent?: ReactElement,
+  articleRef: RefObject<HTMLElement>,
+  jsx?: ReactElement,
 ) {
-  // const positionOffset = useEditorStore((state) => state.positionOffset);
+  const target = useRef<Element>();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (documentRef.current === null) {
+    if (articleRef.current === null) {
       return;
     }
-    const root = documentRef.current;
-    let target: Element | undefined;
+    const root = articleRef.current;
 
     for (let i = root.children.length - 1; i >= 0; i -= 1) {
       const childElement = root.children[i];
-      const offsetEnd = Number(childElement.getAttribute('data-offset-end'));
-      // if (offsetEnd + 1 !== positionOffset) {
-      //   if (offsetEnd < positionOffset) {
-      //     continue;
-      //   }
-      //   const offsetStart = Number(
-      //     childElement.getAttribute('data-offset-start'),
-      //   );
-      //   if (offsetStart > positionOffset) {
-      //     continue;
-      //   }
-      // }
-      if (offsetEnd < positionOffset) {
+
+      if (childElement.id !== activeElementId) {
         continue;
       }
-      const offsetStart = Number(
-        childElement.getAttribute('data-offset-start'),
+
+      target.current = childElement;
+      target.current.classList.add(
+        'bg-emerald-900',
+        'ring',
+        'ring-emerald-500',
       );
-      if (offsetStart > positionOffset) {
-        continue;
-      }
-
-      // if (childElement.id !== offsetId) {
-      //   continue;
-      // }
-
-      target = childElement;
-      target.classList.add('bg-emerald-900', 'ring', 'ring-emerald-500');
 
       window.scrollBy({
-        top: target.getBoundingClientRect().top - 64,
+        top: target.current.getBoundingClientRect().top - 64,
         // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
         // @ts-expect-error: only chromium based browsers have this property
         behavior: window.chrome ? 'instant' : 'smooth',
@@ -78,21 +59,25 @@ function useScrollHandler(
     }
 
     return () => {
-      if (target === undefined) {
+      if (target.current === undefined) {
         return;
       }
-      target.classList.remove('bg-emerald-900', 'ring', 'ring-emerald-500');
+      target.current.classList.remove(
+        'bg-emerald-900',
+        'ring',
+        'ring-emerald-500',
+      );
     };
-  }, [documentRef, reactContent, positionOffset]);
+  }, [articleRef, jsx]);
 }
 
 export function Preview() {
-  const documentRef = useRef<HTMLElement>(null);
-  const [jsx, syncPositionOffset] = useMarkdownParserWorker();
-  useScrollHandler(documentRef, syncPositionOffset, jsx);
+  const articleRef = useRef<HTMLElement>(null);
+  const jsx = useMarkdownParserWorker();
+  useScrollHandler(articleRef, jsx);
 
   return (
-    <article className={cn('mx-auto break-words', className)} ref={documentRef}>
+    <article className={cn('mx-auto break-words', className)} ref={articleRef}>
       {jsx}
     </article>
   );
@@ -103,15 +88,13 @@ function useMarkdownParserWorker() {
   const [hast, setHast] = useState<HastNodes>();
   const [jsx, setJsx] = useState<JSX.Element>();
   const positionOffset = useEditorStore((state) => state.positionOffset);
-  const [syncPositionOffset, setSyncPositionOffset] = useState(0);
-  const positionOffsetBeforeRender = useRef(0);
-  const lastEditorContent = useRef(editorContent);
-
   const worker = useRef<Worker>();
+
   useEffect(() => {
     const onWorkerMessage = (event: { data: HastNodes }) => {
       setHast(event.data);
     };
+
     worker.current = new Worker(
       new URL('./markdown-parser.worker', import.meta.url),
     );
@@ -122,34 +105,23 @@ function useMarkdownParserWorker() {
     };
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (worker.current === undefined) {
       return;
     }
-    positionOffsetBeforeRender.current = positionOffset;
-    worker.current.postMessage(editorContent);
-    // lastEditorContent.current = editorContent;
-  }, [editorContent]);
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    const didContentChangeSinceLastSync =
-      lastEditorContent.current !== editorContent;
-
-    lastEditorContent.current = editorContent;
-    if (!didContentChangeSinceLastSync) {
-      setSyncPositionOffset(positionOffset);
-    }
-  }, [positionOffset]);
+    worker.current.postMessage({
+      type: WorkerMessage.Parse,
+      source: editorContent,
+      offset: positionOffset,
+    });
+  }, [editorContent, positionOffset]);
 
   useEffect(() => {
     if (hast === undefined) {
       return;
     }
     setJsx(toJsxRuntime(hast, production));
-    setSyncPositionOffset(positionOffsetBeforeRender.current);
   }, [hast]);
 
-  return [jsx, syncPositionOffset] as const;
+  return jsx;
 }
