@@ -97,7 +97,7 @@ export function Editor() {
       return;
     }
     editorView.focus();
-    editorView.contentDOM.ariaLabel = 'article in markdown';
+    editorView.contentDOM.ariaLabel = 'editor containing markdown';
   }, [editorView]);
 
   return (
