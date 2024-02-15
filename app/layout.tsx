@@ -1,4 +1,3 @@
-import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
@@ -58,7 +57,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <Navbar />
-          <LenisWrapper>{children}</LenisWrapper>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

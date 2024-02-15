@@ -48,6 +48,12 @@ export function SettingsPane() {
   const setIsPreviewEnabled = useEditorStore(
     (state) => state.setIsPreviewEnabled,
   );
+  const isEditorScrollbarActive = useEditorStore(
+    (state) => state.isEditorScrollbarActive,
+  );
+  const setIsEditorScrollbarActive = useEditorStore(
+    (state) => state.setIsEditorScrollbarActive,
+  );
 
   return (
     <Drawer.DrawerContent className="min-h-[80vh]">
@@ -61,21 +67,29 @@ export function SettingsPane() {
         <div className="max-w-sm">
           <ThemeSelect />
         </div>
-        <h2>Keyboard preferences</h2>
-        <div className="flex items-center space-x-2">
+        <h2>Editor</h2>
+        <Label className="flex items-center space-x-2">
           <Checkbox
-            id="vim-mode"
+            checked={isEditorScrollbarActive}
+            onCheckedChange={(value) =>
+              typeof value === 'boolean' && setIsEditorScrollbarActive(value)
+            }
+          />
+          <p>Show editor scrollbar</p>
+        </Label>
+        <Label className="flex items-center space-x-2">
+          <Checkbox
             checked={isVimModeActive}
             onCheckedChange={(value) =>
               typeof value === 'boolean' && setIsVimModeActive(value)
             }
           />
-          <Label htmlFor="vim-mode">
+          <p>
             Enable <b>Vim motions</b> (encouraged)
-          </Label>
-        </div>
+          </p>
+        </Label>
         <p className="max-w-prose">
-          To disable mouse support enter <code>:no-mouse-help</code> as a Vim
+          To disable mouse support enter <code>:nomousehelp</code> as a Vim
           command - <em>only for experienced users</em>
         </p>
         <h2>Article preview</h2>

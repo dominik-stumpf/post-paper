@@ -1,7 +1,7 @@
 'use client';
 
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { vim } from '@replit/codemirror-vim';
+import { vim, Vim } from '@replit/codemirror-vim';
 import { minimalSetup } from 'codemirror';
 import { EditorState, type Extension } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
@@ -39,6 +39,12 @@ export function Editor() {
     (state) => state.initialEditorContent,
   );
   const isVimModeActive = useEditorStore((state) => state.isVimModeActive);
+  const isEditorScrollbarActive = useEditorStore(
+    (state) => state.isEditorScrollbarActive,
+  );
+  const setIsMouseModeActive = useEditorStore(
+    (state) => state.setIsMouseModeActive,
+  );
 
   const setIsEditorFocused = useEditorStore(
     (state) => state.setIsEditorFocused,
@@ -78,7 +84,13 @@ export function Editor() {
     ];
 
     if (isVimModeActive) {
-      extensions.push(vim({ status: true }));
+      extensions.unshift(vim({ status: true }));
+      Vim.defineEx('nomousehelp', 'nomouse', () => {
+        setIsMouseModeActive(false);
+      });
+      Vim.defineEx('mousehelp', 'mouse', () => {
+        setIsMouseModeActive(true);
+      });
     }
 
     const state = EditorState.create({
@@ -102,15 +114,28 @@ export function Editor() {
     initialEditorContent,
     updateFocus,
     isVimModeActive,
+    setIsMouseModeActive,
   ]);
 
   useEffect(() => {
     if (editorView === undefined) {
       return;
     }
+
     editorView.focus();
     editorView.contentDOM.ariaLabel = 'editor containing markdown';
   }, [editorView]);
+
+  useEffect(() => {
+    if (editorRef.current === null) {
+      return;
+    }
+    if (isEditorScrollbarActive) {
+      editorRef.current.classList.add('is-scrollbar-active');
+      return;
+    }
+    editorRef.current.classList.remove('is-scrollbar-active');
+  }, [isEditorScrollbarActive]);
 
   return (
     <div

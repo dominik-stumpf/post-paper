@@ -5,7 +5,7 @@ import { Editor } from './editor';
 import { Preview } from './preview';
 import { useEditorStore } from './editor-store';
 import { useEffect } from 'react';
-import * as Drawer from '@/components/ui/drawer';
+import { Drawer } from '@/components/ui/drawer';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { EditorActions } from './editor-actions';
 import { SettingsPane } from './settings-pane';
@@ -27,6 +27,7 @@ export default function Page() {
 
   const isEditorFocused = useEditorStore((state) => state.isEditorFocused);
   const isPreviewEnabled = useEditorStore((state) => state.isPreviewEnabled);
+  const isMouseModeActive = useEditorStore((state) => state.isMouseModeActive);
 
   useEffect(() => {
     if (isEditorFocused) {
@@ -45,16 +46,16 @@ export default function Page() {
           </PageMargin>
         </output>
       )}
-      <Drawer.Drawer>
+      <Drawer>
         <TooltipProvider>
           <main className="fixed bottom-0 left-1/2 z-20 h-[66dvh] w-full max-w-screen-2xl -translate-x-1/2 translate-y-3/4 overflow-hidden rounded border bg-background/85 px-2 py-4 ring-ring ring-offset-2 ring-offset-background transition-transform ease-in-out focus-within:translate-y-0 focus-within:ring-2 hover:border-muted-foreground focus-visible:outline-none md:bottom-4 md:bg-background/50 md:px-12 md:backdrop-blur md:backdrop-saturate-150">
             <Editor />
             <CharacterCount />
-            <EditorActions />
+            {isMouseModeActive && <EditorActions />}
             <SettingsPane />
           </main>
         </TooltipProvider>
-      </Drawer.Drawer>
+      </Drawer>
     </div>
   );
 }

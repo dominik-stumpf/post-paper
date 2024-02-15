@@ -58,6 +58,7 @@
     "codemirror": "^6.0.1",
     "geist": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.0.0",
+    "immer": "^10.0.3",
     "lucide-react": "^0.317.0",
     "mdast-util-from-markdown": "^2.0.0",
     "micromark": "^4.0.0",

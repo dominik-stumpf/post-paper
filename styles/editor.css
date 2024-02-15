@@ -1,6 +1,7 @@
 #editor ::selection {
   @apply bg-[inherit] text-[inherit];
 }
+
 #editor .cm-vim-panel {
   @apply bg-background/80 font-bold text-foreground;
 }
@@ -15,6 +16,10 @@
 
 #editor .cm-scroller {
   @apply overflow-hidden;
+}
+
+#editor.is-scrollbar-active .cm-scroller {
+  @apply overflow-auto;
 }
 
 #editor .cm-fat-cursor {
