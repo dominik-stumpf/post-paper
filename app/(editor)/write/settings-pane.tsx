@@ -1,7 +1,7 @@
 'use client';
 
 import { PageMargin } from '@/components/page-margin';
-import { ThemeSelection, } from '@/components/theme-toggle';
+import { ThemeSelect } from '@/components/theme-toggle';
 import * as Drawer from '@/components/ui/drawer';
 import {
   Select,
@@ -10,12 +10,36 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { EditorLayout, useEditorStore } from './editor-store';
+import {
+  EditorLayout as EditorLayoutType,
+  useEditorStore,
+} from './editor-store';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-export function SettingsPane() {
+function EditorLayout() {
   const editorLayout = useEditorStore((state) => state.editorLayout);
+  return (
+    <>
+      <h2>Editor view layout</h2>
+      <Select defaultValue={editorLayout}>
+        <SelectTrigger className="max-w-sm">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value={EditorLayoutType.Vertical}>
+            Vertical (side by side)
+          </SelectItem>
+          <SelectItem value={EditorLayoutType.Horizontal}>
+            Horizonal (overlay)
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </>
+  );
+}
+
+export function SettingsPane() {
   const isVimModeActive = useEditorStore((state) => state.isVimModeActive);
   const setIsVimModeActive = useEditorStore(
     (state) => state.setIsVimModeActive,
@@ -27,7 +51,7 @@ export function SettingsPane() {
 
   return (
     <Drawer.DrawerContent className="min-h-[80vh]">
-      <PageMargin className="prose-sm w-full pt-6">
+      <PageMargin className="prose-sm w-full py-6">
         <h1 className="font-bold">Settings</h1>
         <p className="lead text-dim-foreground">
           Configure your editor and markdown preview experience.
@@ -35,22 +59,8 @@ export function SettingsPane() {
         <hr />
         <h2>Color theme</h2>
         <div className="max-w-sm">
-          <ThemeSelection />
+          <ThemeSelect />
         </div>
-        <h2>Editor view layout</h2>
-        <Select defaultValue={editorLayout}>
-          <SelectTrigger className="max-w-sm">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={EditorLayout.Vertical}>
-              Vertical (side by side)
-            </SelectItem>
-            <SelectItem value={EditorLayout.Horizontal}>
-              Horizonal (overlay)
-            </SelectItem>
-          </SelectContent>
-        </Select>
         <h2>Keyboard preferences</h2>
         <div className="flex items-center space-x-2">
           <Checkbox
@@ -64,11 +74,15 @@ export function SettingsPane() {
             Enable <b>Vim motions</b> (encouraged)
           </Label>
         </div>
-        <p>
+        <p className="max-w-prose">
           To disable mouse support enter <code>:no-mouse-help</code> as a Vim
           command - <em>only for experienced users</em>
         </p>
         <h2>Article preview</h2>
+        <p className="max-w-prose">
+          This editor provides real-time accurate preview of your article. Code
+          syntax highlight is excluded.
+        </p>
         <div className="flex items-center space-x-2">
           <Checkbox
             id="preview"

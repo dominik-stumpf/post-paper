@@ -2,7 +2,7 @@
   @apply bg-[inherit] text-[inherit];
 }
 #editor .cm-vim-panel {
-  @apply bg-black/80 font-bold text-white;
+  @apply bg-background/80 font-bold text-foreground;
 }
 
 #editor .cm-editor {

@@ -58,7 +58,7 @@ export function ThemeToggle() {
   );
 }
 
-export function ThemeSelection() {
+export function ThemeSelect() {
   const { setTheme, theme } = useTheme();
   const [isClient, setIsClient] = useState(false);
 

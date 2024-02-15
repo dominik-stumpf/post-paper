@@ -20,6 +20,7 @@ const components: Partial<Components> = {
   a: (props) => <a tabIndex={-1} {...props} />,
 };
 const production = { Fragment, jsx, jsxs, components };
+const activeElementStyle = 'animate-pulse'.split(' ');
 
 function useScrollHandler(
   articleRef: RefObject<HTMLElement>,
@@ -42,11 +43,7 @@ function useScrollHandler(
       }
 
       target.current = childElement;
-      target.current.classList.add(
-        'bg-emerald-900',
-        'ring',
-        'ring-emerald-500',
-      );
+      target.current.classList.add(...activeElementStyle);
 
       window.scrollBy({
         top: target.current.getBoundingClientRect().top - 32,
@@ -62,11 +59,7 @@ function useScrollHandler(
       if (target.current === undefined) {
         return;
       }
-      target.current.classList.remove(
-        'bg-emerald-900',
-        'ring',
-        'ring-emerald-500',
-      );
+      target.current.classList.remove(...activeElementStyle);
     };
   }, [articleRef, jsx]);
 }

@@ -3,7 +3,7 @@
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { vim } from '@replit/codemirror-vim';
 import { minimalSetup } from 'codemirror';
-import { EditorState } from '@codemirror/state';
+import { EditorState, type Extension } from '@codemirror/state';
 import { placeholder, EditorView } from '@codemirror/view';
 import { memo, useEffect, useRef, useState, useCallback } from 'react';
 import { languages } from '@codemirror/language-data';
@@ -38,6 +38,7 @@ export function Editor() {
   const initialEditorContent = useEditorStore(
     (state) => state.initialEditorContent,
   );
+  const isVimModeActive = useEditorStore((state) => state.isVimModeActive);
 
   const setIsEditorFocused = useEditorStore(
     (state) => state.setIsEditorFocused,
@@ -66,18 +67,23 @@ export function Editor() {
       return;
     }
 
+    const extensions: Extension[] = [
+      minimalSetup,
+      markdown({ base: markdownLanguage, codeLanguages: languages }),
+      placeholder('Enter some markdown...'),
+      EditorView.lineWrapping,
+      resolvedTheme === 'dark' ? darkTheme : lightTheme,
+      updateEditorStore(),
+      updateFocus(),
+    ];
+
+    if (isVimModeActive) {
+      extensions.push(vim({ status: true }));
+    }
+
     const state = EditorState.create({
       doc: initialEditorContent,
-      extensions: [
-        vim({ status: true }),
-        minimalSetup,
-        markdown({ base: markdownLanguage, codeLanguages: languages }),
-        placeholder('Enter some markdown...'),
-        EditorView.lineWrapping,
-        resolvedTheme === 'dark' ? darkTheme : lightTheme,
-        updateEditorStore(),
-        updateFocus(),
-      ],
+      extensions,
     });
 
     const view = new EditorView({
@@ -90,7 +96,13 @@ export function Editor() {
       view.destroy();
       setEditorView(undefined);
     };
-  }, [resolvedTheme, updateEditorStore, initialEditorContent, updateFocus]);
+  }, [
+    resolvedTheme,
+    updateEditorStore,
+    initialEditorContent,
+    updateFocus,
+    isVimModeActive,
+  ]);
 
   useEffect(() => {
     if (editorView === undefined) {
