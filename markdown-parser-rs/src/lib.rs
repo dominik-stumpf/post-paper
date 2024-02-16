@@ -1,4 +1,5 @@
-use markdown::{Constructs, Options, ParseOptions};
+use markdown::{hast, mdast, Constructs, Options, ParseOptions};
+use serde::{Deserialize, Serialize};
 use serde_json::to_string;
 use wasm_bindgen::prelude::*;
 
@@ -20,6 +21,12 @@ pub fn md_to_html(source: &str) -> JsValue {
     JsValue::from_str(&html.unwrap())
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct HastWithFrontmatter {
+    pub hast: hast::Node,
+    pub frontmatter: Option<String>,
+}
+
 #[wasm_bindgen]
 pub fn md_to_hast(source: &str) -> JsValue {
     let markdown_options = ParseOptions {
@@ -30,8 +37,23 @@ pub fn md_to_hast(source: &str) -> JsValue {
         ..ParseOptions::gfm()
     };
 
-    let hast = markdown::md_to_hast(source, &markdown_options).unwrap();
-    let hast_serialized = to_string(&hast);
+    let mdast = markdown::to_mdast(source, &markdown_options).unwrap();
+
+    let child = &mdast.children().unwrap()[0];
+    let frontmatter: Option<&String>;
+
+    match child {
+        mdast::Node::Yaml(yaml) => frontmatter = Some(&yaml.value),
+        _ => frontmatter = None,
+    }
+
+    let hast = markdown::mdast_to_hast(mdast.clone()).unwrap();
+    let hast_with_frontmatter = HastWithFrontmatter {
+        hast,
+        frontmatter: frontmatter.cloned(),
+    };
+
+    let hast_serialized = to_string(&hast_with_frontmatter);
 
     JsValue::from_str(&hast_serialized.unwrap())
 }

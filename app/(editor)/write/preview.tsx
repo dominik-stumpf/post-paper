@@ -15,6 +15,7 @@ import {
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
 import { toJsxRuntime, type Components } from 'hast-util-to-jsx-runtime';
 import { WorkerMessage, activeElementId } from './constants';
+import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 
 const components: Partial<Components> = {
   a: (props) => <a tabIndex={-1} {...props} />,
@@ -84,8 +85,9 @@ function useMarkdownParserWorker() {
   const worker = useRef<Worker>();
 
   useEffect(() => {
-    const onWorkerMessage = (event: { data: HastNodes }) => {
-      setHast(event.data);
+    const onWorkerMessage = (event: { data: MarkdownParserWorkerResponse }) => {
+      setHast(event.data.hast);
+      console.log('from host:', event.data.frontmatter);
     };
 
     worker.current = new Worker(

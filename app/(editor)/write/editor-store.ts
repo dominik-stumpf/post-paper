@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import reactHooksPost from '@/public/markdown/react-hooks-post.md';
+import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
 
 export enum EditorLayout {
   Horizontal = 'horizontal layout',
@@ -38,7 +38,7 @@ export interface EditorState {
 }
 
 export const useEditorStore = create<EditorState>()((set) => ({
-  initialEditorContent: (reactHooksPost as string).repeat(10),
+  initialEditorContent: (reactHooksPost as string).repeat(1),
   positionOffset: 0,
   setPositionOffset: (to: number) => set(() => ({ positionOffset: to })),
   editorContent: '',

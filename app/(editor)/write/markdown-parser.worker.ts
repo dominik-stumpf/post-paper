@@ -4,22 +4,20 @@ import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { WorkerMessage, activeElementId } from './constants';
 
 type HastVisitor = BuildVisitor<HastRoot>;
-// const renderTimes: number[] = [];
-// const renderTimesSize = 8;
-//
-// function arithmeticMean(numbers: number[]) {
-//   return (
-//     numbers.reduce((acc, number) => {
-//       return acc + number;
-//     }, 0) / numbers.length
-//   );
-// }
+export interface MarkdownParserWorkerResponse {
+  hast: HastNodes;
+  frontmatter?: Record<string, string>;
+}
 
 self.addEventListener('message', async ({ data }) => {
   const { type } = data;
   if (type === WorkerMessage.Parse) {
-    const parsedData = await parseMarkdown(data);
-    self.postMessage(parsedData);
+    try {
+      const parsedData = await parseMarkdown(data);
+      self.postMessage(parsedData);
+    } catch {
+      console.error('Failed to parse markdown');
+    }
   }
 });
 
@@ -30,27 +28,25 @@ async function parseMarkdown({
   source: string;
   offset: number;
 }) {
-  // const startTime = performance.now();
-
   await init();
-  const newHast = rehypeMarkPositionOffset(
-    JSON.parse(md_to_hast(source)),
-    offset,
-  );
+  const { hast, frontmatter } = JSON.parse(md_to_hast(source));
+  const newHast = rehypeMarkPositionOffset(hast, offset);
 
-  // const renderTime = performance.now() - startTime;
-  // if (renderTimes.length > renderTimesSize) {
-  //   renderTimes.shift();
-  // }
-  // renderTimes.push(renderTime);
-  // console.log(
-  //   'parsing:',
-  //   Math.round(renderTime),
-  //   'avg:',
-  //   Math.round(arithmeticMean(renderTimes)),
-  // );
+  let parsedFrontmatter: undefined | Record<string, string>;
+  if (typeof frontmatter === 'string') {
+    parsedFrontmatter = Object.fromEntries(
+      frontmatter
+        .trim()
+        .split(/\n+/g)
+        .map((entry) => entry.split(': '))
+        .filter(([key, value]) => Boolean(key) && Boolean(value)),
+    );
+  }
 
-  return rehypeMarkPositionOffset(newHast, offset);
+  return {
+    hast: rehypeMarkPositionOffset(newHast, offset),
+    frontmatter: parsedFrontmatter,
+  };
 }
 
 export function rehypeMarkPositionOffset(hast: HastNodes, offset: number) {

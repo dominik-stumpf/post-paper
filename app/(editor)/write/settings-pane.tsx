@@ -97,7 +97,7 @@ export function SettingsPane() {
           This editor provides real-time accurate preview of your article. Code
           syntax highlight is excluded.
         </p>
-        <div className="flex items-center space-x-2">
+        <Label className="flex items-center space-x-2">
           <Checkbox
             id="preview"
             checked={isPreviewEnabled}
@@ -105,8 +105,8 @@ export function SettingsPane() {
               typeof value === 'boolean' && setIsPreviewEnabled(value)
             }
           />
-          <Label htmlFor="preview">Enable real-time preview rendering</Label>
-        </div>
+          <p>Enable real-time preview rendering</p>
+        </Label>
       </PageMargin>
     </Drawer.DrawerContent>
   );
