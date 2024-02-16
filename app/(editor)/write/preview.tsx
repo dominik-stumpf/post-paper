@@ -1,7 +1,5 @@
 'use-client';
 
-import { className } from '@/components/render-paper/render-paper';
-import { cn } from '@/lib/utils';
 import { useEditorStore } from './editor-store';
 import type { Nodes as HastNodes } from 'hast';
 import {
@@ -15,6 +13,9 @@ import type { Components } from 'hast-util-to-jsx-runtime';
 import { WorkerMessage, activeElementId } from './constants';
 import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 import { HastToJsx } from '@/lib/hast-to-jsx';
+import { ProseArticle } from '@/components/prose-article';
+import type { z } from 'zod';
+import { articleSchema } from '@/lib/validators/article';
 
 const components = {
   a: (props) => <a tabIndex={-1} {...props} />,
@@ -68,13 +69,23 @@ export function Preview() {
   const articleRef = useRef<HTMLElement>(null);
   const { jsx, frontmatter } = useMarkdownParserWorker();
   useScrollHandler(articleRef, jsx);
+  const [metadata, setMetadata] =
+    useState<Partial<z.infer<typeof articleSchema>>>();
 
-  console.log(frontmatter);
+  useEffect(() => {
+    if (frontmatter) {
+      try {
+        setMetadata(articleSchema.partial().parse(frontmatter));
+      } catch {
+        console.error('Failed to parse front matter');
+      }
+    }
+  }, [frontmatter]);
 
   return (
-    <article className={cn('mx-auto break-words', className)} ref={articleRef}>
+    <ProseArticle ref={articleRef} metadata={metadata}>
       {jsx}
-    </article>
+    </ProseArticle>
   );
 }
 

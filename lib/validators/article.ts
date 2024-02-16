@@ -10,9 +10,9 @@ export const topics = [
 export const articleSchema = z.object({
   title: z.string().min(8).max(128),
   lead: z.string().min(8).max(256),
-  content: z.string().min(256).max(65536),
-  tags: z.string().min(1).max(8).array().optional(),
   topic: z.enum(topics).optional(),
   thumbnailImage: z.string().url().optional(),
   splashImage: z.string().url().optional(),
+  // tags: z.string().min(1).max(8).array().optional(),
+  // content: z.string().min(256).max(65536),
 });

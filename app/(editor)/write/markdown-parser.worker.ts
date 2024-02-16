@@ -38,7 +38,14 @@ async function parseMarkdown({
       frontmatter
         .trim()
         .split(/\n+/g)
-        .map((entry) => entry.split(': '))
+        .map((entry) => {
+          const substr = ': ';
+          const index = entry.indexOf(substr);
+          if (index === -1) {
+            return [false, false];
+          }
+          return [entry.slice(0, index), entry.slice(index + substr.length)];
+        })
         .filter(([key, value]) => Boolean(key) && Boolean(value)),
     );
   }

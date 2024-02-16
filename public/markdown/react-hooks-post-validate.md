@@ -1,6 +1,7 @@
 ---
 title: Exploring React Hooks: A Developer's Guide
 lead: Hello there, fellow developers! Today, we're going to embark on an exciting journey into the world of React Hooks.
+splashImage: https://picsum.photos/1920/1080
 ---
 
 Whether you're new to React or have been using it for a while, Hooks are a game-changer in the way we handle state and side effects in functional components. In this blog, we'll explore the ins and outs of React Hooks, dive into practical TypeScript examples, and demonstrate how Hooks can empower you to build cleaner and more efficient applications.
