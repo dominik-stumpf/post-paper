@@ -11,16 +11,15 @@ import {
   useRef,
   type RefObject,
 } from 'react';
-// @ts-expect-error: the react types are missing.
-import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
-import { toJsxRuntime, type Components } from 'hast-util-to-jsx-runtime';
+import type { Components } from 'hast-util-to-jsx-runtime';
 import { WorkerMessage, activeElementId } from './constants';
 import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
+import { HastToJsx } from '@/lib/hast-to-jsx';
 
-const components: Partial<Components> = {
+const components = {
   a: (props) => <a tabIndex={-1} {...props} />,
-};
-const production = { Fragment, jsx, jsxs, components };
+} satisfies Partial<Components>;
+
 const activeElementStyle = 'animate-pulse'.split(' ');
 
 function useScrollHandler(
@@ -118,7 +117,7 @@ function useMarkdownParserWorker() {
     if (hast === undefined) {
       return;
     }
-    setJsx(toJsxRuntime(hast, production));
+    setJsx(HastToJsx(hast, components));
   }, [hast]);
 
   return { jsx, frontmatter };
