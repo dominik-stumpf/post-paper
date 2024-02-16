@@ -67,8 +67,10 @@ function useScrollHandler(
 
 export function Preview() {
   const articleRef = useRef<HTMLElement>(null);
-  const jsx = useMarkdownParserWorker();
+  const { jsx, frontmatter } = useMarkdownParserWorker();
   useScrollHandler(articleRef, jsx);
+
+  console.log(frontmatter);
 
   return (
     <article className={cn('mx-auto break-words', className)} ref={articleRef}>
@@ -80,6 +82,7 @@ export function Preview() {
 function useMarkdownParserWorker() {
   const editorContent = useEditorStore((state) => state.editorContent);
   const [hast, setHast] = useState<HastNodes>();
+  const [frontmatter, setFrontmatter] = useState<Record<string, string>>();
   const [jsx, setJsx] = useState<JSX.Element>();
   const positionOffset = useEditorStore((state) => state.positionOffset);
   const worker = useRef<Worker>();
@@ -87,7 +90,7 @@ function useMarkdownParserWorker() {
   useEffect(() => {
     const onWorkerMessage = (event: { data: MarkdownParserWorkerResponse }) => {
       setHast(event.data.hast);
-      console.log('from host:', event.data.frontmatter);
+      setFrontmatter(event.data.frontmatter);
     };
 
     worker.current = new Worker(
@@ -118,5 +121,5 @@ function useMarkdownParserWorker() {
     setJsx(toJsxRuntime(hast, production));
   }, [hast]);
 
-  return jsx;
+  return { jsx, frontmatter };
 }

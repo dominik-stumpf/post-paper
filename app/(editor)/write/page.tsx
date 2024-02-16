@@ -9,17 +9,7 @@ import { Drawer } from '@/components/ui/drawer';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { EditorActions } from './editor-actions';
 import { SettingsPane } from './settings-pane';
-
-export function CharacterCount() {
-  const editorContent = useEditorStore((state) => state.editorContent);
-  // const wordCount = editorContent.match(/\w+/g)?.length ?? 0;
-
-  return (
-    <code className="absolute right-4 top-4 flex select-none flex-col items-end text-xs font-bold">
-      <div>{editorContent.length}</div>
-    </code>
-  );
-}
+import { ArticleStats } from './article-stats';
 
 export default function Page() {
   // const supabase = createClientComponentClient<Database>();
@@ -50,7 +40,7 @@ export default function Page() {
         <TooltipProvider>
           <main className="fixed bottom-0 left-1/2 z-20 h-[66dvh] w-full max-w-screen-2xl -translate-x-1/2 translate-y-3/4 overflow-hidden rounded border bg-background/85 px-2 py-4 ring-ring ring-offset-2 ring-offset-background transition-transform ease-in-out focus-within:translate-y-0 focus-within:ring-2 hover:border-muted-foreground focus-visible:outline-none md:bottom-4 md:bg-background/50 md:px-12 md:backdrop-blur md:backdrop-saturate-150">
             <Editor />
-            <CharacterCount />
+            <ArticleStats />
             {isMouseModeActive && <EditorActions />}
             <SettingsPane />
           </main>
