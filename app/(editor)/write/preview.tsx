@@ -15,7 +15,7 @@ import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 import { HastToJsx } from '@/lib/hast-to-jsx';
 import { ProseArticle } from '@/components/prose-article/prose-article';
 import type { z } from 'zod';
-import { articleMetadataSchema } from '@/lib/validators/article';
+import type { articleMetadataSchema } from '@/lib/validators/article';
 
 const components = {
   a: (props) => <a tabIndex={-1} {...props} />,
@@ -73,15 +73,7 @@ export function Preview() {
     useState<Partial<z.infer<typeof articleMetadataSchema>>>();
 
   useEffect(() => {
-    let newMetadata: typeof metadata = {};
-    if (frontmatter) {
-      try {
-        newMetadata = articleMetadataSchema.partial().parse(frontmatter);
-      } catch {
-        console.error('Failed to parse front matter');
-      }
-    }
-    setMetadata(newMetadata);
+    setMetadata(frontmatter ?? {});
   }, [frontmatter]);
 
   return (
