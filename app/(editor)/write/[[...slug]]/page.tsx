@@ -11,6 +11,7 @@ import { EditorActions } from '../editor-actions';
 import { SettingsPane } from '../settings-pane';
 import { ArticleStats } from '../article-stats';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
 
 export default function Page({ params }: { params: { slug?: string[] } }) {
   const isEditorFocused = useEditorStore((state) => state.isEditorFocused);
@@ -24,6 +25,7 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
   useEffect(() => {
     const postId = params.slug?.at(0);
     if (!postId) {
+      setInitialEditorContent(reactHooksPost);
       return;
     }
 

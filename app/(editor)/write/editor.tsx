@@ -69,7 +69,11 @@ export function Editor() {
   );
 
   useEffect(() => {
-    if (editorRef.current === null || resolvedTheme === undefined) {
+    if (
+      editorRef.current === null ||
+      resolvedTheme === undefined ||
+      initialEditorContent === undefined
+    ) {
       return;
     }
 

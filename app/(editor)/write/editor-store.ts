@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
 
 export enum EditorLayout {
   Horizontal = 'overlay',
@@ -14,8 +13,8 @@ interface Toggle {
 }
 
 export interface EditorState {
-  initialEditorContent: string;
-  setInitialEditorContent: (to: string) => void;
+  initialEditorContent: string | undefined;
+  setInitialEditorContent: (to?: string) => void;
   editorContent: string;
   setEditorContent: (to: string) => void;
   positionOffset: number;
@@ -40,8 +39,8 @@ export interface EditorState {
 }
 
 export const useEditorStore = create<EditorState>()((set) => ({
-  initialEditorContent: (reactHooksPost as string).repeat(1),
-  setInitialEditorContent: (to: string) =>
+  initialEditorContent: undefined,
+  setInitialEditorContent: (to?: string) =>
     set(() => ({ initialEditorContent: to })),
   positionOffset: 0,
   setPositionOffset: (to: number) => set(() => ({ positionOffset: to })),
