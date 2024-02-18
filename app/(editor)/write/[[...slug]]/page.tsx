@@ -12,6 +12,7 @@ import { SettingsPane } from '../settings-pane';
 import { ArticleStats } from '../article-stats';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
+import { useRouter } from 'next/navigation';
 
 export default function Page({ params }: { params: { slug?: string[] } }) {
   const isEditorFocused = useEditorStore((state) => state.isEditorFocused);
@@ -21,6 +22,7 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
     (state) => state.setInitialEditorContent,
   );
   const supabase = createClientComponentClient<Database>();
+  const router = useRouter();
 
   useEffect(() => {
     const postId = params.slug?.at(0);
@@ -53,13 +55,14 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
 
       if (data.profiles.id !== session.user.id) {
         console.error('Unauthorized access');
+        router.back();
         return;
       }
 
       console.log('loading new paper data...');
       setInitialEditorContent(data.paper_data);
     })();
-  }, [supabase, setInitialEditorContent, params]);
+  }, [supabase, setInitialEditorContent, params, router]);
 
   useEffect(() => {
     if (isEditorFocused) {

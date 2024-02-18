@@ -74,7 +74,8 @@ function EditorLayout() {
 }
 
 export function EditorActions() {
-  const publish = useArticlePublisher();
+  const { isLoading, handlePublish } = useArticlePublisher();
+
   return (
     <aside className="absolute bottom-4 right-4 flex max-w-full items-end gap-4 overflow-auto sm:overflow-visible md:flex-col">
       <Tooltip>
@@ -103,8 +104,13 @@ export function EditorActions() {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size="icon" aria-label="post" onClick={() => publish()}>
-            <Save />
+          <Button
+            size="icon"
+            aria-label="post"
+            onClick={() => handlePublish()}
+            loading={isLoading}
+          >
+            {isLoading || <Save />}
           </Button>
         </TooltipTrigger>
         <TooltipContent align="end">
