@@ -59,7 +59,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: updateError }, { statusText, status });
   }
 
-  console.log('row updated', status, statusText);
-
   return new Response(null, { statusText, status });
 }

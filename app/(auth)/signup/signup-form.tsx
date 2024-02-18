@@ -119,7 +119,6 @@ export function SignUpForm() {
         description: '',
         variant: 'success',
       });
-      console.log('redirecting');
       router.replace('/');
       router.refresh();
     }

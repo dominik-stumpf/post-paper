@@ -59,7 +59,6 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
         return;
       }
 
-      console.log('loading new paper data...');
       setInitialEditorContent(data.paper_data);
     })();
   }, [supabase, setInitialEditorContent, params, router]);

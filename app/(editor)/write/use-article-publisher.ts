@@ -15,7 +15,6 @@ export function useArticlePublisher() {
 
   async function handlePublish() {
     if (editorContent === '') {
-      console.log('nothing to save');
       return;
     }
 
@@ -38,8 +37,6 @@ export function useArticlePublisher() {
       articleContent: editorContent,
       articleId,
     } as const;
-
-    console.log('id', articleId);
 
     const options = {
       method: 'POST',

@@ -1,5 +1,3 @@
-console.log('worker loaded');
-
 import type { Root as HastRoot, Nodes as HastNodes } from 'hast';
 import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import remarkParse from 'remark-parse';
