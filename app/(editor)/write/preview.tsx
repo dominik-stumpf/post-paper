@@ -111,6 +111,11 @@ function useMarkdownParserWorker() {
     if (worker.current === undefined) {
       return;
     }
+    if (editorContent.length === 0) {
+      setJsx(undefined);
+      setFrontmatter({});
+      return;
+    }
     worker.current.postMessage({
       type: WorkerMessage.Parse,
       source: editorContent,
