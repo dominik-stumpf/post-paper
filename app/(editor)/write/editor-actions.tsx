@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import {
-  Forward,
   HelpCircle,
+  Save,
   Settings,
   SplitSquareHorizontal,
   SplitSquareVertical,
@@ -26,6 +26,7 @@ import {
 } from './editor-store';
 import * as Drawer from '@/components/ui/drawer';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { useArticlePublisher } from './use-article-publisher';
 
 const editorLayoutData = [
   { Icon: SplitSquareHorizontal, value: EditorLayoutType.Horizontal },
@@ -73,6 +74,7 @@ function EditorLayout() {
 }
 
 export function EditorActions() {
+  const publish = useArticlePublisher();
   return (
     <aside className="absolute bottom-4 right-4 flex max-w-full items-end gap-4 overflow-auto sm:overflow-visible md:flex-col">
       <Tooltip>
@@ -101,12 +103,12 @@ export function EditorActions() {
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button size="icon" aria-label="post">
-            <Forward />
+          <Button size="icon" aria-label="post" onClick={() => publish()}>
+            <Save />
           </Button>
         </TooltipTrigger>
         <TooltipContent align="end">
-          <p>Post article</p>
+          <p>Save article</p>
         </TooltipContent>
       </Tooltip>
     </aside>

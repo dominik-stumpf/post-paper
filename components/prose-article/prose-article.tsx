@@ -1,10 +1,10 @@
 import '@/styles/classic-dark.css';
 import '@/styles/classic-light.css';
 import { type ReactNode, forwardRef } from 'react';
-import type { articleSchema } from '@/lib/validators/article';
+import type { articleMetadataSchema } from '@/lib/validators/article';
 import type { z } from 'zod';
 
-type Metadata = Partial<z.infer<typeof articleSchema>>;
+type Metadata = Partial<z.infer<typeof articleMetadataSchema>>;
 
 interface ProseArticleProps {
   metadata?: Metadata;

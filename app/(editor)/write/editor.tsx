@@ -103,6 +103,7 @@ export function Editor() {
       state,
     });
     setEditorView(view);
+    console.log('new editor');
 
     return () => {
       view.destroy();

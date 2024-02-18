@@ -13,9 +13,9 @@ import type { Components } from 'hast-util-to-jsx-runtime';
 import { WorkerMessage, activeElementId } from './constants';
 import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 import { HastToJsx } from '@/lib/hast-to-jsx';
-import { ProseArticle } from '@/components/prose-article';
+import { ProseArticle } from '@/components/prose-article/prose-article';
 import type { z } from 'zod';
-import { articleSchema } from '@/lib/validators/article';
+import { articleMetadataSchema } from '@/lib/validators/article';
 
 const components = {
   a: (props) => <a tabIndex={-1} {...props} />,
@@ -70,16 +70,18 @@ export function Preview() {
   const { jsx, frontmatter } = useMarkdownParserWorker();
   useScrollHandler(articleRef, jsx);
   const [metadata, setMetadata] =
-    useState<Partial<z.infer<typeof articleSchema>>>();
+    useState<Partial<z.infer<typeof articleMetadataSchema>>>();
 
   useEffect(() => {
+    let newMetadata: typeof metadata = {};
     if (frontmatter) {
       try {
-        setMetadata(articleSchema.partial().parse(frontmatter));
+        newMetadata = articleMetadataSchema.partial().parse(frontmatter);
       } catch {
         console.error('Failed to parse front matter');
       }
     }
+    setMetadata(newMetadata);
   }, [frontmatter]);
 
   return (
