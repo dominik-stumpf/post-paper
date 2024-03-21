@@ -1,7 +1,7 @@
+import { publishPayloadSchema } from '@/lib/validators/article';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { publishPayloadSchema } from '@/lib/validators/article';
 import type { z } from 'zod';
 
 export const dynamic = 'force-dynamic';

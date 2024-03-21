@@ -1,19 +1,20 @@
 'use client';
 
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { vim, Vim } from '@replit/codemirror-vim';
-import { minimalSetup } from 'codemirror';
-import { EditorState, type Extension } from '@codemirror/state';
-import { placeholder, EditorView } from '@codemirror/view';
-import { memo, useEffect, useRef, useState, useCallback } from 'react';
-import { languages } from '@codemirror/language-data';
 import '@/styles/editor.css';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { EditorState, type Extension } from '@codemirror/state';
+import { EditorView, placeholder } from '@codemirror/view';
+import { Vim, vim } from '@replit/codemirror-vim';
 import {
   gruvboxDarkInit,
   gruvboxLightInit,
 } from '@uiw/codemirror-theme-gruvbox-dark';
+import { minimalSetup } from 'codemirror';
 import { useTheme } from 'next-themes';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useEditorStore } from './editor-store';
+import { useArticlePublisher } from './use-article-publisher';
 
 const lightTheme = gruvboxLightInit({
   settings: {
@@ -30,6 +31,7 @@ const darkTheme = gruvboxDarkInit({
 });
 
 export function Editor() {
+  const { handlePublish } = useArticlePublisher();
   const editorRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
   const setEditorContent = useEditorStore((state) => state.setEditorContent);

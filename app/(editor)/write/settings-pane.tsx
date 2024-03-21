@@ -2,7 +2,9 @@
 
 import { PageMargin } from '@/components/page-margin';
 import { ThemeSelect } from '@/components/theme-toggle';
+import { Checkbox } from '@/components/ui/checkbox';
 import * as Drawer from '@/components/ui/drawer';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -14,8 +16,6 @@ import {
   EditorLayout as EditorLayoutType,
   useEditorStore,
 } from './editor-store';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 
 function EditorLayout() {
   const editorLayout = useEditorStore((state) => state.editorLayout);

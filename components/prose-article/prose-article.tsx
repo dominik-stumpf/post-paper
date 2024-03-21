@@ -1,7 +1,7 @@
+import type { articleMetadataSchema } from '@/lib/validators/article';
 import '@/styles/classic-dark.css';
 import '@/styles/classic-light.css';
 import { type ReactNode, forwardRef } from 'react';
-import type { articleMetadataSchema } from '@/lib/validators/article';
 import type { z } from 'zod';
 
 type Metadata = Partial<z.infer<typeof articleMetadataSchema>>;

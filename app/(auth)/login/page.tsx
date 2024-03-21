@@ -1,7 +1,7 @@
 import { BrandLogo } from '@/components/brand/brand-logo';
-import { LoginForm } from './login-form';
 import { Heading } from '@/components/typography/heading';
 import { Anchor } from '@/components/ui/anchor';
+import { LoginForm } from './login-form';
 
 export default function Login() {
   return (

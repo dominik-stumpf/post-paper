@@ -1,7 +1,7 @@
+import type { Nodes as HastNodes } from 'hast';
+import { type Components, toJsxRuntime } from 'hast-util-to-jsx-runtime';
 // @ts-expect-error: the react types are missing.
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime';
-import { toJsxRuntime, type Components } from 'hast-util-to-jsx-runtime';
-import type { Nodes as HastNodes } from 'hast';
 
 const defaultComponents: Partial<Components> = {};
 

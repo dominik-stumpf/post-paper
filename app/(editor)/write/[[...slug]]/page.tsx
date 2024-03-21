@@ -1,18 +1,18 @@
 'use client';
 
 import { PageMargin } from '@/components/page-margin';
-import { Editor } from '../editor';
-import { Preview } from '../preview';
-import { useEditorStore } from '../editor-store';
-import { useEffect } from 'react';
 import { Drawer } from '@/components/ui/drawer';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { EditorActions } from '../editor-actions';
-import { SettingsPane } from '../settings-pane';
-import { ArticleStats } from '../article-stats';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import reactHooksPost from '@/public/markdown/react-hooks-post-validate.md';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { ArticleStats } from '../article-stats';
+import { Editor } from '../editor';
+import { EditorActions } from '../editor-actions';
+import { useEditorStore } from '../editor-store';
+import { Preview } from '../preview';
+import { SettingsPane } from '../settings-pane';
 
 export default function Page({ params }: { params: { slug?: string[] } }) {
   const isEditorFocused = useEditorStore((state) => state.isEditorFocused);
@@ -69,6 +69,8 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
     } else {
       document.documentElement.style.setProperty('--header-offset', '0');
     }
+    return () =>
+      document.documentElement.style.setProperty('--header-offset', '0');
   }, [isEditorFocused]);
 
   return (
@@ -84,7 +86,7 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
       )}
       <Drawer>
         <TooltipProvider>
-          <main className="fixed bottom-0 left-1/2 z-20 h-[66dvh] w-full max-w-screen-2xl -translate-x-1/2 translate-y-3/4 overflow-hidden rounded border bg-background/90 px-2 py-4 ring-ring ring-offset-2 ring-offset-background transition-transform ease-in-out focus-within:translate-y-0 focus-within:ring-2 hover:border-muted-foreground focus-visible:outline-none md:bottom-4 md:bg-background/50 md:px-12 md:backdrop-blur md:backdrop-saturate-150">
+          <main className="fixed bottom-0 left-1/2 z-20 h-[66dvh] w-full max-w-screen-2xl -translate-x-1/2 overflow-hidden rounded border bg-background/90 px-2 py-4 ring-ring ring-offset-2 ring-offset-background transition-transform ease-in-out focus-within:ring-2 hover:border-muted-foreground focus-visible:outline-none md:bottom-4 md:bg-background/50 md:px-12 md:backdrop-blur md:backdrop-saturate-150">
             <Editor />
             <ArticleStats />
             {isMouseModeActive && <EditorActions />}

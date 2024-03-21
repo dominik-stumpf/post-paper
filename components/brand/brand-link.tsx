@@ -1,6 +1,6 @@
 import { Anchor } from '@/components/ui/anchor';
-import { BrandLogo } from './brand-logo';
 import { cn } from '@/lib/utils';
+import { BrandLogo } from './brand-logo';
 
 export function BrandLink({ className }: { className?: string }) {
   return (

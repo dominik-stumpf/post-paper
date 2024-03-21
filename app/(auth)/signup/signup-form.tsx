@@ -2,9 +2,9 @@
 
 import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import type * as z from 'zod';
-import { useRouter } from 'next/navigation';
 
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Button } from '@/components/ui/button';
@@ -23,8 +23,8 @@ import { Toggle } from '@/components/ui/toggle';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { type ReactNode, useEffect, useState } from 'react';
 import { CheckCircle, Circle, Eye, EyeOff } from 'lucide-react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 function CriteriaIndicator({
   children,

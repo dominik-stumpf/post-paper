@@ -3,9 +3,9 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
-import { JetBrains_Mono } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
+import { JetBrains_Mono } from 'next/font/google';
 import { getValidIconPath } from './icon';
 
 const JetBrainsMono = JetBrains_Mono({

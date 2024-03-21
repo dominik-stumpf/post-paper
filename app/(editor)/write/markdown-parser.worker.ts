@@ -1,5 +1,5 @@
 import init, { md_to_hast } from '@/markdown-parser-rs/pkg';
-import type { Root as HastRoot, Nodes as HastNodes } from 'hast';
+import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
 import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 import { WorkerMessage, activeElementId } from './constants';
 

@@ -18,10 +18,10 @@ import { Input } from '@/components/ui/input';
 import { OauthSignIn } from '@/components/oauth-sign-in';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
+import { signInSchema } from '@/lib/validators/user';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { signInSchema } from '@/lib/validators/user';
 
 export function LoginForm() {
   const [credentialLoading, setCredentialLoading] = useState(false);

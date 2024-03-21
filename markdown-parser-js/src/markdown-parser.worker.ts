@@ -1,11 +1,11 @@
-import type { Root as HastRoot, Nodes as HastNodes } from 'hast';
-import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
-import remarkParse from 'remark-parse';
-import remarkToRehype from 'remark-rehype';
-import { unified } from 'unified';
+import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
 import rehypeHighlight from 'rehype-highlight';
 import remarkFrontMatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkToRehype from 'remark-rehype';
+import { unified } from 'unified';
+import { type BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
 
 self.addEventListener('message', async (event) => {
   const parsedData = await parseMarkdown(event.data);
@@ -31,7 +31,7 @@ async function parseMarkdown(source: string) {
   return rehypeMarkPositionOffset(0, newHast);
 }
 
-export function rehypeMarkPositionOffset(offset: number, hast: HastNodes) {
+export function rehypeMarkPositionOffset(_offset: number, hast: HastNodes) {
   function transform(...[node, _index, _parent]: Parameters<HastVisitor>) {
     if (node.type !== 'element') return CONTINUE;
 

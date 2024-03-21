@@ -1,5 +1,5 @@
-import { LikeButton } from '../like-button';
 import { CopyToClipboard } from '../copy-to-clipboard';
+import { LikeButton } from '../like-button';
 
 export function UserActionBar() {
   return;

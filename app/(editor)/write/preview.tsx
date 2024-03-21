@@ -1,21 +1,21 @@
 'use-client';
 
-import { useEditorStore } from './editor-store';
+import { ProseArticle } from '@/components/prose-article/prose-article';
+import { HastToJsx } from '@/lib/hast-to-jsx';
+import type { articleMetadataSchema } from '@/lib/validators/article';
 import type { Nodes as HastNodes } from 'hast';
+import type { Components } from 'hast-util-to-jsx-runtime';
 import {
   type ReactElement,
-  useEffect,
-  useState,
-  useRef,
   type RefObject,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
-import type { Components } from 'hast-util-to-jsx-runtime';
-import { WorkerMessage, activeElementId } from './constants';
-import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
-import { HastToJsx } from '@/lib/hast-to-jsx';
-import { ProseArticle } from '@/components/prose-article/prose-article';
 import type { z } from 'zod';
-import type { articleMetadataSchema } from '@/lib/validators/article';
+import { WorkerMessage, activeElementId } from './constants';
+import { useEditorStore } from './editor-store';
+import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 
 const components = {
   a: (props) => <a tabIndex={-1} {...props} />,

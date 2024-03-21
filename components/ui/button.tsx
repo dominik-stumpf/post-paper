@@ -67,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {loading ? (
           <div className="flex items-center gap-3">
             <Loader2 className="inline animate-spin" />
-            <span>{children}</span>
+            {children !== null && <span>{children}</span>}
           </div>
         ) : (
           children

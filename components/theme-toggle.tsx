@@ -18,9 +18,9 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectContent,
   SelectValue,
 } from './ui/select';
 

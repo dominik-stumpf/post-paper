@@ -1,19 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  HelpCircle,
-  Save,
-  Settings,
-  SplitSquareHorizontal,
-  SplitSquareVertical,
-} from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import Link from 'next/link';
+import * as Drawer from '@/components/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,11 +9,21 @@ import {
   DropdownMenuRadioItem,
 } from '@/components/ui/dropdown-menu';
 import {
-  useEditorStore,
-  EditorLayout as EditorLayoutType,
-} from './editor-store';
-import * as Drawer from '@/components/ui/drawer';
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import {
+  Save,
+  Settings,
+  SplitSquareHorizontal,
+  SplitSquareVertical,
+} from 'lucide-react';
+import {
+  EditorLayout as EditorLayoutType,
+  useEditorStore,
+} from './editor-store';
 import { useArticlePublisher } from './use-article-publisher';
 
 const editorLayoutData = [
@@ -74,10 +72,11 @@ function EditorLayout() {
 }
 
 export function EditorActions() {
-  const { isLoading, handlePublish } = useArticlePublisher();
+  const { handlePublish, isLoading } = useArticlePublisher();
 
   return (
     <aside className="absolute bottom-4 right-4 flex max-w-full items-end gap-4 overflow-auto sm:overflow-visible md:flex-col">
+      {/*
       <Tooltip>
         <TooltipTrigger asChild>
           <Button size="icon" variant="outline" aria-label="help" asChild>
@@ -90,6 +89,7 @@ export function EditorActions() {
           <p>Help</p>
         </TooltipContent>
       </Tooltip>
+      */}
       <Tooltip>
         <TooltipTrigger asChild>
           <Drawer.DrawerTrigger asChild>
@@ -110,7 +110,7 @@ export function EditorActions() {
             onClick={() => handlePublish()}
             loading={isLoading}
           >
-            {isLoading || <Save />}
+            {isLoading ? null : <Save />}
           </Button>
         </TooltipTrigger>
         <TooltipContent align="end">
