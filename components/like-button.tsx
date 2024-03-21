@@ -109,7 +109,8 @@ export function LikeButton({ post_id }: LikeButtonProps) {
       }}
       disabled={like === null}
       className={`${
-        isLiked && 'text-primary hover:text-primary'
+        isLiked &&
+        'font-extrabold text-primary-foreground hover:text-primary-foreground'
       } space-x-2 disabled:opacity-50`}
     >
       <ThumbsUp className="h-4 w-4" /> <span>{like === null ? '~' : like}</span>
