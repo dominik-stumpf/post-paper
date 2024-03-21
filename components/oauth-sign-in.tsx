@@ -1,21 +1,17 @@
 'use client';
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Provider } from '@supabase/supabase-js';
 import { Button } from '@/components/ui/button';
-import Github from '/public/assets/svg/github.svg';
-import Google from '/public/assets/svg/google.svg';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Provider } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Github, Google } from './icons';
 
 type Extends<T, U extends T> = U;
 type SupportedProvider = Extends<Provider, 'github' | 'google'>;
-interface ProviderData {
-  providerName: string;
-  Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-}
 
-const supportedProviderData: Record<SupportedProvider, ProviderData> = {
+const supportedProviderData = {
   github: {
     providerName: 'GitHub',
     Icon: Github,
@@ -24,36 +20,29 @@ const supportedProviderData: Record<SupportedProvider, ProviderData> = {
     providerName: 'Google',
     Icon: Google,
   },
-};
+} satisfies Record<SupportedProvider, object>;
 
 export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   const { Icon, providerName } = supportedProviderData[provider];
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
   async function signInOauthUser() {
     const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
-    const { error, data } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: `${requestUrl.origin}/api/auth/callback`,
-        queryParams:
-          provider === 'google'
-            ? {
-                access_type: 'offline',
-                prompt: 'consent',
-              }
-            : {},
       },
     });
 
     if (error) {
-      console.error(error);
       toast({
         variant: 'destructive',
         description: error.message,
-        title: 'Failed to authenticate.',
+        title: 'Failed to authenticate',
       });
       return;
     }
@@ -64,12 +53,16 @@ export function OauthSignIn({ provider }: { provider: SupportedProvider }) {
   return (
     <Button
       variant={'outline'}
-      className="flex gap-3 w-full"
-      onClick={signInOauthUser}
+      className="flex items-center gap-3"
+      loading={loading}
+      onClick={() => {
+        setLoading(true);
+        signInOauthUser();
+      }}
       size="lg"
     >
-      <Icon className="w-5 h-5 dark:invert" />
-      Continue with {providerName}
+      {loading || <Icon className="h-5 w-5 dark:invert" />}
+      <span>Continue with {providerName}</span>
     </Button>
   );
 }

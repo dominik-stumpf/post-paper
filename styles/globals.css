@@ -3,61 +3,72 @@
 @tailwind utilities;
 
 @layer base {
-
   :root {
-    --header-height: 4rem;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 94.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 90.2%;
+    --destructive-foreground: 0 73% 50%;
+    --success: 136 84.2% 90.2%;
+    --success-foreground: 136 73% 50%;
+    --border: 0 0% 80.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
     --radius: 0.5rem;
 
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
-
-    --dim-foreground: 224 19.12% 26.67%;
+    --dim-foreground: 210 2% 24%;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 215 27.9% 16.9%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
-    --ring: 263.4 70% 50.4%;
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 50.9%;
+    --accent: 0 0% 15.9%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 62.8% 8.6%;
+    --destructive-foreground: 0 88% 55%;
+    --success: 136 62.8% 6.6%;
+    --success-foreground: 136 73% 55%;
+    --border: 0 0% 20.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
 
-    --dim-foreground: 224 12.2% 83.92%;
+    --dim-foreground: 210 2% 76%;
   }
 
   * {
     @apply border-border;
   }
+}
+
+:root {
+  --header-height: 4rem;
+  --header-offset: 0;
+}
+
+.dark video,
+.dark img {
+  filter: brightness(0.8) contrast(1.2);
 }
 
 .lenis.lenis-smooth {
@@ -72,20 +83,9 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.001s !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001s !important;
-  }
-}
-
 ::-webkit-scrollbar {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -93,9 +93,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-foreground/25 border-[0.3rem] border-background border-solid
+  @apply bg-foreground/30;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-foreground/50;
+  @apply bg-foreground/60;
 }

@@ -1,16 +1,14 @@
 import { Footer } from '@/components/footer';
-import { PageRoot } from '@/components/page-root';
+import { PageMargin } from '@/components/page-margin';
 
 interface MarketingLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function MarketingLayout({
-  children,
-}: MarketingLayoutProps) {
+export default function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <>
-      <PageRoot>{children}</PageRoot>
+      <PageMargin verticalMargin>{children}</PageMargin>
       <Footer />
     </>
   );

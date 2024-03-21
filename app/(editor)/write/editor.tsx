@@ -1,70 +1,155 @@
 'use client';
 
+import '@/styles/editor.css';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
-import { EditorState } from '@codemirror/state';
+import { EditorState, type Extension } from '@codemirror/state';
 import { EditorView, placeholder } from '@codemirror/view';
-import { vim } from '@replit/codemirror-vim';
-import { gruvboxDarkInit } from '@uiw/codemirror-theme-gruvbox-dark';
+import { Vim, vim } from '@replit/codemirror-vim';
+import {
+  gruvboxDarkInit,
+  gruvboxLightInit,
+} from '@uiw/codemirror-theme-gruvbox-dark';
 import { minimalSetup } from 'codemirror';
-import { memo, useEffect, useRef } from 'react';
-import './editor.css';
+import { useTheme } from 'next-themes';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useEditorStore } from './editor-store';
+import { useArticlePublisher } from './use-article-publisher';
 
-const customTheme = gruvboxDarkInit({
+const lightTheme = gruvboxLightInit({
   settings: {
-    background: 'black',
-    selection: '#ffffff33',
-    fontFamily: 'var(--font-geist-mono)',
+    background: 'unset',
+    fontFamily: 'var(--font-mono)',
   },
 });
 
-interface EditorProps {
-  initialEditorContent: string;
-  setEditorContent: (editorContent: string) => void;
-  setPositionOffset: (positionOffset: number) => void;
-}
+const darkTheme = gruvboxDarkInit({
+  settings: {
+    background: 'unset',
+    fontFamily: 'var(--font-mono)',
+  },
+});
 
-function EditorComponent({
-  initialEditorContent,
-  setEditorContent,
-  setPositionOffset,
-}: EditorProps) {
-  const editor = useRef<HTMLDivElement>(null);
+export function Editor() {
+  const { handlePublish } = useArticlePublisher();
+  const editorRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme } = useTheme();
+  const setEditorContent = useEditorStore((state) => state.setEditorContent);
+  const setPositionOffset = useEditorStore((state) => state.setPositionOffset);
+  const [editorView, setEditorView] = useState<EditorView>();
+  const initialEditorContent = useEditorStore(
+    (state) => state.initialEditorContent,
+  );
+  const isVimModeActive = useEditorStore((state) => state.isVimModeActive);
+  const isEditorScrollbarActive = useEditorStore(
+    (state) => state.isEditorScrollbarActive,
+  );
+  const setIsMouseModeActive = useEditorStore(
+    (state) => state.setIsMouseModeActive,
+  );
 
-  const onUpdate = EditorView.updateListener.of((v) => {
-    setEditorContent(v.state.doc.toString());
-    setPositionOffset(v.view.state.selection.ranges[0].from);
-  });
+  const setIsEditorFocused = useEditorStore(
+    (state) => state.setIsEditorFocused,
+  );
+
+  const updateEditorStore = useCallback(
+    () =>
+      EditorView.updateListener.of((v) => {
+        setEditorContent(v.state.doc.toString());
+        setPositionOffset(v.view.state.selection.ranges[0].from);
+      }),
+    [setEditorContent, setPositionOffset],
+  );
+
+  const updateFocus = useCallback(
+    () =>
+      EditorView.focusChangeEffect.of((_, isFocused) => {
+        setIsEditorFocused(isFocused);
+        return null;
+      }),
+    [setIsEditorFocused],
+  );
 
   useEffect(() => {
-    if (!editor.current) return;
+    if (
+      editorRef.current === null ||
+      resolvedTheme === undefined ||
+      initialEditorContent === undefined
+    ) {
+      return;
+    }
 
-    const startState = EditorState.create({
+    const extensions: Extension[] = [
+      minimalSetup,
+      markdown({ base: markdownLanguage, codeLanguages: languages }),
+      placeholder('Enter some markdown...'),
+      EditorView.lineWrapping,
+      resolvedTheme === 'dark' ? darkTheme : lightTheme,
+      updateEditorStore(),
+      updateFocus(),
+    ];
+
+    if (isVimModeActive) {
+      extensions.unshift(vim({ status: true }));
+      Vim.defineEx('nomousehelp', 'nomouse', () => {
+        setIsMouseModeActive(false);
+      });
+      Vim.defineEx('mousehelp', 'mouse', () => {
+        setIsMouseModeActive(true);
+      });
+    }
+
+    const state = EditorState.create({
       doc: initialEditorContent,
-      extensions: [
-        placeholder('Enter some markdown...'),
-        minimalSetup,
-        EditorView.lineWrapping,
-        customTheme,
-        vim({ status: true }),
-        markdown({ base: markdownLanguage, codeLanguages: languages }),
-        onUpdate,
-      ],
+      extensions,
     });
 
     const view = new EditorView({
-      state: startState,
-      parent: editor.current,
+      parent: editorRef.current,
+      state,
     });
+    setEditorView(view);
 
     return () => {
       view.destroy();
+      setEditorView(undefined);
     };
-  }, [initialEditorContent, onUpdate]);
+  }, [
+    resolvedTheme,
+    updateEditorStore,
+    initialEditorContent,
+    updateFocus,
+    isVimModeActive,
+    setIsMouseModeActive,
+  ]);
+
+  useEffect(() => {
+    if (editorView === undefined) {
+      return;
+    }
+
+    editorView.focus();
+    editorView.contentDOM.ariaLabel = 'editor containing markdown';
+  }, [editorView]);
+
+  useEffect(() => {
+    if (editorRef.current === null) {
+      return;
+    }
+    if (isEditorScrollbarActive) {
+      editorRef.current.classList.add('is-scrollbar-active');
+      return;
+    }
+    editorRef.current.classList.remove('is-scrollbar-active');
+  }, [isEditorScrollbarActive]);
 
   return (
-    <div ref={editor} id="editor" className="w-full text-lg h-remaining" />
+    <div
+      ref={editorRef}
+      id="editor"
+      className="h-full max-h-remaining w-full overflow-hidden text-base"
+    />
   );
 }
 
-export const Editor = memo(EditorComponent);
+export const EditorMemo = memo(Editor);

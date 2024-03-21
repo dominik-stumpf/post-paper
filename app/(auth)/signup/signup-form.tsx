@@ -1,17 +1,17 @@
 'use client';
 
+import { signUpSchema, validatePassword } from '@/lib/validators/user';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import type * as z from 'zod';
 
-import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Heading } from '@/components/typography/heading';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,34 +19,76 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { Toggle } from '@/components/ui/toggle';
 import { useToast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
+import { CheckCircle, Circle, Eye, EyeOff } from 'lucide-react';
+import { type ReactNode, useEffect, useState } from 'react';
 
-const formSchema = z.object({
-  email: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  password: z.string(),
-});
+function CriteriaIndicator({
+  children,
+  isCriteriaMet,
+}: {
+  children: ReactNode;
+  isCriteriaMet: boolean;
+}) {
+  return (
+    <li
+      className={cn(
+        'flex items-center gap-2 text-muted-foreground transition-colors',
+        isCriteriaMet && 'text-success-foreground',
+      )}
+    >
+      {isCriteriaMet ? (
+        <CheckCircle className="size-4" />
+      ) : (
+        <Circle className="size-4" />
+      )}
+      <span>{children}</span>
+    </li>
+  );
+}
 
-export function SignupForm() {
+export function SignUpForm() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordCriterias, setPasswordCriterias] = useState(
+    validatePassword(''),
+  );
+  const [openPasswordCriterias, setOpenPasswordCriterias] = useState(false);
+  const [credentialLoading, setCredentialLoading] = useState(false);
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       firstName: '',
       lastName: '',
       password: '',
     },
+    mode: 'onTouched',
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  useEffect(() => {
+    const { unsubscribe } = form.watch(({ password }) => {
+      if (password === undefined) {
+        return;
+      }
+      setPasswordCriterias(validatePassword(password));
+    });
+
+    return () => unsubscribe();
+  }, [form.watch]);
+
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     const name = [values.firstName, values.lastName].join(' ');
     const { email, password } = values;
-    const requestUrl = document.location;
+    // const requestUrl = document.location;
     const supabase = createClientComponentClient<Database>();
+
+    setCredentialLoading(true);
 
     const { error, data } = await supabase.auth.signUp({
       email,
@@ -58,50 +100,51 @@ export function SignupForm() {
             Math.random() * 100000,
           )}`,
         },
-        emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+        // emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
       },
     });
 
-    console.log(data);
-    const identities = data.user?.identities;
-
-    if (identities && identities.length === 0) {
-      toast({
-        title: 'Error',
-        description: 'User already exist',
-        variant: 'destructive',
-      });
-      return;
-    }
-
     if (error) {
-      console.error(error);
+      setCredentialLoading(false);
       toast({
-        title: 'Error',
+        title: 'Failed to sign up',
         description: error.message,
         variant: 'destructive',
       });
-      return;
     }
 
-    toast({
-      title: 'Check your email',
-      description: 'We sent you an email verification.',
-    });
+    if (data.session) {
+      toast({
+        title: 'Successfully signed up',
+        description: '',
+        variant: 'success',
+      });
+      router.replace('/');
+      router.refresh();
+    }
+
+    // TODO: uncomment when email stmp server is present
+    // return toast({
+    //   title: 'Finish verification process',
+    //   description:
+    //     'We sent you an email verification link, be sure to check spam too.',
+    //   variant: 'success',
+    // });
   }
 
   return (
-    <div className="grid gap-2 w-full max-w-sm">
-      <div className="flex flex-col gap-8 justify-self-center items-center pt-2 mb-6 text-center md:pt-0">
-        <div className="w-16 h-16">
-          <BrandLogo />
-        </div>
-        <Heading variant={'h2'}>Sign up to PostPaper</Heading>
-      </div>
+    <div className="flex flex-col gap-3">
+      <OauthSignIn provider="github" />
+      <OauthSignIn provider="google" />
+      <Separator className="relative my-6">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4 text-sm">
+          OR
+        </span>
+      </Separator>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-y-4 gap-x-6"
+          className="grid grid-cols-2 gap-x-6 gap-y-3"
         >
           <FormField
             control={form.control}
@@ -110,7 +153,7 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" placeholder="John" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +166,7 @@ export function SignupForm() {
               <FormItem>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} />
+                  <Input type="text" placeholder="Doe" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,9 +179,12 @@ export function SignupForm() {
               <FormItem className="col-span-2">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" {...field} />
+                  <Input
+                    placeholder="name@example.com"
+                    type="email"
+                    {...field}
+                  />
                 </FormControl>
-                <FormDescription>Your email won't be shared</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -149,29 +195,80 @@ export function SignupForm() {
             render={({ field }) => (
               <FormItem className="col-span-2">
                 <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      onFocus={() => {
+                        setOpenPasswordCriterias(true);
+                      }}
+                      placeholder={'••••••••'}
+                      type={passwordVisible ? 'text' : 'password'}
+                      {...field}
+                      className="relative"
+                    />
+                  </FormControl>
+
+                  <Toggle
+                    className="absolute right-2 top-1/2 h-6 -translate-y-1/2"
+                    size="sm"
+                    variant="outline"
+                    pressed={passwordVisible}
+                    onPressedChange={(pressed) => {
+                      setPasswordVisible(pressed);
+                    }}
+                  >
+                    {passwordVisible ? (
+                      <Eye className="size-4" />
+                    ) : (
+                      <EyeOff className="size-4" />
+                    )}
+                  </Toggle>
+                </div>
                 <FormMessage />
+                <Collapsible open={openPasswordCriterias} className="pt-2">
+                  <CollapsibleContent asChild>
+                    <ul className="space-y-1">
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasNumber}
+                      >
+                        Number
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasSymbol}
+                      >
+                        Symbol (eg. !%.?/#&)
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasLowerCase}
+                      >
+                        Lower case letter
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.hasUpperCase}
+                      >
+                        Upper case letter
+                      </CriteriaIndicator>
+                      <CriteriaIndicator
+                        isCriteriaMet={passwordCriterias.isLongEnough}
+                      >
+                        At least 8 characters
+                      </CriteriaIndicator>
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2 mt-2">
+          <Button
+            type="submit"
+            className="col-span-2 mt-6"
+            disabled={!form.formState.isValid}
+            loading={credentialLoading}
+          >
             Sign up with Email
           </Button>
         </form>
       </Form>
-      <Separator className="my-4" />
-      <OauthSignIn provider="github" />
-      <OauthSignIn provider="google" />
-      <div className="text-center text-muted-foreground max-w-[24ch] justify-self-center mt-4">
-        By joining, you agree to our{' '}
-        <Link href="site-policy#terms">Terms of Service</Link> and{' '}
-        <Link href="site-policy">Privacy Policy</Link>.
-      </div>
-      {/* <Button variant={'link'} asChild>
-        <Link href="/login">Already have an account? Log in</Link>
-      </Button> */}
     </div>
   );
 }

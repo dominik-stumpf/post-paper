@@ -1,8 +1,8 @@
 import {
-  User,
+  type User,
   createClientComponentClient,
 } from '@supabase/auth-helpers-nextjs';
-import { AuthError } from '@supabase/supabase-js';
+import type { AuthError } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
 export function useClientUser() {

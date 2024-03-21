@@ -1,24 +1,36 @@
-import { LenisWrapper } from '@/components/lenis-wrapper';
 import { Navbar } from '@/components/navbar/navbar';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
-import '@/types/validate-env-vars';
-import { GeistMono, GeistSans } from 'geist/font';
-import { Metadata, Viewport } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import type { Metadata, Viewport } from 'next';
+import { JetBrains_Mono } from 'next/font/google';
+import { getValidIconPath } from './icon';
+
+const JetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+});
 
 export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'PostPaper',
   description: 'Productivity-oriented posting platform.',
   applicationName: 'PostPaper',
-  manifest: '/manifest.webmanifest',
-  robots: {
-    follow: true,
-    index: true,
+  icons: {
+    icon: '/assets/vectors/brand-logo.svg',
+    shortcut: getValidIconPath(48),
+    apple: getValidIconPath(192),
   },
-  icons: { icon: '/favicon.svg', apple: '/assets/icons/icon-128x128.png' },
+  creator: 'Dominik Stumpf',
+  authors: [
+    {
+      name: 'Dominik Stumpf',
+      url: 'https://dominikstumpf.com',
+    },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -38,14 +50,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn([
-          'font-sans antialiased min-h-full bg-background text-foreground selection:bg-foreground selection:text-background accent-primary',
+          'min-h-screen bg-background font-sans text-foreground antialiased accent-primary selection:bg-foreground selection:text-background',
           GeistSans.variable,
-          GeistMono.variable,
+          JetBrainsMono.variable,
         ])}
       >
         <ThemeProvider>
           <Navbar />
-          <LenisWrapper>{children}</LenisWrapper>
+          {children}
           <Toaster />
         </ThemeProvider>
       </body>

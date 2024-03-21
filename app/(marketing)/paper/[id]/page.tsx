@@ -1,17 +1,19 @@
 import { CopyToClipboard } from '@/components/copy-to-clipboard';
 import { LikeButton } from '@/components/like-button';
-
 import { RenderPaper } from '@/components/render-paper/render-paper';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { formatPostDate } from '@/lib/timestamp-formatter';
+import { env } from '@/validate-env-vars.mjs';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function Page({
   params: { id },
-}: { params: { id: number } }) {
+}: {
+  params: { id: number };
+}) {
   const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
 
   const { data: post } = await supabase
@@ -31,8 +33,8 @@ export default async function Page({
 
   return (
     <main className="mx-auto max-w-prose">
-      <div className="flex gap-4 flex-wrap justify-between items-center mb-8">
-        <div className="grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 items-center">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="grid grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-4">
           <Avatar className="row-span-2">
             <AvatarImage src={avatar_url} alt="Author profile picture" />
             <AvatarFallback />

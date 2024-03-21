@@ -1,75 +1,134 @@
+'use-client';
+
+import { ProseArticle } from '@/components/prose-article/prose-article';
+import { HastToJsx } from '@/lib/hast-to-jsx';
+import type { articleMetadataSchema } from '@/lib/validators/article';
+import type { Nodes as HastNodes } from 'hast';
+import type { Components } from 'hast-util-to-jsx-runtime';
 import {
-  className,
-  rehypePlugins,
-  remarkPlugins,
-} from '@/components/render-paper/render-paper';
-import type { Nodes as HastNodes, Root as HastRoot } from 'hast';
-import { useEffect, useState } from 'react';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
-import { BuildVisitor, CONTINUE, SKIP, visit } from 'unist-util-visit';
-import { PreviewRenderer } from './preview-renderer';
+  type ReactElement,
+  type RefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import type { z } from 'zod';
+import { WorkerMessage, activeElementId } from './constants';
+import { useEditorStore } from './editor-store';
+import type { MarkdownParserWorkerResponse } from './markdown-parser.worker';
 
-type HastVisitor = BuildVisitor<HastRoot>;
+const components = {
+  a: (props) => <a tabIndex={-1} {...props} />,
+} satisfies Partial<Components>;
 
-export const offsetId = 'offset-position-active';
+const activeElementStyle = 'animate-pulse'.split(' ');
 
-export function markHastOffset(offset: number, hast: HastNodes) {
-  visit(hast, transform);
+function useScrollHandler(
+  articleRef: RefObject<HTMLElement>,
+  jsx?: ReactElement,
+) {
+  const target = useRef<Element>();
 
-  function transform(
-    ...[node, _index, _parent]: Parameters<HastVisitor>
-  ): ReturnType<HastVisitor> {
-    if (node.type !== 'element') return CONTINUE;
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (articleRef.current === null) {
+      return;
+    }
+    const root = articleRef.current;
 
-    const startOffset = node.position?.start.offset;
-    const endOffset = node.position?.end.offset;
+    for (let i = root.children.length - 1; i >= 0; i -= 1) {
+      const childElement = root.children[i];
 
-    node.properties = {};
-    if (
-      typeof startOffset === 'number' &&
-      typeof endOffset === 'number' &&
-      startOffset <= offset &&
-      offset <= endOffset
-    ) {
-      node.properties.id = offsetId;
-      // console.log(node);
-      // return EXIT;
+      if (childElement.id !== activeElementId) {
+        continue;
+      }
+
+      target.current = childElement;
+      target.current.classList.add(...activeElementStyle);
+
+      window.scrollBy({
+        top: target.current.getBoundingClientRect().top - 32,
+        // smooth scroll causes staggering effect on chromium if the event is fired while another is still ongoing
+        // @ts-expect-error: only chromium based browsers have this property
+        behavior: window.chrome ? 'instant' : 'smooth',
+      });
+
+      break;
     }
 
-    return SKIP;
-  }
-
-  return hast;
+    return () => {
+      if (target.current === undefined) {
+        return;
+      }
+      target.current.classList.remove(...activeElementStyle);
+    };
+  }, [articleRef, jsx]);
 }
 
-function processMdToHast(md: string) {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkPlugins)
-    .use(remarkRehype)
-    .use(rehypePlugins);
-
-  const mdastTree = processor.parse(md);
-  const hastTree: HastNodes = processor.runSync(mdastTree, md);
-
-  return hastTree;
-}
-
-export function Preview({
-  markdown,
-  positionOffset,
-}: { markdown: string; positionOffset: number }) {
-  const [hast, setHast] = useState<HastNodes>();
+export function Preview() {
+  const articleRef = useRef<HTMLElement>(null);
+  const { jsx, frontmatter } = useMarkdownParserWorker();
+  useScrollHandler(articleRef, jsx);
+  const [metadata, setMetadata] =
+    useState<Partial<z.infer<typeof articleMetadataSchema>>>();
 
   useEffect(() => {
-    setHast(markHastOffset(positionOffset, processMdToHast(markdown)));
-  }, [markdown, positionOffset]);
+    setMetadata(frontmatter ?? {});
+  }, [frontmatter]);
 
   return (
-    <div className={`overflow-y-scroll h-full ${className}`}>
-      {hast && <PreviewRenderer>{hast}</PreviewRenderer>}
-    </div>
+    <ProseArticle ref={articleRef} metadata={metadata}>
+      {jsx}
+    </ProseArticle>
   );
+}
+
+function useMarkdownParserWorker() {
+  const editorContent = useEditorStore((state) => state.editorContent);
+  const [hast, setHast] = useState<HastNodes>();
+  const [frontmatter, setFrontmatter] = useState<Record<string, string>>();
+  const [jsx, setJsx] = useState<JSX.Element>();
+  const positionOffset = useEditorStore((state) => state.positionOffset);
+  const worker = useRef<Worker>();
+
+  useEffect(() => {
+    const onWorkerMessage = (event: { data: MarkdownParserWorkerResponse }) => {
+      setHast(event.data.hast);
+      setFrontmatter(event.data.frontmatter);
+    };
+
+    worker.current = new Worker(
+      new URL('./markdown-parser.worker', import.meta.url),
+    );
+    worker.current.addEventListener('message', onWorkerMessage);
+
+    return () => {
+      worker.current?.terminate();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (worker.current === undefined) {
+      return;
+    }
+    if (editorContent.length === 0) {
+      setJsx(undefined);
+      setFrontmatter({});
+      return;
+    }
+    worker.current.postMessage({
+      type: WorkerMessage.Parse,
+      source: editorContent,
+      offset: positionOffset,
+    });
+  }, [editorContent, positionOffset]);
+
+  useEffect(() => {
+    if (hast === undefined) {
+      return;
+    }
+    setJsx(HastToJsx(hast, components));
+  }, [hast]);
+
+  return { jsx, frontmatter };
 }

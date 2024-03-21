@@ -1,6 +1,6 @@
+import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 import tailwindAnimate from 'tailwindcss-animate';
-import typography from '@tailwindcss/typography';
 
 const remaining = 'calc(100vh - var(--header-height))';
 const config: Config = {
@@ -22,7 +22,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-geist-sans)'],
-        mono: ['var(--font-geist-mono)'],
+        mono: ['var(--font-mono)'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -42,6 +42,10 @@ const config: Config = {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

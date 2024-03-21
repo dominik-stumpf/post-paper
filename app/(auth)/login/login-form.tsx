@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import type * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,33 +15,31 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { BrandLogo } from '@/components/brand/brand-logo';
 import { OauthSignIn } from '@/components/oauth-sign-in';
-import { Heading } from '@/components/typography/heading';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
+import { signInSchema } from '@/lib/validators/user';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+import { useState } from 'react';
 
 export function LoginForm() {
+  const [credentialLoading, setCredentialLoading] = useState(false);
+
   const { toast } = useToast();
   const router = useRouter();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
       password: '',
     },
+    mode: 'onTouched',
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // const name = [values.firstName, values.lastName].join(' ');
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
+    setCredentialLoading(true);
+
     const { email, password } = values;
     const supabase = createClientComponentClient<Database>();
 
@@ -51,31 +49,34 @@ export function LoginForm() {
     });
 
     if (error) {
-      console.error(error);
+      setCredentialLoading(false);
       toast({
-        title: 'Error',
+        title: 'Failed to authenticate',
         description: error.message,
         variant: 'destructive',
       });
       return;
     }
 
-    router.refresh();
-    router.replace('/');
+    if (data.session) {
+      router.replace('/');
+      router.refresh();
+    }
   }
 
   return (
-    <div className="grid gap-2 w-full max-w-sm">
-      <div className="flex flex-col gap-8 justify-self-center items-center pt-2 mb-6 text-center md:pt-0">
-        <div className="w-16 h-16">
-          <BrandLogo />
-        </div>
-        <Heading variant={'h2'}>Log in to PostPaper</Heading>
-      </div>
+    <div className="flex w-full flex-col gap-3">
+      <OauthSignIn provider="github" />
+      <OauthSignIn provider="google" />
+      <Separator className="relative my-6">
+        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-4 text-sm">
+          OR
+        </span>
+      </Separator>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-y-4 gap-x-6"
+          className="grid gap-x-6 gap-y-3"
         >
           <FormField
             control={form.control}
@@ -103,17 +104,12 @@ export function LoginForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="mt-2">
+
+          <Button type="submit" className="mt-6" loading={credentialLoading}>
             Log in with Email
           </Button>
         </form>
       </Form>
-      <Separator className="my-4" />
-      <OauthSignIn provider="github" />
-      <OauthSignIn provider="google" />
-      <Button variant={'link'} asChild>
-        <Link href="/signup">New to PostPaper? Create an account</Link>
-      </Button>
     </div>
   );
 }

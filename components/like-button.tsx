@@ -1,11 +1,11 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import { useClientUser } from '@/hooks/use-client-user';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useEffect, useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { ThumbsUp } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useEffect, useRef, useState } from 'react';
 
 interface LikeButtonProps {
   post_id: string;
@@ -110,9 +110,9 @@ export function LikeButton({ post_id }: LikeButtonProps) {
       disabled={like === null}
       className={`${
         isLiked && 'text-primary hover:text-primary'
-      } disabled:opacity-50 space-x-2`}
+      } space-x-2 disabled:opacity-50`}
     >
-      <ThumbsUp className="w-4 h-4" /> <span>{like === null ? '~' : like}</span>
+      <ThumbsUp className="h-4 w-4" /> <span>{like === null ? '~' : like}</span>
     </Button>
   );
 }

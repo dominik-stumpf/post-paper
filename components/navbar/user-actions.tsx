@@ -1,20 +1,15 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button, buttonVariants } from '@/components/ui/button';
-import Link from 'next/link';
-import { LogOut, PenSquare, User, Menu } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Session } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
 import {
   Sheet,
   SheetClose,
@@ -25,23 +20,28 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import type { Session } from '@supabase/auth-helpers-nextjs';
+import { LogOut, Menu, PenSquare, User } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import type { ReactNode } from 'react';
 
 export function UserActions({ session }: { session: Session | null }) {
   const router = useRouter();
 
   async function signOutUser() {
     await fetch('/api/auth/sign-out', { method: 'POST' });
-    router.refresh();
     router.push('/login');
+    router.refresh();
   }
 
   if (session?.user) {
     return (
       <>
-        <div className="hidden gap-4 items-center md:flex">
+        <div className="hidden items-center gap-4 md:flex">
           <Button asChild variant={'default'} size="sm">
             <Link href="/write" className="flex gap-2">
-              <PenSquare className="w-4 h-4" />
+              <PenSquare className="h-4 w-4" />
               Write
             </Link>
           </Button>
@@ -67,14 +67,14 @@ export function UserActions({ session }: { session: Session | null }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem className="flex justify-between" disabled>
                 Profile
-                <User className="w-4 h-4" />
+                <User className="h-4 w-4" />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="flex justify-between"
                 onClick={signOutUser}
               >
                 Log out
-                <LogOut className="w-4 h-4" />
+                <LogOut className="h-4 w-4" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -89,7 +89,7 @@ export function UserActions({ session }: { session: Session | null }) {
           <SheetClose asChild>
             <Button asChild variant={'default'} size="sm">
               <Link href="/write" className="flex gap-2">
-                <PenSquare className="w-4 h-4" />
+                <PenSquare className="h-4 w-4" />
                 Write
               </Link>
             </Button>
@@ -101,7 +101,7 @@ export function UserActions({ session }: { session: Session | null }) {
               variant={'outline'}
             >
               Profile
-              <User className="w-4 h-4" />
+              <User className="h-4 w-4" />
             </Button>
           </SheetClose>
           <SheetClose asChild>
@@ -111,7 +111,7 @@ export function UserActions({ session }: { session: Session | null }) {
               variant={'outline'}
             >
               Log out
-              <LogOut className="w-4 h-4" />
+              <LogOut className="h-4 w-4" />
             </Button>
           </SheetClose>
         </ActionMenu>
@@ -125,7 +125,7 @@ export function UserActions({ session }: { session: Session | null }) {
         <Button variant={'ghost'} asChild size="sm">
           <Link
             href="/login"
-            className="flex py-2 px-3 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+            className="bg-btn-background hover:bg-btn-background-hover flex rounded-md px-3 py-2 no-underline"
           >
             Log in
           </Link>
@@ -140,7 +140,7 @@ export function UserActions({ session }: { session: Session | null }) {
           <Button variant={'ghost'} asChild size="sm">
             <Link
               href="/login"
-              className="flex py-2 px-3 no-underline rounded-md bg-btn-background hover:bg-btn-background-hover"
+              className="bg-btn-background hover:bg-btn-background-hover flex rounded-md px-3 py-2 no-underline"
             >
               Log in
             </Link>

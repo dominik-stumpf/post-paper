@@ -1,18 +1,19 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import { Anchor } from '@/components/ui/anchor';
+import { cn } from '@/lib/utils';
 import { BrandLogo } from './brand-logo';
 
-export function BrandLink() {
+export function BrandLink({ className }: { className?: string }) {
   return (
-    <Button asChild variant={'ghost'} className="p-0 hover:bg-transparent">
-      <Link href="/" className="flex gap-2 items-center">
-        <div className="w-7 h-7">
-          <BrandLogo />
-        </div>
-        <span className="text-xl font-bold tracking-tighter text-foreground">
-          PostPaper
-        </span>
-      </Link>
-    </Button>
+    <Anchor
+      href="/"
+      className={cn('flex items-center gap-2 no-underline', className)}
+    >
+      <div className="h-7 w-7">
+        <BrandLogo />
+      </div>
+      <span className="text-xl font-bold tracking-tighter text-foreground">
+        PostPaper
+      </span>
+    </Anchor>
   );
 }

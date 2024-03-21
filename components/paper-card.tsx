@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import { PaperCardType } from '@/lib/paper-parser';
-import { AvatarImage, Avatar } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import type { PaperCardType } from '@/lib/paper-parser';
 import { formatPostDate } from '@/lib/timestamp-formatter';
+import Link from 'next/link';
 
 interface PaperCardProps extends GetPostList {
   parsedCard: PaperCardType;
 }
 
-export async function PaperCard({
+export function PaperCard({
   created_at,
   avatar_url,
   name,
@@ -20,31 +20,31 @@ export async function PaperCard({
   return (
     <article
       key={id}
-      className="flex flex-col justify-between items-start max-w-xl"
+      className="flex max-w-xl flex-col items-start justify-between"
     >
-      <div className="flex gap-x-4 items-center text-xs">
+      <div className="flex items-center gap-x-4 text-xs">
         <time dateTime={created_at} className="text-dim-foreground">
           {date}
         </time>
         <Link
           href={'/'}
-          className="relative z-10 rounded-full bg-surface-color px-3 py-1.5 font-medium text-foreground hover:bg-background"
+          className="bg-surface-color relative z-10 rounded-full px-3 py-1.5 font-medium text-foreground hover:bg-background"
         >
           {'category'}
         </Link>
       </div>
-      <div className="relative group">
-        <h2 className="mt-3 text-2xl font-semibold tracking-tight leading-6 text-foreground group-hover:text-dim-foreground line-clamp-2">
+      <div className="group relative">
+        <h2 className="mt-3 line-clamp-2 text-2xl font-semibold leading-6 tracking-tight text-foreground group-hover:text-dim-foreground">
           <Link href={`/paper/${id}`}>
             <span className="absolute inset-0" />
             {title}
           </Link>
         </h2>
-        <p className="mt-5 text-base leading-6 line-clamp-2 text-dim-foreground">
+        <p className="mt-5 line-clamp-2 text-base leading-6 text-dim-foreground">
           {content}
         </p>
       </div>
-      <div className="flex relative gap-x-4 items-center mt-8">
+      <div className="relative mt-8 flex items-center gap-x-4">
         <Avatar>
           <AvatarImage src={avatar_url} alt="Author profile picture" />
         </Avatar>
