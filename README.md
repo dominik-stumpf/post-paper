@@ -7,6 +7,8 @@
 
 Postpaper is a posting platform prototype where people can edit their posts in a vim editor along with a real-time Rust powered markdown preview.
 
+Showcase videos are located in the `/showcase` directory.
+
 The markdown parsing is established by a fork of a Rust project called [markdown-rs](https://github.com/dominik-stumpf/markdown-rs/tree/to_hast) that is compiled down to WebAssembly and then ran in a web worker environment and for seamless coconut oil experience.
 
 Here is a simple visualization of the data flow:
